@@ -1,0 +1,30 @@
+{
+    "manifestVersion": 1,
+    "id": "azdo",
+    "publisher": "nabala",
+    "version": "1.0.0",
+    "name": "azdo",
+    "description": "Azure DevOps Extension",
+    "categories": [
+        "Azure Repos",
+        "Azure Boards",
+        "Azure Pipelines",
+        "Azure Test Plans",
+        "Azure Artifacts"
+    ],
+    "targets": [
+        {
+            "id": "Microsoft.VisualStudio.Services"
+        }
+    ],
+    "files": [
+        {
+            "path": "static",
+            "addressable": true
+        },
+        {
+            "path": "dist",
+            "addressable": true
+        }
+    ]
+}
