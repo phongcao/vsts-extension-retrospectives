@@ -12,13 +12,12 @@ module.exports = {
   output: {
     path: BUILD_DIR,
     filename: './reflect-bundle.js',
-    libraryTarget: 'amd'
   },
-  externals: [
-    /^VSS\/.*/, /^TFS\/.*/
-  ],
   resolve: {
-    extensions: ['.ts', '.js', '.jsx', '.tsx']
+    extensions: ['.ts', '.js', '.jsx', '.tsx'],
+    alias: {
+      'azure-devops-extension-sdk': path.resolve('node_modules/azure-devops-extension-sdk')
+    },
   },
   module: {
     rules: [

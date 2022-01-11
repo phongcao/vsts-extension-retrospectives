@@ -85,6 +85,15 @@ namespace CollaborationStateService
       });
 
       services.AddSignalR().AddAzureSignalR(Configuration.GetValue<string>("SignalRServiceConnectionString"));
+      services.AddSignalR(options =>
+      {
+        // Enabled for debugging purpose
+        options.EnableDetailedErrors = true;
+
+        // Fixing the connection closed issue that usually happens right after connecting.
+        // This change seems to make the signalR connection much more stable.
+        options.MaximumReceiveMessageSize = 102400000;
+      });
       services.Configure<AppInsightsSettings>(Configuration.GetSection("ApplicationInsights"));
     }
 

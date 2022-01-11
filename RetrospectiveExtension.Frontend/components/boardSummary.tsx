@@ -1,5 +1,6 @@
 ﻿import * as React from 'react';
-import { WorkItem, WorkItemType } from 'TFS/WorkItemTracking/Contracts';
+import * as SDK from 'azure-devops-extension-sdk';
+import { WorkItem, WorkItemType } from 'azure-devops-extension-api/WorkItemTracking/WorkItemTracking';
 import { Icon } from 'office-ui-fabric-react/lib/Icon';
 import {
   DocumentCard,
@@ -7,7 +8,7 @@ import {
   DocumentCardType,
 } from 'office-ui-fabric-react/lib/DocumentCard';
 import { Image } from 'office-ui-fabric-react/lib/Image';
-import { WorkItemFormNavigationService } from 'TFS/WorkItemTracking/Services';
+import { WorkItemTrackingServiceIds, IWorkItemFormNavigationService } from 'azure-devops-extension-api/WorkItemTracking';
 import {
   DetailsList,
   DetailsListLayoutMode,
@@ -173,7 +174,7 @@ export default class BoardSummary extends React.Component<IBoardSummaryProps, IB
         id: workItem.id,
         onActionItemClick: async (id: number) => {
           // TODO: Update specific table summary after work item is updated.
-          const workItemNavSvc = await WorkItemFormNavigationService.getService();
+          const workItemNavSvc = await SDK.getService<IWorkItemFormNavigationService>(WorkItemTrackingServiceIds.WorkItemFormNavigationService);
           await workItemNavSvc.openWorkItem(id);
         }
       };
@@ -210,7 +211,7 @@ export default class BoardSummary extends React.Component<IBoardSummaryProps, IB
   }
 
   private onItemInvoked = async (item: { id: number }) => {
-    const workItemNavSvc = await WorkItemFormNavigationService.getService();
+    const workItemNavSvc = await SDK.getService<IWorkItemFormNavigationService>(WorkItemTrackingServiceIds.WorkItemFormNavigationService);
     await workItemNavSvc.openWorkItem(item.id);
   }
 
