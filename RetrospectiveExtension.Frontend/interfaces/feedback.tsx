@@ -64,3 +64,10 @@ export interface IFeedbackItemDocument {
   timerstate: boolean;
   timerId: any;
 }
+
+// export interface ItemFeedbackCollection
+// {
+// id: string;
+// __etag?:number;
+// feedbackItemId: string; 
+// }

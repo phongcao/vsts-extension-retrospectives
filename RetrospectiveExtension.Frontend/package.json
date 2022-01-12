@@ -5,11 +5,14 @@
   "main": "index.tsx",
   "scripts": {
     "build": "set NODE_ENV=production && rm -rf ./dist && webpack --mode=production",
+    "dev-build": "set NODE_ENV=development && rm -rf ./dist && webpack --mode=development",
     "lint": "eslint . --ext .ts,.tsx",
     "pack:d": "tfx extension create --manifests vss-extension-dev.json --rev-version --output-path ./dist/",
     "pack:p": "tfx extension create --manifests vss-extension-prod.json --rev-version --output-path ./dist/",
     "publish:d": "npm run build && npm run pack:d && tfx extension publish --manifests vss-extension-dev.json --vsix ./dist/*.vsix",
-    "publish:p": "npm run build && npm run pack:p && tfx extension publish --manifests vss-extension-prod.json --vsix ./dist/*.vsix"
+    "publish:p": "npm run build && npm run pack:p && tfx extension publish --manifests vss-extension-prod.json --vsix ./dist/*.vsix",
+    "publish:local": "tfx extension publish --manifest-globs vss-extension-dev.json ",
+    "run:dev": "webpack-dev-server --mode development"
   },
   "repository": {
     "type": "git",
@@ -35,7 +38,8 @@
     "slick-carousel": "1.8.1",
     "telemetryclient-team-services-extension": "1.0.10",
     "uuid": "8.3.2",
-    "vss-web-extension-sdk": "5.141.0"
+    "vss-web-extension-sdk": "5.141.0",
+    "webpack-dev-server": "^4.7.3"
   },
   "devDependencies": {
     "@fortawesome/fontawesome-free": "5.15.3",
@@ -51,6 +55,7 @@
     "@types/uuid": "8.3.1",
     "@typescript-eslint/eslint-plugin": "4.28.3",
     "@typescript-eslint/parser": "4.28.3",
+    "copy-webpack-plugin": "^6.4.1",
     "css-loader": "5.0.1",
     "eslint": "7.30.0",
     "eslint-loader": "4.0.2",

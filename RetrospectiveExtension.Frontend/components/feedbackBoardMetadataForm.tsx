@@ -56,7 +56,7 @@ export default class FeedbackBoardMetadataForm extends React.Component<IFeedback
         accentColor: '#008000',
         iconClass: 'far fa-smile',
         id: uuid(),
-        title: 'What went well',
+        title: 'What went well Andrew',
       },
       markedForDeletion: false,
     }, {
@@ -64,7 +64,7 @@ export default class FeedbackBoardMetadataForm extends React.Component<IFeedback
         accentColor: '#cc293d',
         iconClass: 'far fa-frown',
         id: uuid(),
-        title: "What didn't go well",
+        title: "What didn't go well 23333",
       },
       markedForDeletion: false,
     }];
