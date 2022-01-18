@@ -14,10 +14,7 @@ module.exports = {
     filename: './reflect-bundle.js',
   },
   resolve: {
-    extensions: ['.ts', '.js', '.jsx', '.tsx'],
-    alias: {
-      'azure-devops-extension-sdk': path.resolve('node_modules/azure-devops-extension-sdk')
-    },
+    extensions: ['.ts', '.js', '.jsx', '.tsx']
   },
   module: {
     rules: [

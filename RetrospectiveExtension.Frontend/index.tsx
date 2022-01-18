@@ -25,4 +25,4 @@ SDK.init()
       <FeedbackBoardContainer {...feedbackBoardContainerProps}/>,
       document.getElementById('root') as HTMLElement,
     );
-})
+  })
