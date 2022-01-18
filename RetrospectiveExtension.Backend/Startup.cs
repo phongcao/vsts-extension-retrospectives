@@ -84,19 +84,16 @@ namespace CollaborationStateService
         };
       });
 
-      services.AddSignalR().AddAzureSignalR(Configuration.GetValue<string>("SignalRServiceConnectionString"));
+      services.AddSignalR().AddAzureSignalR(Configuration.GetValue<string>("Azure:SignalR:ConnectionString"));
       services.Configure<AppInsightsSettings>(Configuration.GetSection("ApplicationInsights"));
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
-      var allowedOrigins = new string[] {
-        "https://reflectteam.gallerycdn.vsassets.io",
-        "https://reflectteam.gallery.vsassets.io",
-        "https://ms-devlabs.gallerycdn.vsassets.io",
-        "https://ms-devlabs.gallery.vsassets.io"
-      };
+      // Retrieve allowed origins from the application settings.
+      IConfigurationSection allowedOriginData = Configuration.GetSection("AllowedOrigin");
+      var allowedOrigins = allowedOriginData.AsEnumerable().Where(keyValue => !string.IsNullOrWhiteSpace(keyValue.Value)).Select(x => x.Value).ToArray();
 
       app.UseCors(builder => { builder.WithOrigins(allowedOrigins).AllowAnyHeader().AllowAnyMethod().AllowCredentials(); });
 
