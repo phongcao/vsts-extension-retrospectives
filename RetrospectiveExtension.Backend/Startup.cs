@@ -6,6 +6,7 @@ using CollaborationStateService.Configuration;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
@@ -95,6 +96,8 @@ namespace CollaborationStateService
       IConfigurationSection allowedOriginData = Configuration.GetSection("AllowedOrigin");
       var allowedOrigins = allowedOriginData.AsEnumerable().Where(keyValue => !string.IsNullOrWhiteSpace(keyValue.Value)).Select(x => x.Value).ToArray();
 
+      app.UseRouting();
+
       app.UseCors(builder => { builder.WithOrigins(allowedOrigins).AllowAnyHeader().AllowAnyMethod().AllowCredentials(); });
 
       app.UseWebSockets();
@@ -107,6 +110,13 @@ namespace CollaborationStateService
       {
         context.Response.Headers.Add("X-Content-Type-Options", "nosniff");
         await next();
+      });
+      app.UseEndpoints(endpoints =>
+      {
+          endpoints.MapGet("/health", async context =>
+          {
+              await context.Response.WriteAsync("App Running");
+          });
       });
     }
   }
