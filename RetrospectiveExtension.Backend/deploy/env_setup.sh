@@ -25,8 +25,25 @@
     resource_group="rg-${RESOURCE_NAME_SUFFIX}"
     location="${LOCATION}"
 
-    # Uncomment below to login to Azure account if not logged on
-    #./deploy/env_login.sh
+    
+    
+    # Login to Azure via Service Principal
+
+    # Set service principal information
+    echo "#### Exporting SP as environment variables ####"
+    subscription_id="${SUBSCRIPTION_ID}"
+    tenant_id="${TENANT_ID}"
+    service_principal_id="${SERVICE_PRINCIPAL_ID}"
+    service_principal_secret="${SERVICE_PRINCIPAL_SECRET}"
+    echo "#### Attempting az login via service principal ####"
+    az login \
+        --service-principal \
+        --username="$service_principal_id" \
+        --password="$service_principal_secret" \
+        --tenant="$tenant_id" >/dev/null
+
+    az account set -s "$subscription_id"
+    echo "#### az login done ####"
 
     # Create resource group
     echo "#### Creating resource resource group - $resource_group ####"

@@ -115,7 +115,7 @@ namespace CollaborationStateService
       {
           endpoints.MapGet("/health", async context =>
           {
-              await context.Response.WriteAsync("App Running");
+              await context.Response.WriteAsync("App Running....");
           });
       });
     }
