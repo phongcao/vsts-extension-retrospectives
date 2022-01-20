@@ -24,7 +24,7 @@
     resource_name_suffix="${RESOURCE_NAME_SUFFIX}"
     resource_group="rg-${RESOURCE_NAME_SUFFIX}"
     location="${LOCATION}"
-
+    
     # Login to Azure via Service Principal
 
     # Set service principal information
