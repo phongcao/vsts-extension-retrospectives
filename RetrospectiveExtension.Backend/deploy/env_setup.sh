@@ -78,7 +78,7 @@
             --query primaryConnectionString \
             --output tsv)
 
-    echo "####  Deploying App Settings #######"
+    echo "#### Deploying App Settings ####"
     # https://docs.microsoft.com/en-us/cli/azure/webapp/config/appsettings?view=azure-cli-latest#az-webapp-config-appsettings-set
     # Create WebApp AppSettings
     az webapp config appsettings set \
@@ -88,7 +88,8 @@
 
     #Create Output directory to publish the dotnet project artifacts to be published to the Azure Web Apps Instance
 
-    echo "###    Publishing backend project      #####"
+    echo "#### Publishing backend project ####"
+
     dotnet build
     # Publish the Dotnet project
     dotnet publish -c Release 
@@ -107,7 +108,7 @@
     backend_service_url=$( az webapp show  \
         --resource-group "$resource_group" \
         --name "app-${resource_name_suffix}" \
-         --query defaultHostName --output tsv)
+        --query defaultHostName --output tsv)
 
     backend_health_check="https://${backend_service_url}/health"
    
