@@ -80,14 +80,14 @@
 
     cd  bin/Release/net5/publish/
     # Zip the deployed artifact
-    zip -r "../../../wesbite.zip" .
+    zip -r "../../../website.zip" .
 
     cd ../../../..
    
     # https://docs.microsoft.com/en-us/cli/azure/webapp?view=azure-cli-latest#az-webapp-deploy
     # Deploy the web app
     az webapp deploy --resource-group "$resource_group" \
-        --name "app-${resource_name_suffix}" --src-path "bin/wesbite.zip"
+        --name "app-${resource_name_suffix}" --src-path "bin/website.zip"
 
     backend_service_url=$( az webapp show  \
         --resource-group "$resource_group" \
