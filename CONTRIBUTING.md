@@ -74,7 +74,7 @@ The Retrospectives tool uses the [Azure SignalR service](https://azure.microsoft
 
 To enable real time updates from your test extension you will need to deploy
 the backend to Azure specifying your publisher id and the unique key of your
-extension. Note if you are part of a team working on the retro tool you can
+extension. **Note:** If you are part of a team working on the retro tool you can
 deploy a single backend to support multiple developer test extensions.
 
 1. Copy `/deploy/.env.template` to `/deploy/.env` and make the following
@@ -82,7 +82,8 @@ changes:
    - Add the Service Principal values used by the `env_setup.sh` script. 
    [Instructions on how to create a Service Principal](https://docs.microsoft.com/en-us/cli/azure/create-an-azure-service-principal-azure-cli#password-based-authentication).
    - Add the `RESOURCE_NAME_SUFFIX` value. This will be used for naming
-   all Azure resources including the App Service name - `https://<RESOURCE_NAME_SUFFIX>.azurewebsites.net`. Note that the app name must be globally unique so select something accordingly.
+   all Azure resources including the App Service name - `https://<RESOURCE_NAME_SUFFIX>.azurewebsites.net`.
+   **Note:** The app name must be globally unique so select something accordingly.
    - Add the `LOCATION `value i.e. "eastus", "westus", etc.
 1. Copy `/allowed_origins.json.template` to `/allowed_origins.json` and replace
 the `<publisher id>` with your publisher id. This id uniquely identifies your
