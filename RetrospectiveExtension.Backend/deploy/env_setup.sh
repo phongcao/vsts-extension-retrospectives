@@ -112,5 +112,5 @@
 
     backend_health_check="https://${backend_service_url}/health"
    
-    echo "backend service deployed at ${backend_service_url}, to check the health of the deployment visit ${backend_health_check}"
+    echo "Backend service successfully deployed at ${backend_service_url}. To check the health of the deployment visit ${backend_health_check}"
 )
