@@ -96,7 +96,7 @@ unique key](https://docs.microsoft.com/en-us/azure/devops/extend/develop/auth?vi
 If you are part of a team working on the retro tool you can add additional
 secrets. Remember to increment the name index to add additional secrets.
 1. Run the `deploy/env_setup.sh` script.
-1. Once the script completes you can navigate to the [Azure Portal](https://portal.azure.com)
+1. Once the script completes, it will output the url of the backend service. You can navigate to the [Azure Portal](https://portal.azure.com)
 and validate that the `rg-<RESOURCE_NAME_SUFFIX>` resource group exists and
 contains the App Service, App Service Plan and SignalR resources.
 1. You will need to update the `RetrospectiveExtension.FrontEnd/config/environment.tsx`
