@@ -22,15 +22,18 @@ module.exports = {
     filename: './reflect-bundle.js',
   },
   resolve: {
+    fallback: {
+      assert: require.resolve('assert'),
+      buffer: require.resolve('buffer'),
+      crypto: require.resolve('crypto-browserify'),
+      process: 'process/browser',
+      stream: require.resolve('stream-browserify'),
+      util: require.resolve('util'),
+    },
     extensions: ['.ts', '.js', '.jsx', '.tsx']
   },
   module: {
     rules: [
-      {
-        test: /\.ts|.tsx$/,
-        enforce: 'pre',
-        loader: 'eslint-loader'
-      },
       {
         test: /\.ts|.js|.tsx$/,
         exclude: /(node_modules|bower_components)/,
@@ -38,10 +41,10 @@ module.exports = {
           loader: 'ts-loader'
         }
       },
-      { test: /(\.css$)/, loaders: ['style-loader', 'css-loader'] },
+      { test: /(\.css$)/, use: ['style-loader', 'css-loader'] },
       {
         test: /\.scss$/,
-        loaders: ['style-loader', 'css-loader', 'sass-loader']
+        use: ['style-loader', 'css-loader', 'sass-loader']
       },
       {
         test: /.(png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot)$/,
@@ -51,6 +54,9 @@ module.exports = {
   },
   plugins: [
     new MomentLocalesPlugin(),
+    new webpack.ProvidePlugin({
+      process: 'process/browser',
+    }),
     new webpack.DefinePlugin({
       'process.env': {
         BUILD_BUILDNUMBER: JSON.stringify(process.env.BUILD_BUILDNUMBER),
