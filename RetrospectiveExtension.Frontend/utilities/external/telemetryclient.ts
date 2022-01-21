@@ -11,7 +11,7 @@
 // Source: https://github.com/ALM-Rangers/telemetryclient-vsts-extension
 
 /// <reference types="vss-web-extension-sdk" />
-import { ApplicationInsights } from "@microsoft/applicationinsights-web"
+import { ApplicationInsights, SeverityLevel } from "@microsoft/applicationinsights-web"
 
 export class TelemetryClientSettings {
   public key: string;
@@ -27,20 +27,18 @@ export class TelemetryClient {
   private IsAvailable: boolean = true;
   private appInsights: ApplicationInsights;
 
-  private constructor() {
-    this.trackPageView=this.trackPageView.bind(this);
-
+  private constructor(settings: TelemetryClientSettings) {
+    this.Init(settings);
    }
 
   public static getClient(settings: TelemetryClientSettings): TelemetryClient {
 
-    if (!this._instance) {
+    if (!TelemetryClient._instance) {
       console.log("Creating new TelemetryClient!");
-      this._instance = new TelemetryClient();
-      this._instance.Init(settings);
+      TelemetryClient._instance = new TelemetryClient(settings);
     }
 
-    return this._instance;
+    return TelemetryClient._instance;
   }
 
   private Init(settings: TelemetryClientSettings) {
@@ -63,6 +61,7 @@ export class TelemetryClient {
       }});
       this.appInsights=appInsights_new;
       // AppInsights.downloadAndSetup(config);
+      this.appInsights.loadAppInsights();
       this.appInsights.setAuthenticatedUserContext(webContext.user.id, webContext.collection.id);
     }
     catch (e) {
@@ -111,7 +110,7 @@ export class TelemetryClient {
   public trackTrace(message: string, properties?: { [name: string]: string }, severityLevel?: SeverityLevel) {
     try {
       // this.appInsights.trackTrace(this.ExtensionContext + "." + message, properties, severityLevel);
-      this.appInsights.trackTrace( trace: severityLevel:severityLevel,message:message,properties:properties});
+      this.appInsights.trackTrace( {severityLevel:severityLevel,message:message,properties:properties});
     }
     catch (e) {
       console.log(e);
