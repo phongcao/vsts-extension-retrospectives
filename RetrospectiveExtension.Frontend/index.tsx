@@ -11,8 +11,9 @@ import { TelemetryClient } from './utilities/external/telemetryclient';
 
 initializeIcons();
 
-//TelemetryClient.getClient();
+// let client = TelemetryClient.getClient();
 
+// client.trackEvent("hello there 12345");
 const feedbackBoardContainerProps: FeedbackBoardContainerProps = {
   projectId: VSS.getWebContext().project.id
 };

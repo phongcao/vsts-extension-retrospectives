@@ -39,6 +39,9 @@ import EffectivenessMeasurementRow from './effectivenessMeasurementRow';
 import { getUserIdentity } from '../utilities/userIdentityHelper';
 import { getQuestionName } from '../utilities/effectivenessMeasurementQuestionHelper';
 
+import { withAITracking } from '@microsoft/applicationinsights-react-js';
+import { reactPlugin, appInsights } from '../utilities/external/telemetryClient2';
+
 export interface FeedbackBoardContainerProps {
   projectId: string;
 }
@@ -1518,3 +1521,4 @@ console.log(createdBoard);
     );
   }
 }
+// export default withAITracking(reactPlugin, FeedbackBoardContainer);

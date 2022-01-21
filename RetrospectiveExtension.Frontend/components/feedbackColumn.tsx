@@ -13,6 +13,8 @@ import { WebApiTeam } from 'TFS/Core/Contracts';
 import { ActionButton, IButton } from 'office-ui-fabric-react/lib/Button';
 import { getUserIdentity } from '../utilities/userIdentityHelper';
 import { WorkItemType } from 'TFS/WorkItemTracking/Contracts';
+import { withAITracking } from '@microsoft/applicationinsights-react-js';
+import { reactPlugin, appInsights } from '../utilities/external/telemetryClient2';
 
 export interface FeedbackColumnProps {
   columns: { [id: string]: IColumn };
@@ -50,7 +52,7 @@ export interface FeedbackColumnState {
   isCarouselHidden: boolean;
 }
 
-export default class FeedbackColumn extends React.Component<FeedbackColumnProps, FeedbackColumnState> {
+ export default class FeedbackColumn extends React.Component<FeedbackColumnProps, FeedbackColumnState> {
   private createFeedbackButton: IButton;
 
   constructor(props: FeedbackColumnProps) {
@@ -300,3 +302,5 @@ export default class FeedbackColumn extends React.Component<FeedbackColumnProps,
     return this.renderFeedbackColumn();
   }
 }
+
+// export default withAITracking(reactPlugin,FeedbackColumn);
