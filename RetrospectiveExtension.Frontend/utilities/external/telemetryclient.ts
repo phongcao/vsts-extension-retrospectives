@@ -1,17 +1,17 @@
 //---------------------------------------------------------------------
 // <copyright file="TelemetryClient.ts">
 //    This code is licensed under the MIT License.
-//    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF 
-//    ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED 
-//    TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A 
+//    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF
+//    ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+//    TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
 //    PARTICULAR PURPOSE AND NONINFRINGEMENT.
 // </copyright>
 // <summary>Application Insights Telemetry Client Class</summary>
 //---------------------------------------------------------------------
-// Source: https://github.com/ALM-Rangers/telemetryclient-vsts-extension 
+// Source: https://github.com/ALM-Rangers/telemetryclient-vsts-extension
 
 /// <reference types="vss-web-extension-sdk" />
-import { AppInsights } from "applicationinsights-js"
+import { ApplicationInsights } from "@microsoft/applicationinsights-web"
 
 export class TelemetryClientSettings {
   public key: string;
@@ -25,8 +25,12 @@ export class TelemetryClient {
   private static _instance: TelemetryClient;
   public ExtensionContext: string;
   private IsAvailable: boolean = true;
+  private appInsights: ApplicationInsights;
 
-  private constructor() { }
+  private constructor() {
+    this.trackPageView=this.trackPageView.bind(this);
+
+   }
 
   public static getClient(settings: TelemetryClientSettings): TelemetryClient {
 
@@ -54,18 +58,25 @@ export class TelemetryClient {
     try {
       const webContext = VSS.getWebContext();
 
-      AppInsights.downloadAndSetup(config);
-      AppInsights.setAuthenticatedUserContext(webContext.user.id, webContext.collection.id);
+      const appInsights_new = new ApplicationInsights({ config: {
+        instrumentationKey: settings.key
+      }});
+      this.appInsights=appInsights_new;
+      // AppInsights.downloadAndSetup(config);
+      this.appInsights.setAuthenticatedUserContext(webContext.user.id, webContext.collection.id);
     }
     catch (e) {
       console.log(e);
     }
-  }
+
+    }
 
   public trackPageView(name?: string, url?: string, properties?: { [name: string]: string; }, measurements?: { [name: string]: number; }, duration?: number) {
     try {
-      AppInsights.trackPageView(this.ExtensionContext + "." + name, url, properties, measurements, duration);
-      AppInsights.flush();
+      properties["duration"]=duration.toString();
+      // this.appInsights.trackPageView(this.ExtensionContext + "." + name, url, properties, measurements, duration);
+      // this.appInsights.trackPageView(this.ExtensionContext + "." + name, url, properties, measurements, duration);
+      this.appInsights.trackPageView({name: name, measurements: measurements, properties:properties, uri:url})
     }
     catch (e) {
       console.log(e);
@@ -75,57 +86,32 @@ export class TelemetryClient {
   public trackEvent(name: string, properties?: { [name: string]: string; }, measurements?: { [name: string]: number; }) {
     try {
       console.log("Tracking event: " + this.ExtensionContext + "." + name);
-      AppInsights.trackEvent(this.ExtensionContext + "." + name, properties, measurements);
-      AppInsights.flush();
+      // this.appInsights.trackEvent(this.ExtensionContext + "." + name, properties, measurements);
+      this.appInsights.trackEvent({ name: name, properties: properties, measurements: measurements });
     }
     catch (e) {
       console.log(e);
     }
   }
 
-  public trackException(exceptionMessage: string, handledAt?: string, properties?: { [name: string]: string; }, measurements?: { [name: string]: number; }) {
-    try {
-      console.error(exceptionMessage);
-
-      const error: Error = {
-        name: this.ExtensionContext + "." + handledAt,
-        message: exceptionMessage
-      };
-
-      AppInsights.trackException(error, handledAt, properties, measurements);
-      AppInsights.flush();
-    }
-    catch (e) {
-      console.log(e);
-    }
-  }
-
-  public trackErrorException(exception: Error, properties?: { [name: string]: string; }, measurements?: { [name: string]: number; }) {
-    try {
-      console.error(exception);
-
-      AppInsights.trackException(exception, null, properties, measurements);
-      AppInsights.flush();
-    }
-    catch (e) {
-      console.log(e);
-    }
+  public trackException(exception: Error) {
+    this.appInsights.trackException({ exception });
   }
 
   public trackMetric(name: string, average: number, sampleCount?: number, min?: number, max?: number, properties?: { [name: string]: string; }) {
     try {
-      AppInsights.trackMetric(this.ExtensionContext + "." + name, average, sampleCount, min, max, properties);
-      AppInsights.flush();
+      // this.appInsights.trackMetric(this.ExtensionContext + "." + name, average, sampleCount, min, max, properties);
+      this.appInsights.trackMetric({ name: name, properties: properties, average: average, min: min, max: max });
     }
     catch (e) {
       console.log(e);
     }
   }
 
-  public trackTrace(message: string, properties?: { [name: string]: string }, severityLevel?: AI.SeverityLevel) {
+  public trackTrace(message: string, properties?: { [name: string]: string }, severityLevel?: SeverityLevel) {
     try {
-      AppInsights.trackTrace(this.ExtensionContext + "." + message, properties, severityLevel);
-      AppInsights.flush();
+      // this.appInsights.trackTrace(this.ExtensionContext + "." + message, properties, severityLevel);
+      this.appInsights.trackTrace( trace: severityLevel:severityLevel,message:message,properties:properties});
     }
     catch (e) {
       console.log(e);

@@ -21,7 +21,7 @@
   "license": "ISC",
   "dependencies": {
     "@aspnet/signalr": "1.1.4",
-    "applicationinsights-js": "1.0.21",
+    "@microsoft/applicationinsights-web": "^2.7.2",
     "classnames": "2.3.1",
     "copy-to-clipboard": "3.3.1",
     "file-saver": "2.0.5",
@@ -39,7 +39,6 @@
     "vss-web-extension-sdk": "5.141.0"
   },
   "devDependencies": {
-    "@types/applicationinsights-js": "1.0.9",
     "@types/classnames": "2.3.0",
     "@types/file-saver": "2.0.5",
     "@types/jest": "^27.4.0",
