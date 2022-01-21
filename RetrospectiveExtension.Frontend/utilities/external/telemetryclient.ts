@@ -12,13 +12,19 @@
 
 /// <reference types="vss-web-extension-sdk" />
 import { ApplicationInsights, SeverityLevel } from "@microsoft/applicationinsights-web"
+import environment from '../../config/environment'
 
 export class TelemetryClientSettings {
   public key: string;
-  public extensioncontext: string;
-  public disableTelemetry: string = "false";
-  public disableAjaxTracking: string = "false";
-  public enableDebug: string = "false";
+  public enableCorsCorrelation: boolean;
+  public enableRequestHeaderTracking: boolean;
+  public enableResponseHeaderTracking: boolean;
+
+  // TOCHECK: Engin Polat
+  // public extensioncontext: string="default";
+  // public disableTelemetry: string = "false";
+  // public disableAjaxTracking: string = "false";
+  // public enableDebug: string = "false";
 }
 
 export class TelemetryClient {
@@ -28,39 +34,17 @@ export class TelemetryClient {
   private appInsights: ApplicationInsights;
 
   private constructor(settings: TelemetryClientSettings) {
-    this.Init(settings);
-   }
-
-  public static getClient(settings: TelemetryClientSettings): TelemetryClient {
-
-    if (!TelemetryClient._instance) {
-      console.log("Creating new TelemetryClient!");
-      TelemetryClient._instance = new TelemetryClient(settings);
-    }
-
-    return TelemetryClient._instance;
-  }
-
-  private Init(settings: TelemetryClientSettings) {
-    console.log("TelemetryClient settings disableTelemetry: " + (settings.disableTelemetry === "true"));
-
-    const config = {
-      instrumentationKey: settings.key,
-      disableTelemetry: (settings.disableTelemetry === "true"),
-      disableAjaxTracking: (settings.disableAjaxTracking === "true"),
-      enableDebug: (settings.enableDebug === "true")
-    };
-
-    this.ExtensionContext = settings.extensioncontext;
-
     try {
       const webContext = VSS.getWebContext();
 
       const appInsights_new = new ApplicationInsights({ config: {
-        instrumentationKey: settings.key
+        instrumentationKey: settings.key,
+        enableCorsCorrelation:settings.enableCorsCorrelation,
+        enableRequestHeaderTracking:settings.enableRequestHeaderTracking,
+        enableResponseHeaderTracking:settings.enableRequestHeaderTracking
       }});
+
       this.appInsights=appInsights_new;
-      // AppInsights.downloadAndSetup(config);
       this.appInsights.loadAppInsights();
       this.appInsights.setAuthenticatedUserContext(webContext.user.id, webContext.collection.id);
     }
@@ -68,13 +52,28 @@ export class TelemetryClient {
       console.log(e);
     }
 
+   }
+
+  public static getClient(): TelemetryClient | null {
+
+    if (!TelemetryClient._instance) {
+      console.log("Creating new TelemetryClient!");
+
+      if(environment.AppInsightsInstrumentKey != '')
+        TelemetryClient._instance = new TelemetryClient({ key:environment.AppInsightsInstrumentKey, enableCorsCorrelation:true,enableRequestHeaderTracking:true, enableResponseHeaderTracking:true});
+      else
+      {
+        console.warn("Missing ApplicationInsights Instrumentation key.");
+        return null;
+      }
     }
+
+    return TelemetryClient._instance;
+  }
 
   public trackPageView(name?: string, url?: string, properties?: { [name: string]: string; }, measurements?: { [name: string]: number; }, duration?: number) {
     try {
       properties["duration"]=duration.toString();
-      // this.appInsights.trackPageView(this.ExtensionContext + "." + name, url, properties, measurements, duration);
-      // this.appInsights.trackPageView(this.ExtensionContext + "." + name, url, properties, measurements, duration);
       this.appInsights.trackPageView({name: name, measurements: measurements, properties:properties, uri:url})
     }
     catch (e) {
@@ -85,7 +84,6 @@ export class TelemetryClient {
   public trackEvent(name: string, properties?: { [name: string]: string; }, measurements?: { [name: string]: number; }) {
     try {
       console.log("Tracking event: " + this.ExtensionContext + "." + name);
-      // this.appInsights.trackEvent(this.ExtensionContext + "." + name, properties, measurements);
       this.appInsights.trackEvent({ name: name, properties: properties, measurements: measurements });
     }
     catch (e) {
@@ -94,7 +92,12 @@ export class TelemetryClient {
   }
 
   public trackException(exception: Error) {
-    this.appInsights.trackException({ exception });
+    try {
+      this.appInsights.trackException({ exception });
+    }
+    catch (e) {
+      console.log(e);
+    }
   }
 
   public trackMetric(name: string, average: number, sampleCount?: number, min?: number, max?: number, properties?: { [name: string]: string; }) {
