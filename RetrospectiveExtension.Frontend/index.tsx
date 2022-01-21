@@ -11,7 +11,7 @@ import { TelemetryClient } from './utilities/external/telemetryclient';
 
 initializeIcons();
 
-TelemetryClient.getClient();
+//TelemetryClient.getClient();
 
 const feedbackBoardContainerProps: FeedbackBoardContainerProps = {
   projectId: VSS.getWebContext().project.id

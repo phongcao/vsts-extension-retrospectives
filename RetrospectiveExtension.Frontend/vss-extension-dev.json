@@ -1,8 +1,8 @@
 {
   "manifestVersion": 1,
   "id": "retrospective-vsts-extension-dev",
-  "publisher": "<publisher id>",
-  "version": "0.0.1",
+  "publisher": "nabala",
+  "version": "1.0.284",
   "name": "Retrospectives (Dev)",
   "description": "An Azure DevOps extension for efficient retrospectives.",
   "public": false,
