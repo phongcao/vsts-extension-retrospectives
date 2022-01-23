@@ -10,9 +10,9 @@
 //---------------------------------------------------------------------
 // Source: https://github.com/ALM-Rangers/telemetryclient-vsts-extension
 
-/// <reference types="vss-web-extension-sdk" />
 import { ApplicationInsights, SeverityLevel } from "@microsoft/applicationinsights-web"
 import environment from '../../config/environment'
+import { getUser } from "azure-devops-extension-sdk";
 
 export class TelemetryClientSettings {
   public key: string;
@@ -35,8 +35,6 @@ export class TelemetryClient {
 
   private constructor(settings: TelemetryClientSettings) {
     try {
-      const webContext = VSS.getWebContext();
-
       const appInsights_new = new ApplicationInsights({ config: {
         instrumentationKey: settings.key,
         enableCorsCorrelation:settings.enableCorsCorrelation,
@@ -46,7 +44,7 @@ export class TelemetryClient {
 
       this.appInsights=appInsights_new;
       this.appInsights.loadAppInsights();
-      this.appInsights.setAuthenticatedUserContext(webContext.user.id, webContext.collection.id);
+      //this.appInsights.setAuthenticatedUserContext(webContext.user.id, webContext.collection.id);
     }
     catch (e) {
       console.log(e);

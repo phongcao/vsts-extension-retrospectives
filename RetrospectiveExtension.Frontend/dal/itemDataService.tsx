@@ -1,6 +1,6 @@
 import * as ExtensionDataService from './dataService';
 import { IFeedbackItemDocument, IFeedbackBoardDocument, ITeamEffectivenessMeasurementVoteCollection } from '../interfaces/feedback';
-import { WorkItem } from 'TFS/WorkItemTracking/Contracts';
+import { WorkItem } from 'azure-devops-extension-api/WorkItemTracking/WorkItemTracking';
 import { workItemService } from './azureDevOpsWorkItemService';
 // TODO (enpolat) : import { appInsightsClient, TelemetryExceptions } from '../utilities/appInsightsClient';
 import { v4 as uuid } from 'uuid';
@@ -89,6 +89,10 @@ class ItemDataService {
     let updatedChildFeedbackItems: IFeedbackItemDocument[] = [];
 
     const feedbackItem: IFeedbackItemDocument = await ExtensionDataService.readDocument<IFeedbackItemDocument>(boardId, feedbackItemId);
+    if(feedbackItem && feedbackItem.upvotes > 0) {
+      console.log(`Cannot delete a feedback item which has upvotes. Board: ${boardId} Item: ${feedbackItemId}`);
+      return undefined;
+    }
 
     if (feedbackItem.parentFeedbackItemId) {
       const parentFeedbackItem: IFeedbackItemDocument =
