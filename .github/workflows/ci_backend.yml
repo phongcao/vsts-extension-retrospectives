@@ -31,13 +31,19 @@ jobs:
               - 'RetrospectiveExtension.Backend.Tests/**'
 
       - if: steps.changes.outputs.src == 'true'
-        name: Initialize CodeQL
-        uses: github/codeql-action/init@v1
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '5.0.404'
 
       - if: steps.changes.outputs.src == 'true'
-        name: Autobuild
-        uses: github/codeql-action/autobuild@v1
+        run: |
+          dotnet restore
+          dotnet build
+        name: Build
+        working-directory: 'RetrospectiveExtension.Backend'
 
       - if: steps.changes.outputs.src == 'true'
-        name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@v1
+        run: |
+          dotnet test
+        name: Test
+        working-directory: 'RetrospectiveExtension.Backend.Tests'
