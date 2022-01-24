@@ -1,5 +1,7 @@
 ﻿import * as React from 'react';
 import { TextField } from 'office-ui-fabric-react/lib/TextField';
+import { withAITracking } from '@microsoft/applicationinsights-react-js';
+import { reactPlugin, appInsights } from '../utilities/external/telemetryClient2';
 
 export interface EditableTextProps {
   isDisabled?: boolean;
@@ -16,7 +18,7 @@ export interface EditableTextState {
   hasErrors: boolean;
 }
 
-export default class EditableText extends React.Component<EditableTextProps, EditableTextState> {
+class EditableText extends React.Component<EditableTextProps, EditableTextState> {
   constructor(props: EditableTextProps) {
     super(props);
 
@@ -194,3 +196,6 @@ export default class EditableText extends React.Component<EditableTextProps, Edi
     );
   }
 }
+
+// export default EditableText ;
+export default withAITracking(reactPlugin,EditableText);

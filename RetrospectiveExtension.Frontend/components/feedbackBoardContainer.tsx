@@ -89,7 +89,7 @@ export interface FeedbackBoardContainerState {
   castedVoteCount: number;
 }
 
-export default class FeedbackBoardContainer extends React.Component<FeedbackBoardContainerProps, FeedbackBoardContainerState> {
+ class FeedbackBoardContainer extends React.Component<FeedbackBoardContainerProps, FeedbackBoardContainerState> {
   constructor(props: FeedbackBoardContainerProps) {
     super(props);
     this.state = {
@@ -1520,4 +1520,5 @@ export default class FeedbackBoardContainer extends React.Component<FeedbackBoar
     );
   }
 }
-// export default withAITracking(reactPlugin, FeedbackBoardContainer);
+// export default FeedbackBoardContainer;
+export default withAITracking(reactPlugin, FeedbackBoardContainer);

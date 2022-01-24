@@ -18,8 +18,10 @@ import { WebApiTeam } from 'azure-devops-extension-api/Core';
 // TODO (enpolat) : import { appInsightsClient, TelemetryEvents } from '../utilities/appInsightsClient';
 import { IColumn, IColumnItem } from './feedbackBoard';
 import { SearchBox } from 'office-ui-fabric-react/lib/SearchBox';
-import FeedbackColumn, { FeedbackColumnProps } from './feedbackColumn';
+import FeedbackColumn, { FeedbackColumnProps, FeedbackColumnStatic } from './feedbackColumn';
 import { getUserIdentity } from '../utilities/userIdentityHelper';
+import { withAITracking } from '@microsoft/applicationinsights-react-js';
+import { reactPlugin, appInsights } from '../utilities/external/telemetryClient2';
 
 export interface IFeedbackItemProps {
   id: string;
@@ -934,7 +936,7 @@ export default class FeedbackItem extends React.Component<IFeedbackItemProps, IF
               }
               {this.state.searchedFeedbackItems
                 .map((columnItem) => {
-                  const feedbackItemProps = FeedbackColumn.createFeedbackItemProps(
+                  const feedbackItemProps = FeedbackColumnStatic.createFeedbackItemProps(
                     this.props.columnProps,
                     columnItem,
                     false)

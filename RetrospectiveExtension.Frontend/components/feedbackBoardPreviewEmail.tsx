@@ -6,6 +6,8 @@ import * as React from 'react';
 import { IFeedbackBoardDocument } from '../interfaces/feedback';
 import { getBoardUrl } from '../utilities/boardUrlHelper';
 import { shareBoardHelper } from '../utilities/shareBoardHelper';
+import { withAITracking } from '@microsoft/applicationinsights-react-js';
+import { reactPlugin, appInsights } from '../utilities/external/telemetryClient2';
 
 interface IFeedbackBoardPreviewEmailState {
   emailContent: string;
@@ -16,8 +18,7 @@ interface IFeedbackBoardPreviewEmailProps {
   teamId: string;
   onCopy: () => void;
 }
-
-export default class FeedbackBoardPreviewEmail extends React.Component<IFeedbackBoardPreviewEmailProps, IFeedbackBoardPreviewEmailState> {
+class FeedbackBoardPreviewEmail extends React.Component<IFeedbackBoardPreviewEmailProps, IFeedbackBoardPreviewEmailState> {
   private emailTextField: ITextField;
 
   constructor(props: IFeedbackBoardPreviewEmailProps) {
@@ -71,3 +72,5 @@ export default class FeedbackBoardPreviewEmail extends React.Component<IFeedback
     );
   }
 }
+// export default FeedbackBoardPreviewEmail;
+export default withAITracking(reactPlugin,FeedbackBoardPreviewEmail);
