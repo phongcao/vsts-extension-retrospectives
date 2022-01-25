@@ -38,7 +38,7 @@ import { getUserIdentity } from '../utilities/userIdentityHelper';
 import { getQuestionName } from '../utilities/effectivenessMeasurementQuestionHelper';
 
 import { withAITracking } from '@microsoft/applicationinsights-react-js';
-import { reactPlugin, appInsights } from '../utilities/external/telemetryClient2';
+import { reactPlugin, appInsights } from '../utilities/external/telemetryClient';
 
 export interface FeedbackBoardContainerProps {
   isHostedAzureDevOps: boolean;
@@ -1520,5 +1520,4 @@ export interface FeedbackBoardContainerState {
     );
   }
 }
-// export default FeedbackBoardContainer;
 export default withAITracking(reactPlugin, FeedbackBoardContainer);

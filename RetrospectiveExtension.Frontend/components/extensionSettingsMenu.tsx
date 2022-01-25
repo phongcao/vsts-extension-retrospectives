@@ -5,7 +5,7 @@ import { userDataService } from '../dal/userDataService';
 import { IContextualMenuItem } from 'office-ui-fabric-react/lib/ContextualMenu';
 import { ViewMode } from '../config/constants';
 import { withAITracking } from '@microsoft/applicationinsights-react-js';
-import { reactPlugin, appInsights } from '../utilities/external/telemetryClient2';
+import { reactPlugin, appInsights } from '../utilities/external/telemetryClient';
 
 interface IExtensionSettingsMenuState {
   isClearVisitHistoryDialogHidden: boolean;
@@ -202,5 +202,4 @@ class ExtensionSettingsMenu extends React.Component<IExtensionSettingsMenuProps,
   }
 }
 
-// export default ExtensionSettingsMenu;
 export default withAITracking(reactPlugin,ExtensionSettingsMenu);

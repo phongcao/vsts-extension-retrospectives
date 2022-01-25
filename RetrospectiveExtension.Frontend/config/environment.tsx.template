@@ -1,0 +1,7 @@
+const environment = {
+  CollaborationStateServiceUrl: 'https://change-me-website.azurewebsites.net', // change this to the deployed backend service
+  CurrentEnvironment: process.env.NODE_ENV,
+  AppInsightsInstrumentKey: '' // put Instrumentation key here
+};
+
+export default environment;

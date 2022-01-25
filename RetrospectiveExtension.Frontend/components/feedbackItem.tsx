@@ -21,7 +21,7 @@ import { SearchBox } from 'office-ui-fabric-react/lib/SearchBox';
 import FeedbackColumn, { FeedbackColumnProps, FeedbackColumnStatic } from './feedbackColumn';
 import { getUserIdentity } from '../utilities/userIdentityHelper';
 import { withAITracking } from '@microsoft/applicationinsights-react-js';
-import { reactPlugin, appInsights } from '../utilities/external/telemetryClient2';
+import { reactPlugin, appInsights } from '../utilities/external/telemetryClient';
 
 export interface IFeedbackItemProps {
   id: string;
@@ -109,7 +109,7 @@ interface FeedbackItemEllipsisMenuItem {
   hideMainItem?: boolean;
 }
 
-export default class FeedbackItem extends React.Component<IFeedbackItemProps, IFeedbackItemState> {
+class FeedbackItem extends React.Component<IFeedbackItemProps, IFeedbackItemState> {
   private itemElement: HTMLElement;
   private itemElementRef: (element: HTMLElement) => void;
 
@@ -979,3 +979,7 @@ export default class FeedbackItem extends React.Component<IFeedbackItemProps, IF
     );
   }
 }
+
+export {FeedbackItem as FeedbackItemStatic }; // static functions are not preserved with `withAITracking`,
+// Hence to use any static function the untransofrmed class has to exported first
+export default withAITracking(reactPlugin,FeedbackItem);

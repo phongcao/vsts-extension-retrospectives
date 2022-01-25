@@ -259,3 +259,5 @@ paket-files/
 .env
 allowed_origins.json
 dev_certs.json
+
+# ./vss-extension-dev.json

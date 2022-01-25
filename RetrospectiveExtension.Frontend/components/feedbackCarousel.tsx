@@ -7,7 +7,7 @@ import FeedbackItem from './feedbackItem';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { withAITracking } from '@microsoft/applicationinsights-react-js';
-import { reactPlugin, appInsights } from '../utilities/external/telemetryClient2';
+import { reactPlugin, appInsights } from '../utilities/external/telemetryClient';
 
 export interface IFeedbackCarouselProps {
   feedbackColumnPropsList: FeedbackColumnProps[];
@@ -79,7 +79,7 @@ class FeedbackCarousel extends React.Component<IFeedbackCarouselProps, IFeedback
             {mainCardCount >= 2 &&
               // @ts-ignore TS2786
               <Slider {...settings}>
-                {React.Children.map(this.renderFeedbackCarouselItems(columnProps), (child: React.ReactElement<FeedbackItem>) => {
+                {React.Children.map(this.renderFeedbackCarouselItems(columnProps), (child: React.ReactElement<typeof FeedbackItem>) => {
                   return (
                     <div
                       className="feedback-carousel-item-wrapper"
@@ -97,5 +97,4 @@ class FeedbackCarousel extends React.Component<IFeedbackCarouselProps, IFeedback
   }
 }
 
-// export default FeedbackCarousel ;
 export default withAITracking(reactPlugin,FeedbackCarousel);

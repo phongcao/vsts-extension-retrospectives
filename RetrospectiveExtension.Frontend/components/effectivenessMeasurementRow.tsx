@@ -7,7 +7,7 @@ import { getUserIdentity } from '../utilities/userIdentityHelper';
 
 import { ITeamEffectivenessMeasurementVoteCollection } from '../interfaces/feedback';
 import { withAITracking } from '@microsoft/applicationinsights-react-js';
-import { reactPlugin, appInsights } from '../utilities/external/telemetryClient2';
+import { reactPlugin, appInsights } from '../utilities/external/telemetryClient';
 
 export interface EffectivenessMeasurementRowProps {
   title: string;
@@ -139,5 +139,4 @@ export interface EffectivenessMeasurementRowState {
   }
 }
 
-// export default EffectivenessMeasurementRow ;
 export default withAITracking(reactPlugin,EffectivenessMeasurementRow);

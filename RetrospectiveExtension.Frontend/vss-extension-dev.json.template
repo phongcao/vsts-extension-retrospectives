@@ -1,10 +1,10 @@
 {
   "manifestVersion": 1,
   "id": "retrospective-vsts-extension-dev",
-  "publisher": "Microsoft-MohamedHassanin",
-  "version": "1.0.300",
-  "name": "Mohamed Retrospectives (Dev)",
-  "description": "Mohamed's Azure DevOps extension for efficient retrospectives.",
+  "publisher": "<Publisher ID>",
+  "version": "1.0.0",
+  "name": "Retrospectives (Dev)",
+  "description": "An Azure DevOps extension for efficient retrospectives.",
   "public": false,
   "icons": {
     "small": "images/logos/logo_small.png",

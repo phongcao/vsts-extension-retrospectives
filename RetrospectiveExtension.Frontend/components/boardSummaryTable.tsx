@@ -12,7 +12,7 @@ import ReactTable from 'react-table-6';
 
 import 'react-table-6/react-table.css'
 import { withAITracking } from '@microsoft/applicationinsights-react-js';
-import { reactPlugin, appInsights } from '../utilities/external/telemetryClient2';
+import { reactPlugin, appInsights } from '../utilities/external/telemetryClient';
 
 export interface IBoardSummaryTableProps {
   teamId: string;
@@ -347,5 +347,4 @@ class BoardSummaryTable extends React.Component<IBoardSummaryTableProps, IBoardS
   }
 }
 
-// export default BoardSummaryTable;
 export default withAITracking(reactPlugin,BoardSummaryTable);

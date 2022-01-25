@@ -14,7 +14,7 @@ import { ActionButton, IButton } from 'office-ui-fabric-react/lib/Button';
 import { getUserIdentity } from '../utilities/userIdentityHelper';
 import { WorkItemType } from 'azure-devops-extension-api/WorkItemTracking/WorkItemTracking';
 import { withAITracking } from '@microsoft/applicationinsights-react-js';
-import { reactPlugin, appInsights } from '../utilities/external/telemetryClient2';
+import { reactPlugin, appInsights } from '../utilities/external/telemetryClient';
 
 export interface FeedbackColumnProps {
   columns: { [id: string]: IColumn };
@@ -303,6 +303,6 @@ class FeedbackColumn extends React.Component<FeedbackColumnProps, FeedbackColumn
   }
 }
 
-// export default FeedbackColumn;
-export { FeedbackColumn as FeedbackColumnStatic};
+export { FeedbackColumn as FeedbackColumnStatic}; // static functions are not preserved with `withAITracking`,
+// Hence to use any static function the untransofrmed class has to exported first
 export default  withAITracking(reactPlugin,FeedbackColumn);

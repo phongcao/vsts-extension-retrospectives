@@ -15,7 +15,7 @@ import {
   IColumn,
 } from 'office-ui-fabric-react/lib/DetailsList';
 import { withAITracking } from '@microsoft/applicationinsights-react-js';
-import { reactPlugin, appInsights } from '../utilities/external/telemetryClient2';
+import { reactPlugin, appInsights } from '../utilities/external/telemetryClient';
 
 export interface IBoardSummaryProps {
   actionItems: WorkItem[];
@@ -302,5 +302,4 @@ class BoardSummary extends React.Component<IBoardSummaryProps, IBoardSummaryStat
   }
 }
 
-// export default  BoardSummary ;
 export default withAITracking(reactPlugin,BoardSummary);
