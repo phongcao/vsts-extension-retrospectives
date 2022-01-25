@@ -8,11 +8,18 @@ const BUILD_DIR = path.resolve(__dirname, 'dist');
 const APP_DIR = path.resolve(__dirname, '');
 
 module.exports = {
-  devtool: 'source-map',
+  devtool: 'inline-source-map',
+  devServer: {
+    https: true,
+    port: 3000,
+    static: {
+      directory: path.join(__dirname),
+    }
+  },
   entry: `${APP_DIR}/index.tsx`,
   output: {
     path: BUILD_DIR,
-    publicPath: './',
+    publicPath: './dist/',
     filename: './reflect-bundle.js',
   },
   resolve: {
