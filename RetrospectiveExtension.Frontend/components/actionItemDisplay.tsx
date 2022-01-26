@@ -318,4 +318,4 @@ class ActionItemDisplay extends React.Component<ActionItemDisplayProps, ActionIt
     );
   }
 }
-export default withAITracking(reactPlugin,ActionItemDisplay);
+export default withAITracking(reactPlugin, ActionItemDisplay);

@@ -302,4 +302,4 @@ class BoardSummary extends React.Component<IBoardSummaryProps, IBoardSummaryStat
   }
 }
 
-export default withAITracking(reactPlugin,BoardSummary);
+export default withAITracking(reactPlugin, BoardSummary);

@@ -347,4 +347,4 @@ class BoardSummaryTable extends React.Component<IBoardSummaryTableProps, IBoardS
   }
 }
 
-export default withAITracking(reactPlugin,BoardSummaryTable);
+export default withAITracking(reactPlugin, BoardSummaryTable);

@@ -202,4 +202,4 @@ class ExtensionSettingsMenu extends React.Component<IExtensionSettingsMenuProps,
   }
 }
 
-export default withAITracking(reactPlugin,ExtensionSettingsMenu);
+export default withAITracking(reactPlugin, ExtensionSettingsMenu);

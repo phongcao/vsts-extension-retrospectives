@@ -18,7 +18,7 @@ import { WebApiTeam } from 'azure-devops-extension-api/Core';
 // TODO (enpolat) : import { appInsightsClient, TelemetryEvents } from '../utilities/appInsightsClient';
 import { IColumn, IColumnItem } from './feedbackBoard';
 import { SearchBox } from 'office-ui-fabric-react/lib/SearchBox';
-import FeedbackColumn, { FeedbackColumnProps, FeedbackColumnStatic } from './feedbackColumn';
+import FeedbackColumn, { FeedbackColumnProps, FeedbackColumnHelper } from './feedbackColumn';
 import { getUserIdentity } from '../utilities/userIdentityHelper';
 import { withAITracking } from '@microsoft/applicationinsights-react-js';
 import { reactPlugin, appInsights } from '../utilities/external/telemetryClient';
@@ -210,7 +210,7 @@ class FeedbackItem extends React.Component<IFeedbackItemProps, IFeedbackItemStat
     // const droppedItemId = e.dataTransfer.getData('id');
     const droppedItemId = localStorageHelper.getIdValue();
     if (this.props.id !== droppedItemId) {
-      FeedbackItem.handleDropFeedbackItemOnFeedbackItem(this.props, droppedItemId, this.props.id);
+      FeedbackItemHelper.handleDropFeedbackItemOnFeedbackItem(this.props, droppedItemId, this.props.id);
     }
     e.stopPropagation();
   }
@@ -529,23 +529,7 @@ class FeedbackItem extends React.Component<IFeedbackItemProps, IFeedbackItemStat
     }
   }
 
-  // Handle linking/grouping workitems and reload any updated items.
-  public static handleDropFeedbackItemOnFeedbackItem = async (feedbackItemProps: IFeedbackItemProps, droppedItemId: string, targetItemId: string) => {
-    const updatedFeedbackItems = await itemDataService.addFeedbackItemAsChild(feedbackItemProps.boardId, targetItemId, droppedItemId);
-
-    feedbackItemProps.refreshFeedbackItems(
-      [
-        updatedFeedbackItems.updatedParentFeedbackItem,
-        updatedFeedbackItems.updatedChildFeedbackItem,
-        ...updatedFeedbackItems.updatedGrandchildFeedbackItems,
-        updatedFeedbackItems.updatedOldParentFeedbackItem,
-      ].filter((item) => item),
-      true
-    );
-    // TODO (enpolat) : appInsightsClient.trackEvent(TelemetryEvents.FeedbackItemGrouped);
-
-    // TODO: Inform user when not all updates are successful due to race conditions.
-  }
+  
 
   private handleFeedbackItemSearchInputChange = async (event?: React.ChangeEvent<HTMLInputElement>, searchTerm?: string) => {
     if (!searchTerm || !searchTerm.trim()) {
@@ -569,7 +553,7 @@ class FeedbackItem extends React.Component<IFeedbackItemProps, IFeedbackItemStat
 
   private clickSearchedFeedbackItem = (event: React.MouseEvent<HTMLDivElement>, feedbackItemProps: IFeedbackItemProps) => {
     event.stopPropagation();
-    FeedbackItem.handleDropFeedbackItemOnFeedbackItem(
+    FeedbackItemHelper.handleDropFeedbackItemOnFeedbackItem(
       feedbackItemProps,
       this.props.id,
       feedbackItemProps.id
@@ -583,7 +567,7 @@ class FeedbackItem extends React.Component<IFeedbackItemProps, IFeedbackItemStat
 
     // Enter
     if (event.keyCode === 13) {
-      FeedbackItem.handleDropFeedbackItemOnFeedbackItem(
+      FeedbackItemHelper.handleDropFeedbackItemOnFeedbackItem(
         feedbackItemProps,
         this.props.id,
         feedbackItemProps.id
@@ -936,7 +920,7 @@ class FeedbackItem extends React.Component<IFeedbackItemProps, IFeedbackItemStat
               }
               {this.state.searchedFeedbackItems
                 .map((columnItem) => {
-                  const feedbackItemProps = FeedbackColumnStatic.createFeedbackItemProps(
+                  const feedbackItemProps = FeedbackColumnHelper.createFeedbackItemProps(
                     this.props.columnProps,
                     columnItem,
                     false)
@@ -980,6 +964,25 @@ class FeedbackItem extends React.Component<IFeedbackItemProps, IFeedbackItemStat
   }
 }
 
-export {FeedbackItem as FeedbackItemStatic }; // static functions are not preserved with `withAITracking`,
-// Hence to use any static function the untransofrmed class has to exported first
-export default withAITracking(reactPlugin,FeedbackItem);
+export class FeedbackItemHelper
+{
+// Handle linking/grouping workitems and reload any updated items.
+public static handleDropFeedbackItemOnFeedbackItem = async (feedbackItemProps: IFeedbackItemProps, droppedItemId: string, targetItemId: string) => {
+  const updatedFeedbackItems = await itemDataService.addFeedbackItemAsChild(feedbackItemProps.boardId, targetItemId, droppedItemId);
+
+  feedbackItemProps.refreshFeedbackItems(
+    [
+      updatedFeedbackItems.updatedParentFeedbackItem,
+      updatedFeedbackItems.updatedChildFeedbackItem,
+      ...updatedFeedbackItems.updatedGrandchildFeedbackItems,
+      updatedFeedbackItems.updatedOldParentFeedbackItem,
+    ].filter((item) => item),
+    true
+  );
+  // TODO (enpolat) : appInsightsClient.trackEvent(TelemetryEvents.FeedbackItemGrouped);
+
+  // TODO: Inform user when not all updates are successful due to race conditions.
+}
+}
+
+export default withAITracking(reactPlugin, FeedbackItem);

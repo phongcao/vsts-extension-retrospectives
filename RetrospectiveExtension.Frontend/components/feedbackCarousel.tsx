@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Slider, { Settings } from "react-slick";
-import FeedbackColumn, { FeedbackColumnProps, FeedbackColumnStatic } from './feedbackColumn';
+import FeedbackColumn, { FeedbackColumnProps, FeedbackColumnHelper } from './feedbackColumn';
 import { Pivot, PivotItem } from 'office-ui-fabric-react/lib/Pivot';
 import FeedbackItem from './feedbackItem';
 
@@ -26,7 +26,7 @@ class FeedbackCarousel extends React.Component<IFeedbackCarouselProps, IFeedback
       .filter((columnItem) => !columnItem.feedbackItem.parentFeedbackItemId)
       .map((columnItem) => {
         const feedbackItemProps =
-        FeedbackColumnStatic.createFeedbackItemProps(feedbackColumnProps, columnItem, true);
+        FeedbackColumnHelper.createFeedbackItemProps(feedbackColumnProps, columnItem, true);
 
         return (
           <div key={feedbackItemProps.id} className="feedback-carousel-item">
@@ -43,7 +43,7 @@ class FeedbackCarousel extends React.Component<IFeedbackCarouselProps, IFeedback
     return (
       <div className="feedback-carousel-item">
         <FeedbackItem
-          {...FeedbackColumnStatic.createFeedbackItemProps(feedbackColumnProps, feedbackColumnProps.columnItems.filter((columnItem) => !columnItem.feedbackItem.parentFeedbackItemId)[0], true)}
+          {...FeedbackColumnHelper.createFeedbackItemProps(feedbackColumnProps, feedbackColumnProps.columnItems.filter((columnItem) => !columnItem.feedbackItem.parentFeedbackItemId)[0], true)}
         />
       </div>
     );
@@ -97,4 +97,4 @@ class FeedbackCarousel extends React.Component<IFeedbackCarouselProps, IFeedback
   }
 }
 
-export default withAITracking(reactPlugin,FeedbackCarousel);
+export default withAITracking(reactPlugin, FeedbackCarousel);

@@ -260,11 +260,10 @@ paket-files/
 .DS_Store
 
 # dev files
-RetrospectiveExtension.FrontEnd/vss-extension.dev.json
+vss-extension.dev.json
+environment.tsx
 
 # Backend config files
 .env
 allowed_origins.json
 dev_certs.json
-
-# ./vss-extension-dev.json

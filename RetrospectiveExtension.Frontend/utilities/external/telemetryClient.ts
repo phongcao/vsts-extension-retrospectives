@@ -1,7 +1,6 @@
 import { ReactPlugin } from '@microsoft/applicationinsights-react-js';
-import { ApplicationInsights, SeverityLevel } from "@microsoft/applicationinsights-web"
-import environment from '../../config/environment'
-
+import { ApplicationInsights, SeverityLevel } from '@microsoft/applicationinsights-web';
+import environment from '../../config/environment';
 
 const reactPlugin = new ReactPlugin();
 const appInsights = new ApplicationInsights({
@@ -14,4 +13,5 @@ const appInsights = new ApplicationInsights({
     }
 });
 appInsights.loadAppInsights();
+
 export { reactPlugin, appInsights };

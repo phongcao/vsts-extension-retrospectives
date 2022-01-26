@@ -1009,4 +1009,4 @@ console.log(this.state);
   }
 }
 
-export default withAITracking(reactPlugin,FeedbackBoardMetadataForm);
+export default withAITracking(reactPlugin, FeedbackBoardMetadataForm);

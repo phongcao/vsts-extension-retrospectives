@@ -39,4 +39,4 @@ class EditableDocumentCardTitle extends React.Component<EditableDocumentCardTitl
   }
 }
 
-export default withAITracking(reactPlugin,EditableDocumentCardTitle);
+export default withAITracking(reactPlugin, EditableDocumentCardTitle);

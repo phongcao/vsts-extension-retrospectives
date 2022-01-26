@@ -459,4 +459,4 @@ class FeedbackBoard extends React.Component<FeedbackBoardProps, FeedbackBoardSta
   }
 }
 
-export default withAITracking(reactPlugin,FeedbackBoard);
+export default withAITracking(reactPlugin, FeedbackBoard);

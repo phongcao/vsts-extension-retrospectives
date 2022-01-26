@@ -42,8 +42,8 @@ Clone the repository to your local machine from the Azure DevOps endpoint.
 
 ```json
 {
-   "CollaborationStateServiceUrl": "https://my-backend-service.com", // change this to the deployed backend service
-   "AppInsightsInstrumentKey": "my_instrumentation_key" // put Instrumentation key here
+   CollaborationStateServiceUrl : "https://my-backend-service.com", // change this to the deployed backend service
+   AppInsightsInstrumentK       : "my_instrumentation_key" // put Instrumentation key here
 }
 ```
 
@@ -51,7 +51,7 @@ Clone the repository to your local machine from the Azure DevOps endpoint.
 
 - To test your changes, you will need to publish a new extension under a new Azure DevOps publisher account. Refer to the [documentation](https://docs.microsoft.com/en-us/azure/devops/extend/publish/overview?view=vsts) on publishing extensions. You can publish it to any test Azure DevOps organization that you are an admin of (As a Microsoft employee, you can create a new test organization from your Azure DevOps profile page). Currently this is the only way to test the extension.
 
-- Copy the file `vss-extensions-dev.json.template` into `vss-extensions-dev.json` file with the new publisher that you setup. Also update the name and id fields.
+- Copy the file `vss-extension-dev.json.template` into `vss-extension-dev.json` file with the new publisher that you setup. Also update the name and id fields.
 
 ```json
 {

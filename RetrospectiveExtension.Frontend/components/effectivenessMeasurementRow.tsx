@@ -22,6 +22,7 @@ export interface EffectivenessMeasurementRowProps {
 export interface EffectivenessMeasurementRowState {
   selected: number;
 }
+
  class EffectivenessMeasurementRow extends React.Component<EffectivenessMeasurementRowProps, EffectivenessMeasurementRowState> {
   constructor(props: EffectivenessMeasurementRowProps) {
     super(props);
@@ -139,4 +140,4 @@ export interface EffectivenessMeasurementRowState {
   }
 }
 
-export default withAITracking(reactPlugin,EffectivenessMeasurementRow);
+export default withAITracking(reactPlugin, EffectivenessMeasurementRow);

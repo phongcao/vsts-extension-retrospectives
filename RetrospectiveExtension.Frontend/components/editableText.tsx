@@ -197,4 +197,4 @@ class EditableText extends React.Component<EditableTextProps, EditableTextState>
   }
 }
 
-export default withAITracking(reactPlugin,EditableText);
+export default withAITracking(reactPlugin, EditableText);

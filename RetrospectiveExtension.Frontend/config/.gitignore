@@ -1,2 +1,0 @@
-# ignore enviornment containing possibly sensitive information such as the backend/ instrumentation key
-environment.tsx

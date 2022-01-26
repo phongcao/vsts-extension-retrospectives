@@ -72,4 +72,4 @@ class FeedbackBoardPreviewEmail extends React.Component<IFeedbackBoardPreviewEma
     );
   }
 }
-export default withAITracking(reactPlugin,FeedbackBoardPreviewEmail);
+export default withAITracking(reactPlugin, FeedbackBoardPreviewEmail);
