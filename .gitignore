@@ -260,7 +260,7 @@ paket-files/
 .DS_Store
 
 # dev files
-vss-extension.dev.json
+RetrospectiveExtension.Frontend/vss-extension.dev.json
 environment.tsx
 
 # Backend config files
