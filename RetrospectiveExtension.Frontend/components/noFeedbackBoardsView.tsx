@@ -27,5 +27,4 @@ class NoFeedbackBoardsView extends React.Component<NoFeedbackBoardsViewProps> {
   }
 }
 
-
 export default withAITracking(reactPlugin,NoFeedbackBoardsView);

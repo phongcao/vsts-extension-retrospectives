@@ -303,5 +303,4 @@ class SelectorCombo<T> extends React.Component<ISelectorComboProps<T>, ISelector
   }
 }
 
-export default  SelectorCombo;
-// export default withAITracking(reactPlugin,SelectorCombo); //mhassani: TODO: Figure out how to make App insights export generic classes
+export default SelectorCombo;

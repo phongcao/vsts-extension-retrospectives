@@ -1520,4 +1520,5 @@ export interface FeedbackBoardContainerState {
     );
   }
 }
+
 export default withAITracking(reactPlugin, FeedbackBoardContainer);
