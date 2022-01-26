@@ -99,14 +99,7 @@
     az webapp config appsettings set \
         --resource-group "$resource_group" \
         --name "app-${resource_name_suffix}" \
-        --settings Azure__SignalR__ConnectionString=$signalr_connection_string "@dev_certs.json" "@allowed_origins.json"
-
-    # Create Application Insights AppSettings
-    az webapp config appsettings set \
-        --resource-group "$resource_group" \
-        --name "app-${resource_name_suffix}" \
-        --settings Azure__AppInsights__ConnectionString=$ai_instrumentation_key
-
+        --settings Azure__SignalR__ConnectionString=$signalr_connection_string ApplicationInsights__InstrumentationKey=$ai_instrumentation_key "@dev_certs.json" "@allowed_origins.json"
 
     #Create Output directory to publish the dotnet project artifacts to be published to the Azure Web Apps Instance
 
