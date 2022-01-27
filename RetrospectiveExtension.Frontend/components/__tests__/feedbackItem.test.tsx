@@ -30,6 +30,15 @@ const testWorkItemType = mocked({
 const testColumnUuidOne = uuid();
 const testColumnUuidTwo = uuid();
 const testUpvotes = Math.floor(Math.random() * 10);
+const testGroupedItemProps = mocked({
+  groupedCount: 0,
+  isGroupExpanded: false,
+  isMainItem: true,
+  parentItemId: '',
+  setIsGroupBeingDragged: jest.fn((isBeingDragged) => { }),
+  toggleGroupExpand: jest.fn(() => {}),
+  updateGroupCardStackHeight: jest.fn(() => {}),
+});
 const testFeedbackItem = mocked({
   id: uuid(),
   boardId: testBoardId,
@@ -39,6 +48,8 @@ const testFeedbackItem = mocked({
   upvotes: Math.floor(Math.random() * 10),
   voteCollection: { [uuid()]: testUpvotes },
   createdDate: new Date(),
+  createdByProfileImage: 'testProfileImageSource',
+  groupedItemProps: testGroupedItemProps,
   userIdRef: uuid(),
   timerSecs: Math.floor(Math.random() * 60),
   timerstate: false,
@@ -70,16 +81,6 @@ const testColumns = mocked({
           actionItems: []
         },
       ]
-  },
-  testColumnUuidTwo: {
-    columnProperties:
-    {
-      id: testColumnUuidTwo,
-      title: 'Test Feedback Column Two',
-      iconClass: 'far fa-frown',
-      accentColor: '#f6af08',
-    },
-    columnItems: []
   }
 });
 
