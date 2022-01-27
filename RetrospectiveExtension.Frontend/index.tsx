@@ -10,6 +10,8 @@ import { appInsights } from './utilities/external/telemetryClient';
 
 import FeedbackBoardContainer, { FeedbackBoardContainerProps } from './components/feedbackBoardContainer';
 
+initializeIcons();
+
 sdkInit()
   .then(() => {
     Promise.all([isHostedAzureDevOps(), getProjectId()]).then(res => {

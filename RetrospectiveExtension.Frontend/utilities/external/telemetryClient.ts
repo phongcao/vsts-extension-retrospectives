@@ -3,13 +3,13 @@ import { ApplicationInsights, SeverityLevel } from '@microsoft/applicationinsigh
 import environment from '../../config/environment';
 const reactPlugin = new ReactPlugin();
 const appInsights = new ApplicationInsights({
-    config: {
-        instrumentationKey: environment.AppInsightsInstrumentKey,
-        extensions: [reactPlugin],
-        extensionConfig: {
-          [reactPlugin.identifier]: { history: {} }
-        }
+  config: {
+    instrumentationKey: environment.AppInsightsInstrumentKey,
+    extensions: [reactPlugin],
+    extensionConfig: {
+      [reactPlugin.identifier]: { history: {} }
     }
+  }
 });
 appInsights.loadAppInsights();
 

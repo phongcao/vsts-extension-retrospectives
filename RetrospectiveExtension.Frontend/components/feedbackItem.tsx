@@ -964,25 +964,24 @@ class FeedbackItem extends React.Component<IFeedbackItemProps, IFeedbackItemStat
   }
 }
 
-export class FeedbackItemHelper
-{
-// Handle linking/grouping workitems and reload any updated items.
-public static handleDropFeedbackItemOnFeedbackItem = async (feedbackItemProps: IFeedbackItemProps, droppedItemId: string, targetItemId: string) => {
-  const updatedFeedbackItems = await itemDataService.addFeedbackItemAsChild(feedbackItemProps.boardId, targetItemId, droppedItemId);
+export class FeedbackItemHelper {
+  // Handle linking/grouping workitems and reload any updated items.
+  public static handleDropFeedbackItemOnFeedbackItem = async (feedbackItemProps: IFeedbackItemProps, droppedItemId: string, targetItemId: string) => {
+    const updatedFeedbackItems = await itemDataService.addFeedbackItemAsChild(feedbackItemProps.boardId, targetItemId, droppedItemId);
 
-  feedbackItemProps.refreshFeedbackItems(
-    [
-      updatedFeedbackItems.updatedParentFeedbackItem,
-      updatedFeedbackItems.updatedChildFeedbackItem,
-      ...updatedFeedbackItems.updatedGrandchildFeedbackItems,
-      updatedFeedbackItems.updatedOldParentFeedbackItem,
-    ].filter((item) => item),
-    true
-  );
-  // TODO (enpolat) : appInsightsClient.trackEvent(TelemetryEvents.FeedbackItemGrouped);
+    feedbackItemProps.refreshFeedbackItems(
+      [
+        updatedFeedbackItems.updatedParentFeedbackItem,
+        updatedFeedbackItems.updatedChildFeedbackItem,
+        ...updatedFeedbackItems.updatedGrandchildFeedbackItems,
+        updatedFeedbackItems.updatedOldParentFeedbackItem,
+      ].filter((item) => item),
+      true
+    );
+    // TODO (enpolat) : appInsightsClient.trackEvent(TelemetryEvents.FeedbackItemGrouped);
 
-  // TODO: Inform user when not all updates are successful due to race conditions.
-}
+    // TODO: Inform user when not all updates are successful due to race conditions.
+  }
 }
 
 export default withAITracking(reactPlugin, FeedbackItem);
