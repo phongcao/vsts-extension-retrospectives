@@ -41,6 +41,10 @@ const testGroupedItemProps = mocked({
 });
 const testFeedbackItem = mocked({
   id: uuid(),
+  element: mocked({
+    innerText:'Test Inner Text',
+    innerHtml:'<div>Test Inner HTML</div>'
+  }),
   boardId: testBoardId,
   title: 'Test Feedback Item',
   description: 'Test Feedback Item Description',
