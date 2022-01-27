@@ -18,12 +18,12 @@ interface IFeedbackBoardPreviewEmailProps {
   teamId: string;
   onCopy: () => void;
 }
+
 class FeedbackBoardPreviewEmail extends React.Component<IFeedbackBoardPreviewEmailProps, IFeedbackBoardPreviewEmailState> {
   private emailTextField: ITextField;
 
   constructor(props: IFeedbackBoardPreviewEmailProps) {
     super(props);
-
     this.state = {
       emailContent: '',
     };

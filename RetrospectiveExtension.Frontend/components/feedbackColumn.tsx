@@ -145,7 +145,7 @@ class FeedbackColumn extends React.Component<FeedbackColumnProps, FeedbackColumn
     // TODO: Inform user when not all updates are successful due to race conditions.
   };
 
-  protected renderFeedbackItems = () => {
+  private renderFeedbackItems = () => {
     const sortItems = this.props.workflowPhase === WorkflowPhase.Act;
 
     // Build components to display the retrospective items, as individuals or groups.
@@ -306,4 +306,4 @@ export class FeedbackColumnHelper
   }
 }
 
-export default  withAITracking(reactPlugin, FeedbackColumn);
+export default withAITracking(reactPlugin, FeedbackColumn);
