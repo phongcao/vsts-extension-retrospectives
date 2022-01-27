@@ -260,7 +260,7 @@ paket-files/
 .DS_Store
 
 # dev files
-environment.tsx
+# environment.tsx
 
 # Backend config files
 .env
