@@ -266,3 +266,5 @@ environment.tsx
 .env
 allowed_origins.json
 dev_certs.json
+
+scripts/detect-secrets/.venv/
