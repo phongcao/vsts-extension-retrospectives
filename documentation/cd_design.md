@@ -10,7 +10,7 @@ CD environment increases confidence to push out quality updates to the extension
 
 1. Identify specifications around environments needed.
 
-1. Identify and make recommendation for atuomated testing.
+1. Identify and make recommendation for automated testing.
 
 1. Versioning and Rollback Strategy.
 
@@ -35,13 +35,13 @@ run and the extension will be installed to the `Alpha Publisher ID` on the Marke
 This pipeline is automated on any check-ins into the `Feature` branch and will be used for PR validation. The automated tests, cred scanning and other linters re run at
 this statge to ensure that the code is of good quality. The exension will be installed to the `Beta Publisher ID` in the Market Place.
 
-### Release Candidate (RC)
+#### Release Candidate (RC)
 
 This pipeline will be run against the `Main` branch and internally released to test out any critical problems that may be undetected in the previous cycles. The extension is pubished to the `Release Candiate Publisher ID` in the Market Place.
 
 Automated tests along with the linters and cred scanning are run before the extension is published. The Smoke tests runs in this pipeline will install the extension to a privately shared Azure DevOps Organization and perform basic tests to ensure that the Extension is installed. It is recommended integrate smoke tests and end-to-end integration tests in this stage to identify any potential issues during and after installation of the extension.
 
-### General Availability (GA)
+#### General Availability (GA)
 
 The code on the `Main` branch is bundled as a release to `Production` using this pipeline. This pipeline is manually run by the Open Source Maintainer by creating a [release](https://docs.github.com/en/repositories/releasing-projects-on-github/managing-releases-in-a-repository). Also a good read on [automating release notes](https://docs.github.com/en/repositories/releasing-projects-on-github/automatically-generated-release-notes).
 
