@@ -10,7 +10,7 @@ export const IdentityRef = {
     isDeletedInOrigin: false,
     profileUrl: "mockedProfileUrl",
     uniqueName: "mocked unique name",
-    _links: [],
+    _links: ["mocked link"],
     descriptor: "mocked descriptor",
     displayName: "mocked display name",
     url: "mockedUrl"
@@ -32,6 +32,6 @@ export enum Operation {
 }
 
 export interface TeamMember {
-    identity: {IdentityRef},
+    identity: {IdentityRef: any},
     isTeamAdmin: false,
 };
