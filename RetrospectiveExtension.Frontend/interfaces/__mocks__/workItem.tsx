@@ -1,1 +1,0 @@
-﻿export const WorkflowPhase = 'Mocked Workflow Phase';
