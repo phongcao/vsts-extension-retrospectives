@@ -1,11 +1,98 @@
 import * as React from 'react';
 import * as TestRenderer from 'react-test-renderer';
-import {mocked} from 'ts-jest/utils';
+import { CommonServiceIds } from 'azure-devops-extension-api';
+import { mocked } from 'ts-jest/utils';
 import { v4 as uuid } from 'uuid';
 import FeedbackItem from '../feedbackItem';
 import FeedbackColumn from '../feedbackColumn';
 
 const workflowPhaseMock = jest.requireMock('../../interfaces/workItem');
+
+// Mock Environment
+jest.mock('../../config/environment', () => {
+  const mockEnv = {
+    CollaborationStateServiceUrl: "https://serviceurl",
+  };
+
+  return mockEnv;
+});
+
+// Mock Azure DevOps Extension SDK
+jest.mock('azure-devops-extension-sdk', () => {
+  const mockExtensionDataService = {
+    getExtensionDataManager: jest.fn(),
+  };
+
+  const mockLocationService = {
+    getResourceAreaLocation: jest.fn().mockImplementation(() => 'https://hosturl'),
+  };
+
+  const mockProjectPageService = {
+    getProject: jest.fn().mockImplementation(() => {
+      const mockProjectInfo = {
+        id: "id",
+        name: "name",
+      };
+
+      return mockProjectInfo;
+    }),
+  };
+
+  const mockUser = {
+    id: "userId",
+  };
+
+  const mockExtensionContext = {
+    id: "contextId",
+  };
+
+  const mockSdk = {
+    getService: jest.fn().mockImplementation(id => {
+      if (id == CommonServiceIds.LocationService)
+        return mockLocationService;
+      else if (id == CommonServiceIds.ProjectPageService)
+        return mockProjectPageService;
+      else
+        return mockExtensionDataService;
+    }),
+    getUser: jest.fn().mockImplementation(() => mockUser),
+    getExtensionContext: jest.fn().mockImplementation(() => mockExtensionContext),
+    getAccessToken: jest.fn().mockImplementation(() => 'token'),
+  };
+
+  return mockSdk;
+});
+
+// Mock Azure DevOps Extension API
+jest.mock('azure-devops-extension-api/Core', () => {
+  const mockCore = {
+    CoreRestClient: {
+      RESOURCE_AREA_ID: "resourceAreaId",
+    },
+  };
+
+  return mockCore;
+});
+
+jest.mock('azure-devops-extension-api/Core/CoreClient', () => {});
+jest.mock('azure-devops-extension-api/WebApi', () => {});
+jest.mock('azure-devops-extension-api/WorkItemTracking', () => {});
+jest.mock('azure-devops-extension-api/WorkItemTracking/WorkItemTracking', () => {});
+jest.mock('azure-devops-extension-api/WorkItemTracking/WorkItemTrackingClient', () => {
+  const mockWorkItemTrackingClient = {
+    WorkItemTrackingRestClient: {},
+  };
+
+  return mockWorkItemTrackingClient;
+});
+
+jest.mock('azure-devops-extension-api/Common', () => {
+  const mockCommon = {
+    getClient: jest.fn(),
+  };
+
+  return mockCommon;
+});
 
 const testTeamId = uuid();
 const testBoardId = uuid();
@@ -69,35 +156,35 @@ const testColumnItem = mocked({
 });
 
 const testColumnIds: string[] = [testColumnUuidOne, testColumnUuidTwo];
-const testColumns = mocked({
-  testColumnUuidOne: {
-    columnProperties:
-    {
-      id: testColumnUuidOne,
-      title: 'Test Feedback Column One',
-      iconClass: 'far fa-smile',
-      accentColor: '#008000',
-    },
-    columnItems:
-      [
-        {
-          feedbackItem: testFeedbackItem,
-          actionItems: []
-        },
-      ]
-  }
-});
+const testColumnsObj: any = {};
+testColumnsObj[testColumnUuidOne] = {
+  columnProperties:
+  {
+    id: testColumnUuidOne,
+    title: 'Test Feedback Column One',
+    iconClass: 'far fa-smile',
+    accentColor: '#008000',
+  },
+  columnItems:
+    [
+      {
+        feedbackItem: testFeedbackItem,
+        actionItems: []
+      },
+    ]
+};
+const testColumns = mocked(testColumnsObj);
 
 const testColumnProps = mocked({
   columns: testColumns,
   columnIds: testColumnIds,
-  columnName: testColumns.testColumnUuidOne.columnProperties.title,
+  columnName: testColumns[testColumnUuidOne].columnProperties.title,
   columnId: testColumnUuidOne,
-  accentColor: testColumns.testColumnUuidOne.columnProperties.accentColor,
-  iconClass: testColumns.testColumnUuidOne.columnProperties.iconClass,
+  accentColor: testColumns[testColumnUuidOne].columnProperties.accentColor,
+  iconClass: testColumns[testColumnUuidOne].columnProperties.iconClass,
   workflowPhase: workflowPhaseMock,
   isDataLoaded: false,
-  columnItems: testColumns.testColumnUuidOne.columnItems,
+  columnItems: testColumns[testColumnUuidOne].columnItems,
   team: {
     id: uuid(),
     identity:{
