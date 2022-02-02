@@ -2,6 +2,9 @@ import * as React from 'react';
 import * as TestRenderer from 'react-test-renderer';
 import { CommonServiceIds } from 'azure-devops-extension-api';
 import { mocked } from 'ts-jest/utils';
+import { mockEnv } from '../__mocks__/environment';
+import { mockCore } from '../__mocks__/azure-devops-extension-api/Core';
+import { mockWorkItemTrackingClient } from '../__mocks__/azure-devops-extension-api/WorkItemTracking/WorkItemTrackingClient';
 import { v4 as uuid } from 'uuid';
 import FeedbackItem from '../feedbackItem';
 import FeedbackColumn from '../feedbackColumn';
@@ -10,10 +13,6 @@ const workflowPhaseMock = jest.requireMock('../../interfaces/workItem');
 
 // Mock Environment
 jest.mock('../../config/environment', () => {
-  const mockEnv = {
-    CollaborationStateServiceUrl: "https://serviceurl",
-  };
-
   return mockEnv;
 });
 
@@ -65,13 +64,7 @@ jest.mock('azure-devops-extension-sdk', () => {
 
 // Mock Azure DevOps Extension API
 jest.mock('azure-devops-extension-api/Core', () => {
-  const mockCore = {
-    CoreRestClient: {
-      RESOURCE_AREA_ID: "resourceAreaId",
-    },
-  };
-
-  return mockCore;
+  return () => { return mockCore}
 });
 
 jest.mock('azure-devops-extension-api/Core/CoreClient', () => {});
@@ -79,11 +72,7 @@ jest.mock('azure-devops-extension-api/WebApi', () => {});
 jest.mock('azure-devops-extension-api/WorkItemTracking', () => {});
 jest.mock('azure-devops-extension-api/WorkItemTracking/WorkItemTracking', () => {});
 jest.mock('azure-devops-extension-api/WorkItemTracking/WorkItemTrackingClient', () => {
-  const mockWorkItemTrackingClient = {
-    WorkItemTrackingRestClient: {},
-  };
-
-  return mockWorkItemTrackingClient;
+  return () => {return mockWorkItemTrackingClient;}
 });
 
 jest.mock('azure-devops-extension-api/Common', () => {
