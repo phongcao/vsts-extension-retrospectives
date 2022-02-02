@@ -21,7 +21,7 @@ export const WorkItem = {
     id: Math.floor(Math.random() * 500),
     relations: [WorkItemRelation],
     rev: Math.floor(Math.random() * 500),
-    _links:[]
+    _links:['']
 };
 
 export const WorkItemIcon = {
@@ -69,7 +69,7 @@ export const WorkItemType = {
     states: [WorkItemStateColor],
     transitions: { ["mockedTransition"] : [WorkItemStateTransition] },
     xmlForm: "mocked XML",
-    __links: [],
+    __links: [''],
     url: "mockedUrl"
 }
 
