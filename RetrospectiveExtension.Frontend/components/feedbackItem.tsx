@@ -18,7 +18,7 @@ import { WebApiTeam } from 'azure-devops-extension-api/Core';
 // TODO (enpolat) : import { appInsightsClient, TelemetryEvents } from '../utilities/appInsightsClient';
 import { IColumn, IColumnItem } from './feedbackBoard';
 import { SearchBox } from 'office-ui-fabric-react/lib/SearchBox';
-import FeedbackColumn, { FeedbackColumnProps, FeedbackColumnHelper } from './feedbackColumn';
+import FeedbackColumn, { FeedbackColumnProps } from './feedbackColumn';
 import { getUserIdentity } from '../utilities/userIdentityHelper';
 import { withAITracking } from '@microsoft/applicationinsights-react-js';
 import { reactPlugin, appInsights } from '../utilities/external/telemetryClient';
@@ -490,9 +490,9 @@ class FeedbackItem extends React.Component<IFeedbackItemProps, IFeedbackItemStat
 
       this.props.addFeedbackItems(
         this.props.columnId,
-        [newFeedbackItem], 
+        [newFeedbackItem],
         /*shouldBroadcast*/ true,
-        /*newlyCreated*/ false, 
+        /*newlyCreated*/ false,
         /*showAddedAnimation*/ false,
         /*shouldHaveFocus*/ true,
         /*hideFeedbackItems*/ false);
@@ -518,7 +518,7 @@ class FeedbackItem extends React.Component<IFeedbackItemProps, IFeedbackItemStat
     }
   }
 
-  
+
 
   private handleFeedbackItemSearchInputChange = async (event?: React.ChangeEvent<HTMLInputElement>, searchTerm?: string) => {
     if (!searchTerm || !searchTerm.trim()) {
@@ -596,7 +596,7 @@ class FeedbackItem extends React.Component<IFeedbackItemProps, IFeedbackItemStat
     const isNotGroupedItem = !this.props.groupedItemProps;
     const isMainItem = isNotGroupedItem || this.props.groupedItemProps.isMainItem;
     const groupItemsCount = this.props && this.props.groupedItemProps && this.props.groupedItemProps.groupedCount + 1;
-    const ariaLabel = isNotGroupedItem ? 'Feedback item.' : (!isMainItem ? 'Feedback group item.' : 'Feedback group main item. Group has ' + groupItemsCount + ' items.'); 
+    const ariaLabel = isNotGroupedItem ? 'Feedback item.' : (!isMainItem ? 'Feedback group item.' : 'Feedback group main item. Group has ' + groupItemsCount + ' items.');
     const hideFeedbackItems = this.props.hideFeedbackItems && (this.props.createdBy ? this.props.userIdRef !== getUserIdentity().id : false);
     const curTimerState = this.props.timerState;
 
@@ -699,7 +699,7 @@ class FeedbackItem extends React.Component<IFeedbackItemProps, IFeedbackItemStat
                       this.setState({ showVotedAnimation: false });
                     }}>
                     <i className="fas fa-arrow-circle-down" />
-                    
+
                   </button>
                 }
                 {!this.props.newlyCreated && this.props.isInteractable &&
@@ -906,7 +906,7 @@ class FeedbackItem extends React.Component<IFeedbackItemProps, IFeedbackItemStat
               }
               {this.state.searchedFeedbackItems
                 .map((columnItem) => {
-                  const feedbackItemProps = FeedbackColumnHelper.createFeedbackItemProps(
+                  const feedbackItemProps = FeedbackColumn.createFeedbackItemProps(
                     this.props.columnProps,
                     columnItem,
                     false)
