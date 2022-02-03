@@ -1,34 +1,7 @@
 import * as React from 'react';
 import * as TestRenderer from 'react-test-renderer';
+import ActionItemDisplay, { ActionItemDisplayProps, ActionItemDisplayState } from '../actionItemDisplay';
 import { CommonServiceIds } from 'azure-devops-extension-api';
-import { mocked } from 'ts-jest/utils';
-import { v4 as uuid } from 'uuid';
-import FeedbackBoardContainer, { FeedbackBoardContainerProps } from '../feedbackBoardContainer';
-import clickWorkflowStateCallback from '../feedbackBoardContainer'
-
-// const workflowStageMock = jest.requireMock('../../interfaces/workItem');
-
-jest.mock('../workflowStage', () => {
-    const mockWorkFlowStage = {
-        display: 'test',
-        value: 'Collect',
-        isActive: true,
-        clickEventCallback: jest.fn()
-    }
-
-    return mockWorkFlowStage;
-}); 
-
-// jest.mock()
-
-// Mock Environment
-jest.mock('../../config/environment', () => {
-  const mockEnv = {
-    CollaborationStateServiceUrl: "https://serviceurl",
-  };
-
-  return mockEnv;
-});
 
 // Mock Azure DevOps Extension SDK
 jest.mock('azure-devops-extension-sdk', () => {
@@ -107,12 +80,32 @@ jest.mock('azure-devops-extension-api/Common', () => {
   return mockCommon;
 });
 
-const feedbackBoardContainerProps: FeedbackBoardContainerProps = {
-  isHostedAzureDevOps: false,
-  projectId: "1",
-};
+let mockOnUpdateActionItem = jest.fn(() => { });
 
-describe(`The Feedback Board Component`, () => {
-  it.skip("Renders a Feedback Board Container Component", () => {
+const defaultTestProps: ActionItemDisplayProps = {
+    feedbackItemId: '101',
+    feedbackItemTitle: 'Test Feedback Item Title',
+    team: undefined,
+    boardId: 'Test Board Id',
+    boardTitle: 'Test Board Title',
+    defaultIteration: '1',
+    defaultAreaPath: '/testPath',
+    actionItems: [],
+    nonHiddenWorkItemTypes: [],
+    allWorkItemTypes: [],
+    allowAddNewActionItem: false,
+    onUpdateActionItem: mockOnUpdateActionItem
+}
+
+describe('Action Item Display component', () => {
+  it ('renders correctly when there are no action items.', () => {
+    const tree = TestRenderer
+      .create(<ActionItemDisplay {...defaultTestProps} />)
+      .toJSON();
+    expect(tree).toMatchSnapshot();
   });
+
+  it ('renders correctly when action items exist', () => {
+      
+  })
 });

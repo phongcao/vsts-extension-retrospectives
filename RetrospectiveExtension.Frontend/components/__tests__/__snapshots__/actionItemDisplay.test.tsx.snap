@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Action Item Display component renders correctly when there are no action items. 1`] = `
+<div
+  className="action-items"
+/>
+`;

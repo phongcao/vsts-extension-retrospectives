@@ -1,36 +1,8 @@
 import * as React from 'react';
 import * as TestRenderer from 'react-test-renderer';
+import ActionItem, { ActionItemProps, ActionItemState } from '../actionItem';
 import { CommonServiceIds } from 'azure-devops-extension-api';
-import { mocked } from 'ts-jest/utils';
-import { v4 as uuid } from 'uuid';
-import FeedbackBoardContainer, { FeedbackBoardContainerProps } from '../feedbackBoardContainer';
-import clickWorkflowStateCallback from '../feedbackBoardContainer'
 
-// const workflowStageMock = jest.requireMock('../../interfaces/workItem');
-
-jest.mock('../workflowStage', () => {
-    const mockWorkFlowStage = {
-        display: 'test',
-        value: 'Collect',
-        isActive: true,
-        clickEventCallback: jest.fn()
-    }
-
-    return mockWorkFlowStage;
-}); 
-
-// jest.mock()
-
-// Mock Environment
-jest.mock('../../config/environment', () => {
-  const mockEnv = {
-    CollaborationStateServiceUrl: "https://serviceurl",
-  };
-
-  return mockEnv;
-});
-
-// Mock Azure DevOps Extension SDK
 jest.mock('azure-devops-extension-sdk', () => {
   const mockExtensionDataService = {
     getExtensionDataManager: jest.fn(),
@@ -107,12 +79,24 @@ jest.mock('azure-devops-extension-api/Common', () => {
   return mockCommon;
 });
 
-const feedbackBoardContainerProps: FeedbackBoardContainerProps = {
-  isHostedAzureDevOps: false,
-  projectId: "1",
-};
+let mockOnUpdateActionItem = jest.fn(() => { });
 
-describe(`The Feedback Board Component`, () => {
-  it.skip("Renders a Feedback Board Container Component", () => {
+const defaultTestProps: ActionItemProps = {
+    feedbackItemId: '',
+    boardId: '',
+    actionItem: undefined,
+    nonHiddenWorkItemTypes: [],
+    allWorkItemTypes: [],
+    areActionIconsHidden: false,
+    shouldFocus: false,
+    onUpdateActionItem: mockOnUpdateActionItem
+}
+
+describe('Action Item component', () => {
+  it.skip ('renders correctly.', () => {
+    const tree = TestRenderer
+      .create(<ActionItem {...defaultTestProps} />)
+      .toJSON();
+    expect(tree).toMatchSnapshot();
   });
 });
