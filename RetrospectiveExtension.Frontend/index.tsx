@@ -8,7 +8,6 @@ import { getProjectId } from './utilities/servicesHelper';
 import './css/main.scss';
 import { appInsights,reactPlugin } from './utilities/external/telemetryClient';
 import { AppInsightsErrorBoundary } from "@microsoft/applicationinsights-react-js";
-
 import FeedbackBoardContainer, { FeedbackBoardContainerProps } from './components/feedbackBoardContainer';
 
 initializeIcons();
