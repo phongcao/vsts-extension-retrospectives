@@ -18,11 +18,10 @@ appInsights.loadAppInsights();
 
 // The new log error function logs the data to console as usual,
 // but also sends error messages to Application insights as well.
-var updatedConsoleError=(function(oldError){
+var updatedConsoleError=(function(oldErrorFunction){
   return {
       error: function(message?: any, ...optionalParams: any[]){
-        oldError(message,optionalParams);
-          // appInsights.trackTrace({message:message,severityLevel:3});
+        oldErrorFunction(message,optionalParams);
           appInsights.trackException({error:{message:message,name:"console.error"}});
       },
   };
