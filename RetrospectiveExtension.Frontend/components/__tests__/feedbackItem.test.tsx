@@ -1,85 +1,37 @@
 import * as React from 'react';
-import * as TestRenderer from 'react-test-renderer';
-import { CommonServiceIds } from 'azure-devops-extension-api';
-import { mocked } from 'ts-jest/utils';
-import { mockEnv } from '../__mocks__/environment';
-import { mockCore } from '../__mocks__/azure-devops-extension-api/Core';
-import { mockWorkItemTrackingClient } from '../__mocks__/azure-devops-extension-api/WorkItemTracking/WorkItemTrackingClient';
+import Enzyme, { shallow } from 'enzyme';
+import Adapter from 'enzyme-adapter-react-16';
+import { mocked } from 'jest-mock';
+import { mockEnv } from '../__mocks__/config/environment';
+import { mockCore } from '../__mocks__/node_modules/azure-devops-extension-api/Core';
+import { mockWorkItemTrackingClient } from '../__mocks__/node_modules/azure-devops-extension-api/WorkItemTracking/WorkItemTrackingClient';
+import { mockCommon } from '../__mocks__/node_modules/azure-devops-extension-api/Common';
+import { MockSDK } from '../__mocks__/azure-devops-extension-sdk/sdk';
+import {WorkflowPhase} from '../../interfaces/workItem';
 import { v4 as uuid } from 'uuid';
 import FeedbackItem from '../feedbackItem';
 import FeedbackColumn from '../feedbackColumn';
-
-const workflowPhaseMock = jest.requireMock('../../interfaces/workItem');
+import { TooltipOverflowMode } from 'office-ui-fabric-react';
+Enzyme.configure({ adapter: new Adapter() });
 
 // Mock Environment
-jest.mock('../../config/environment', () => {
-  return mockEnv;
-});
+jest.mock('../../config/environment', () => { return mockEnv; });
 
 // Mock Azure DevOps Extension SDK
-jest.mock('azure-devops-extension-sdk', () => {
-  const mockExtensionDataService = {
-    getExtensionDataManager: jest.fn(),
-  };
-
-  const mockLocationService = {
-    getResourceAreaLocation: jest.fn().mockImplementation(() => 'https://hosturl'),
-  };
-
-  const mockProjectPageService = {
-    getProject: jest.fn().mockImplementation(() => {
-      const mockProjectInfo = {
-        id: "id",
-        name: "name",
-      };
-
-      return mockProjectInfo;
-    }),
-  };
-
-  const mockUser = {
-    id: "userId",
-  };
-
-  const mockExtensionContext = {
-    id: "contextId",
-  };
-
-  const mockSdk = {
-    getService: jest.fn().mockImplementation(id => {
-      if (id == CommonServiceIds.LocationService)
-        return mockLocationService;
-      else if (id == CommonServiceIds.ProjectPageService)
-        return mockProjectPageService;
-      else
-        return mockExtensionDataService;
-    }),
-    getUser: jest.fn().mockImplementation(() => mockUser),
-    getExtensionContext: jest.fn().mockImplementation(() => mockExtensionContext),
-    getAccessToken: jest.fn().mockImplementation(() => 'token'),
-  };
-
-  return mockSdk;
-});
+jest.mock('azure-devops-extension-sdk', () => { return MockSDK; });
 
 // Mock Azure DevOps Extension API
-jest.mock('azure-devops-extension-api/Core', () => {
-  return () => { return mockCore}
-});
+jest.mock('azure-devops-extension-api/Core', () => { return mockCore; });
 
 jest.mock('azure-devops-extension-api/Core/CoreClient', () => {});
 jest.mock('azure-devops-extension-api/WebApi', () => {});
 jest.mock('azure-devops-extension-api/WorkItemTracking', () => {});
 jest.mock('azure-devops-extension-api/WorkItemTracking/WorkItemTracking', () => {});
 jest.mock('azure-devops-extension-api/WorkItemTracking/WorkItemTrackingClient', () => {
-  return () => {return mockWorkItemTrackingClient;}
+  return mockWorkItemTrackingClient;
 });
 
 jest.mock('azure-devops-extension-api/Common', () => {
-  const mockCommon = {
-    getClient: jest.fn(),
-  };
-
   return mockCommon;
 });
 
@@ -162,6 +114,16 @@ testColumnsObj[testColumnUuidOne] = {
       },
     ]
 };
+testColumnsObj[testColumnUuidTwo] = {
+  columnProperties:
+  {
+    id: TooltipOverflowMode,
+    title: 'Test Feedback Column Two',
+    iconClass: 'far fa-smile',
+    accentColor: '#008100',
+  },
+  columnItems: []
+};
 const testColumns = mocked(testColumnsObj);
 
 const testColumnProps = mocked({
@@ -171,7 +133,7 @@ const testColumnProps = mocked({
   columnId: testColumnUuidOne,
   accentColor: testColumns[testColumnUuidOne].columnProperties.accentColor,
   iconClass: testColumns[testColumnUuidOne].columnProperties.iconClass,
-  workflowPhase: workflowPhaseMock,
+  workflowPhase: WorkflowPhase.Act,
   isDataLoaded: false,
   columnItems: testColumns[testColumnUuidOne].columnItems,
   team: {
@@ -227,6 +189,8 @@ describe('Feedback Item', () => {
   test('Render the default Feedback Item.', () => {
     const testProps =
       FeedbackColumn.createFeedbackItemProps(testColumnProps, testColumnItem, true);
-    TestRenderer.create(<FeedbackItem {...testProps} />);
+
+    const component = shallow(<FeedbackItem {...testProps} />);
+    console.debug(component);
   });
 });
