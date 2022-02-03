@@ -11,8 +11,12 @@ import {WorkflowPhase} from '../../interfaces/workItem';
 import { v4 as uuid } from 'uuid';
 import FeedbackItem from '../feedbackItem';
 import FeedbackColumn from '../feedbackColumn';
-import { TooltipOverflowMode } from 'office-ui-fabric-react';
+import Dialog from 'office-ui-fabric-react/lib/Dialog';
+import { DefaultButton, TooltipOverflowMode } from 'office-ui-fabric-react';
 Enzyme.configure({ adapter: new Adapter() });
+
+// Base render constants, these may change if the FeedbackItem component is changed.
+const childDialogCount = 5;
 
 // Mock Environment
 jest.mock('../../config/environment', () => { return mockEnv; });
@@ -57,6 +61,7 @@ const testWorkItemType = mocked({
 });
 const testColumnUuidOne = uuid();
 const testColumnUuidTwo = uuid();
+const testColumnTwoTitle = 'Test Feedback Column Two';
 const testUpvotes = Math.floor(Math.random() * 10);
 const testGroupedItemProps = mocked({
   groupedCount: 0,
@@ -77,7 +82,7 @@ const testFeedbackItem = mocked({
   title: 'Test Feedback Item',
   description: 'Test Feedback Item Description',
   columnId: testColumnUuidOne,
-  upvotes: Math.floor(Math.random() * 10),
+  upvotes: testUpvotes,
   voteCollection: { [uuid()]: testUpvotes },
   createdDate: new Date(),
   createdByProfileImage: 'testProfileImageSource',
@@ -118,7 +123,7 @@ testColumnsObj[testColumnUuidTwo] = {
   columnProperties:
   {
     id: TooltipOverflowMode,
-    title: 'Test Feedback Column Two',
+    title: testColumnTwoTitle,
     iconClass: 'far fa-smile',
     accentColor: '#008100',
   },
@@ -186,11 +191,32 @@ const testColumnProps = mocked({
 });
 
 describe('Feedback Item', () => {
-  test('Render the default Feedback Item.', () => {
-    const testProps =
-      FeedbackColumn.createFeedbackItemProps(testColumnProps, testColumnItem, true);
+  test('Render a Feedback Item with no child Feedback Items.', () => {
+    const testProps = FeedbackColumn.createFeedbackItemProps(
+      testColumnProps, testColumnItem, true);
 
     const component = shallow(<FeedbackItem {...testProps} />);
-    console.debug(component);
+
+    // Expect all child Dialogs
+    const childDialogs = component.find(Dialog);
+    expect(childDialogs).toHaveLength(childDialogCount);
+    expect(childDialogs.findWhere((child) =>
+      child.prop("hidden") === true)).toHaveLength(childDialogCount);
+
+    /* Expect Default buttons for actions for each child dialog.
+       Expect the Move Feedback Button to only exist for the second column. */
+    const defaultButtons = component.findWhere((child) => child.type() === DefaultButton);
+    expect(defaultButtons).toHaveLength(childDialogCount);
+    expect(defaultButtons.findWhere((child) =>
+      child.prop("className") === "move-feedback-item-column-button").
+      html()).toContain(testColumnTwoTitle);
+
+    // Expect the vote count to be propagated in multiple areas of the rendered component.
+    const voteButtons = component.findWhere((child) =>
+      child.prop("className") === "feedback-action-button feedback-add-vote");
+    expect(voteButtons).toHaveLength(2);
+    voteButtons.forEach((voteNode) => {
+      expect(voteNode.html()).toContain(`Current vote count is ${testUpvotes}`);
+    });
   });
 });
