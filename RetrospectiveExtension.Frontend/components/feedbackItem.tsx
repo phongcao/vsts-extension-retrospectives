@@ -4,7 +4,7 @@ import { ActionButton, PrimaryButton, DefaultButton } from 'office-ui-fabric-rea
 import { IContextualMenuItem } from 'office-ui-fabric-react/lib/ContextualMenu';
 import { Dialog, DialogType, DialogFooter } from 'office-ui-fabric-react/lib/Dialog';
 import { DocumentCard, DocumentCardActivity } from 'office-ui-fabric-react/lib/DocumentCard';
-import React from 'react';
+import * as React from 'react';
 
 import { WorkflowPhase } from '../interfaces/workItem';
 import ActionItemDisplay from './actionItemDisplay';

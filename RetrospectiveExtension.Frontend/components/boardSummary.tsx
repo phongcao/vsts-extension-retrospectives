@@ -51,19 +51,6 @@ interface IActionItemsTableProps {
   onActionItemClick: (id: number) => void;
 }
 
-interface IActionItemsTableProps2 {
-  key:any
-  icon: IIconProps;
-  title: string;
-  state: string;
-  type: string;
-  changedDate: string;
-  assignedTo: string;
-  priority: string;
-  id: number;
-  onActionItemClick: (id: number) => void;
-}
-
 class BoardSummary extends React.Component<IBoardSummaryProps, IBoardSummaryState> {
   constructor(props: IBoardSummaryProps) {
     super (props);
@@ -295,7 +282,7 @@ class BoardSummary extends React.Component<IBoardSummaryProps, IBoardSummaryStat
           {
             this.props.actionItems.length > 0 &&
             <DetailsList
-              items= {this.state.actionItemTableItems}
+              items={this.state.actionItemTableItems}
               compact={false}
               columns={this.state.actionItemTableColumns}
               selectionMode={SelectionMode.none}
