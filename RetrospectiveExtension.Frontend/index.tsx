@@ -7,7 +7,7 @@ import { isHostedAzureDevOps } from './utilities/azureDevOpsContextHelper';
 import { getProjectId } from './utilities/servicesHelper';
 import './css/main.scss';
 import { reactPlugin } from './utilities/external/telemetryClient';
-import { AppInsightsErrorBoundary } from "@microsoft/applicationinsights-react-js";
+import { AppInsightsErrorBoundary } from '@microsoft/applicationinsights-react-js';
 import FeedbackBoardContainer, { FeedbackBoardContainerProps } from './components/feedbackBoardContainer';
 
 initializeIcons();
@@ -22,8 +22,8 @@ sdkInit()
 
       ReactDOM.render(
         <AppInsightsErrorBoundary onError={() => <h1>We detected an error in the application</h1>} appInsights={reactPlugin}>
-          <FeedbackBoardContainer {...feedbackBoardContainerProps}/>
-      </AppInsightsErrorBoundary>,
+            <FeedbackBoardContainer {...feedbackBoardContainerProps}/>
+        </AppInsightsErrorBoundary>,
         document.getElementById('root') as HTMLElement,
       );
     });

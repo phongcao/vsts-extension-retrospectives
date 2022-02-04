@@ -15,7 +15,6 @@
     "noImplicitAny": true,
     "strictNullChecks": false,
     "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true
   },
   "exclude": [
     "node_modules"
