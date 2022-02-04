@@ -14,6 +14,8 @@ import {
   SelectionMode,
   IColumn,
 } from 'office-ui-fabric-react/lib/DetailsList';
+import { withAITracking } from '@microsoft/applicationinsights-react-js';
+import { reactPlugin } from '../utilities/external/telemetryClient';
 
 export interface IBoardSummaryProps {
   actionItems: WorkItem[];
@@ -37,6 +39,7 @@ interface IIconProps {
 }
 
 interface IActionItemsTableProps {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [key: string]: any;
   icon: IIconProps;
   title: string;
@@ -49,7 +52,7 @@ interface IActionItemsTableProps {
   onActionItemClick: (id: number) => void;
 }
 
-export default class BoardSummary extends React.Component<IBoardSummaryProps, IBoardSummaryState> {
+class BoardSummary extends React.Component<IBoardSummaryProps, IBoardSummaryState> {
   constructor(props: IBoardSummaryProps) {
     super (props);
 
@@ -168,7 +171,7 @@ export default class BoardSummary extends React.Component<IBoardSummaryProps, IB
         state: workItem.fields['System.State'],
         type: workItem.fields['System.WorkItemType'],
         changedDate: workItem.fields['System.ChangedDate'],
-        assignedTo: workItem.fields['System.AssignedTo'],
+        assignedTo: workItem.fields['System.AssignedTo'].displayName,
         priority: workItem.fields['Microsoft.VSTS.Common.Priority'],
         id: workItem.id,
         onActionItemClick: async (id: number) => {
@@ -299,3 +302,5 @@ export default class BoardSummary extends React.Component<IBoardSummaryProps, IB
     );
   }
 }
+
+export default withAITracking(reactPlugin, BoardSummary);

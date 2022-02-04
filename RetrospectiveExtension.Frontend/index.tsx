@@ -8,11 +8,8 @@ import { getProjectId } from './utilities/servicesHelper';
 import './css/main.scss';
 
 import FeedbackBoardContainer, { FeedbackBoardContainerProps } from './components/feedbackBoardContainer';
-// TODO (enpolat) : import { appInsightsClient, TelemetryEvents } from './utilities/appInsightsClient'
 
 initializeIcons();
-
-// TODO (enpolat) : appInsightsClient.trackEvent(TelemetryEvents.ExtensionLaunched);
 
 sdkInit()
   .then(() => {

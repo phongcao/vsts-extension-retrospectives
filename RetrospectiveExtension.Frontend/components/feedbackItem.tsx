@@ -20,6 +20,8 @@ import { IColumn, IColumnItem } from './feedbackBoard';
 import { SearchBox } from 'office-ui-fabric-react/lib/SearchBox';
 import FeedbackColumn, { FeedbackColumnProps } from './feedbackColumn';
 import { getUserIdentity } from '../utilities/userIdentityHelper';
+import { withAITracking } from '@microsoft/applicationinsights-react-js';
+import { reactPlugin } from '../utilities/external/telemetryClient';
 
 export interface IFeedbackItemProps {
   id: string;
@@ -53,6 +55,7 @@ export interface IFeedbackItemProps {
   userIdRef: string;
   timerSecs: number;
   timerState: boolean;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   timerId: any;
   onVoteCasted: () => void;
 
@@ -107,7 +110,7 @@ interface FeedbackItemEllipsisMenuItem {
   hideMainItem?: boolean;
 }
 
-export default class FeedbackItem extends React.Component<IFeedbackItemProps, IFeedbackItemState> {
+class FeedbackItem extends React.Component<IFeedbackItemProps, IFeedbackItemState> {
   private itemElement: HTMLElement;
   private itemElementRef: (element: HTMLElement) => void;
 
@@ -128,7 +131,7 @@ export default class FeedbackItem extends React.Component<IFeedbackItemProps, IF
       searchTerm: '',
       searchedFeedbackItems: [],
       showVotedAnimation: false,
-      userVotes:"0",
+      userVotes: "0",
     };
 
     this.itemElement = null;
@@ -208,7 +211,7 @@ export default class FeedbackItem extends React.Component<IFeedbackItemProps, IF
     // const droppedItemId = e.dataTransfer.getData('id');
     const droppedItemId = localStorageHelper.getIdValue();
     if (this.props.id !== droppedItemId) {
-      FeedbackItem.handleDropFeedbackItemOnFeedbackItem(this.props, droppedItemId, this.props.id);
+      FeedbackItemHelper.handleDropFeedbackItemOnFeedbackItem(this.props, droppedItemId, this.props.id);
     }
     e.stopPropagation();
   }
@@ -259,7 +262,7 @@ export default class FeedbackItem extends React.Component<IFeedbackItemProps, IF
   private setDisabledFeedbackItemDeletion = async (boardId: string, id: string) => {
     const feedbackItem = await itemDataService.getFeedbackItem(boardId, id);
     if (feedbackItem) {
-      this.setState({isDeletionDisabled: feedbackItem.upvotes > 0});
+      this.setState({ isDeletionDisabled: feedbackItem.upvotes > 0 });
     }
   }
 
@@ -362,7 +365,7 @@ export default class FeedbackItem extends React.Component<IFeedbackItemProps, IF
         text: 'Delete feedback',
         title: 'Delete feedback (disabled when there are active votes)',
       },
-      workflowPhases: [ WorkflowPhase.Collect, WorkflowPhase.Group, WorkflowPhase.Vote, WorkflowPhase.Act ],
+      workflowPhases: [WorkflowPhase.Collect, WorkflowPhase.Group, WorkflowPhase.Vote, WorkflowPhase.Act],
     },
     {
       menuItem: {
@@ -372,7 +375,7 @@ export default class FeedbackItem extends React.Component<IFeedbackItemProps, IF
         text: 'Move feedback to different column',
         title: 'Move feedback to different column',
       },
-      workflowPhases: [ WorkflowPhase.Group ],
+      workflowPhases: [WorkflowPhase.Group],
       hideMobile: true,
     },
     {
@@ -383,7 +386,7 @@ export default class FeedbackItem extends React.Component<IFeedbackItemProps, IF
         text: 'Group feedback',
         title: 'Group feedback',
       },
-      workflowPhases: [ WorkflowPhase.Group ],
+      workflowPhases: [WorkflowPhase.Group],
       hideMobile: true,
     },
     {
@@ -394,13 +397,13 @@ export default class FeedbackItem extends React.Component<IFeedbackItemProps, IF
         text: 'Remove feedback from group',
         title: 'Remove feedback from group',
       },
-      workflowPhases: [ WorkflowPhase.Group ],
+      workflowPhases: [WorkflowPhase.Group],
       hideMobile: true,
       hideMainItem: true,
     },
   ];
 
-  private onVote = async (feedbackItemId: string,  decrement: boolean=false) => {
+  private onVote = async (feedbackItemId: string, decrement: boolean = false) => {
     const updatedFeedbackItem = await itemDataService.updateVote(this.props.boardId, this.props.team.id, getUserIdentity().id, feedbackItemId, decrement);
     // TODO (enpolat) : appInsightsClient.trackEvent(TelemetryEvents.FeedbackItemUpvoted);
 
@@ -413,11 +416,9 @@ export default class FeedbackItem extends React.Component<IFeedbackItemProps, IF
     }
   }
 
-
-  private timerSwich =  async (feedbackItemId: string) =>
-  {
+  private timerSwich = async (feedbackItemId: string) => {
     let updatedFeedbackItem;
-    const boardId:string = this.props.boardId;
+    const boardId: string = this.props.boardId;
 
     // function to handle timer count update
     const incTimer = async () => {
@@ -469,9 +470,9 @@ export default class FeedbackItem extends React.Component<IFeedbackItemProps, IF
 
   private isVoted = async (
     feedbackItemId: string) => {
-      itemDataService.isVoted(this.props.boardId, getUserIdentity().id, feedbackItemId).then(result => {
-        this.setState({ userVotes: result });
-      })
+    itemDataService.isVoted(this.props.boardId, getUserIdentity().id, feedbackItemId).then(result => {
+      this.setState({ userVotes: result });
+    })
   }
 
   private removeFeedbackItem = (
@@ -527,24 +528,6 @@ export default class FeedbackItem extends React.Component<IFeedbackItemProps, IF
     }
   }
 
-  // Handle linking/grouping workitems and reload any updated items.
-  public static handleDropFeedbackItemOnFeedbackItem = async (feedbackItemProps: IFeedbackItemProps, droppedItemId: string, targetItemId: string) => {
-    const updatedFeedbackItems = await itemDataService.addFeedbackItemAsChild(feedbackItemProps.boardId, targetItemId, droppedItemId);
-
-    feedbackItemProps.refreshFeedbackItems(
-      [
-        updatedFeedbackItems.updatedParentFeedbackItem,
-        updatedFeedbackItems.updatedChildFeedbackItem,
-        ...updatedFeedbackItems.updatedGrandchildFeedbackItems,
-        updatedFeedbackItems.updatedOldParentFeedbackItem,
-      ].filter((item) => item),
-      true
-    );
-    // TODO (enpolat) : appInsightsClient.trackEvent(TelemetryEvents.FeedbackItemGrouped);
-
-    // TODO: Inform user when not all updates are successful due to race conditions.
-  }
-
   private handleFeedbackItemSearchInputChange = async (event?: React.ChangeEvent<HTMLInputElement>, searchTerm?: string) => {
     if (!searchTerm || !searchTerm.trim()) {
       this.setState({ searchTerm: searchTerm, searchedFeedbackItems: [] });
@@ -567,7 +550,7 @@ export default class FeedbackItem extends React.Component<IFeedbackItemProps, IF
 
   private clickSearchedFeedbackItem = (event: React.MouseEvent<HTMLDivElement>, feedbackItemProps: IFeedbackItemProps) => {
     event.stopPropagation();
-    FeedbackItem.handleDropFeedbackItemOnFeedbackItem(
+    FeedbackItemHelper.handleDropFeedbackItemOnFeedbackItem(
       feedbackItemProps,
       this.props.id,
       feedbackItemProps.id
@@ -581,7 +564,7 @@ export default class FeedbackItem extends React.Component<IFeedbackItemProps, IF
 
     // Enter
     if (event.keyCode === 13) {
-      FeedbackItem.handleDropFeedbackItemOnFeedbackItem(
+      FeedbackItemHelper.handleDropFeedbackItemOnFeedbackItem(
         feedbackItemProps,
         this.props.id,
         feedbackItemProps.id
@@ -622,7 +605,7 @@ export default class FeedbackItem extends React.Component<IFeedbackItemProps, IF
     const isMainItem = isNotGroupedItem || this.props.groupedItemProps.isMainItem;
     const groupItemsCount = this.props && this.props.groupedItemProps && this.props.groupedItemProps.groupedCount + 1;
     const ariaLabel = isNotGroupedItem ? 'Feedback item.' : (!isMainItem ? 'Feedback group item.' : 'Feedback group main item. Group has ' + groupItemsCount + ' items.');
-    const hideFeedbackItems = this.props.hideFeedbackItems && (this.props.createdBy ? this.props.userIdRef !== getUserIdentity().id : false);
+    const hideFeedbackItems = this.props.hideFeedbackItems && (this.props.userIdRef !== getUserIdentity().id);
     const curTimerState = this.props.timerState;
 
     return (
@@ -673,7 +656,7 @@ export default class FeedbackItem extends React.Component<IFeedbackItemProps, IF
                       'fa-chevron-right': !this.props.groupedItemProps.isGroupExpanded
                     })} />
                     {groupItemsCount} Items
-                </button>
+                  </button>
                 }
                 {showVotes && this.props.isInteractable &&
                   // Using standard button tag here due to no onAnimationEnd support in fabricUI
@@ -827,23 +810,23 @@ export default class FeedbackItem extends React.Component<IFeedbackItemProps, IF
             </div>
             <div id="actionTimer" className="card-action-timer">
               {showAddActionItem &&
-              <button
-                title="Timer"
-                aria-live="polite"
-                aria-label={'Start/stop'}
-                tabIndex={0}
-                className={classNames(
-                  'feedback-action-button',
-                )}
-                onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  this.timerSwich(this.props.id);
-                }}
-              >
-                <i className={curTimerState ? "fa fa-stop-circle": "fa fa-play-circle"} />
-                <span>  {this.props.timerSecs} (seconds)</span>
-              </button>
+                <button
+                  title="Timer"
+                  aria-live="polite"
+                  aria-label={'Start/stop'}
+                  tabIndex={0}
+                  className={classNames(
+                    'feedback-action-button',
+                  )}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    this.timerSwich(this.props.id);
+                  }}
+                >
+                  <i className={curTimerState ? "fa fa-stop-circle" : "fa fa-play-circle"} />
+                  <span>  {this.props.timerSecs} (seconds)</span>
+                </button>
               }
             </div>
           </DocumentCard>
@@ -977,3 +960,25 @@ export default class FeedbackItem extends React.Component<IFeedbackItemProps, IF
     );
   }
 }
+
+export class FeedbackItemHelper {
+  // Handle linking/grouping workitems and reload any updated items.
+  public static handleDropFeedbackItemOnFeedbackItem = async (feedbackItemProps: IFeedbackItemProps, droppedItemId: string, targetItemId: string) => {
+    const updatedFeedbackItems = await itemDataService.addFeedbackItemAsChild(feedbackItemProps.boardId, targetItemId, droppedItemId);
+
+    feedbackItemProps.refreshFeedbackItems(
+      [
+        updatedFeedbackItems.updatedParentFeedbackItem,
+        updatedFeedbackItems.updatedChildFeedbackItem,
+        ...updatedFeedbackItems.updatedGrandchildFeedbackItems,
+        updatedFeedbackItems.updatedOldParentFeedbackItem,
+      ].filter((item) => item),
+      true
+    );
+    // TODO (enpolat) : appInsightsClient.trackEvent(TelemetryEvents.FeedbackItemGrouped);
+
+    // TODO: Inform user when not all updates are successful due to race conditions.
+  }
+}
+
+export default withAITracking(reactPlugin, FeedbackItem);
