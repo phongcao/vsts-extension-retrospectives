@@ -18,9 +18,9 @@ appInsights.loadAppInsights();
 
 // The new log error function logs the data to console as usual,
 // but also sends error messages to Application insights as well.
-const updatedConsoleError=((oldErrorFunction) => {
+const updatedConsoleError = ((oldErrorFunction) => {
   return {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       error: function(message?: any, ...optionalParams: any[]){
         oldErrorFunction(message, optionalParams);
           appInsights.trackException({error:{message:message, name:"console.error"}});
