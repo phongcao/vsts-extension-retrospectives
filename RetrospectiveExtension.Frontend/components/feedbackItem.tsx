@@ -847,7 +847,7 @@ export default class FeedbackItem extends React.Component<IFeedbackItemProps, IF
               }
             </div>
           </DocumentCard>
-      </div>
+        </div>
         <Dialog
           hidden={this.state.isDeleteItemConfirmationDialogHidden}
           onDismiss={this.hideDeleteItemConfirmationDialog}
