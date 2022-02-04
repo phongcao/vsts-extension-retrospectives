@@ -1,4 +1,5 @@
 import * as React from 'react';
+import moment from 'moment';
 import Enzyme, { shallow } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import { mocked } from 'jest-mock';
@@ -11,12 +12,15 @@ import {WorkflowPhase} from '../../interfaces/workItem';
 import { v4 as uuid } from 'uuid';
 import FeedbackItem from '../feedbackItem';
 import FeedbackColumn from '../feedbackColumn';
+import EditableDocumentCardTitle from '../editableDocumentCardTitle';
 import Dialog from 'office-ui-fabric-react/lib/Dialog';
 import { DefaultButton, TooltipOverflowMode } from 'office-ui-fabric-react';
+import ActionItemDisplay from '../actionItemDisplay';
 Enzyme.configure({ adapter: new Adapter() });
 
 // Base render constants, these may change if the FeedbackItem component is changed.
 const childDialogCount = 5;
+const voteButtonCount = 2;
 
 // Mock Environment
 jest.mock('../../config/environment', () => { return mockEnv; });
@@ -171,7 +175,7 @@ const testColumnProps = mocked({
     projectName: 'Test Azure DevOps Retrospectives Extension',
     url: ''
   },
-  boardId: uuid(),
+  boardId: testBoardId,
   boardTitle: 'Test Feedback Board',
   defaultActionItemIteration: testTeamId,
   defaultActionItemAreaPath: testTeamId,
@@ -214,9 +218,40 @@ describe('Feedback Item', () => {
     // Expect the vote count to be propagated in multiple areas of the rendered component.
     const voteButtons = component.findWhere((child) =>
       child.prop("className") === "feedback-action-button feedback-add-vote");
-    expect(voteButtons).toHaveLength(2);
+    expect(voteButtons).toHaveLength(voteButtonCount);
     voteButtons.forEach((voteNode) => {
       expect(voteNode.html()).toContain(`Current vote count is ${testUpvotes}`);
     });
+    expect(component.findWhere((child) =>
+      child.prop("title") === "Vote").
+        findWhere((nestedChild) =>
+          nestedChild.prop("className") === "feedback-upvote-count").text()).
+      toEqual(` ${testUpvotes}`);
+
+    // Expect basic values of the Feedback Item to be propagated in multiple areas of the rendered component.
+    expect(component.findWhere((child) =>
+      child.prop("className") === "anonymous-created-date").text()).
+      toEqual(moment(testFeedbackItem.createdDate).format('MMM Do, YYYY h:mm a'));
+
+    expect(component.findWhere((child) =>
+      child.prop("className") === "card-id").text()).
+      toEqual(`#${testColumns[testColumnUuidOne].columnItems.findIndex(
+        (columnItem: { feedbackItem: { id: string; }; }) =>
+          columnItem.feedbackItem.id === testFeedbackItem.id)}`);
+
+    expect(component.findWhere((child) =>
+     child.type() === EditableDocumentCardTitle).prop("title")).
+     toEqual(testFeedbackItem.title);
+
+    const actionItemDisplay = component.findWhere((child) =>
+      child.type() === ActionItemDisplay);
+    expect(actionItemDisplay.prop("feedbackItemId")).toEqual(testFeedbackItem.id);
+    expect(actionItemDisplay.prop("feedbackItemTitle")).toEqual(testFeedbackItem.title);
+    expect(actionItemDisplay.prop("boardId")).toEqual(testBoardId);
+    expect(actionItemDisplay.prop("boardTitle")).toEqual(testColumnProps.boardTitle);
+
+    expect(component.findWhere((child) =>
+      child.prop("title") === "Timer").html()).
+      toContain(`${testFeedbackItem.timerSecs} (seconds)`);
   });
 });
