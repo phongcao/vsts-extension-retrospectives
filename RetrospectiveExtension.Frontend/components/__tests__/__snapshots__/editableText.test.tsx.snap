@@ -2,33 +2,43 @@
 
 exports[`Editable Text Component renders correctly. 1`] = `
 <div
-  aria-live="assertive"
-  className="editable-text-container"
+  className=""
+  onKeyDown={[Function]}
+  onMouseDown={[Function]}
+  onMouseMove={[Function]}
+  onScroll={[Function]}
+  onTouchMove={[Function]}
+  onTouchStart={[Function]}
 >
   <div
-    className="ms-TextField editable-text-input-container root-37"
+    aria-live="assertive"
+    className="editable-text-container"
   >
     <div
-      className="ms-TextField-wrapper"
+      className="ms-TextField editable-text-input-container root-37"
     >
       <div
-        className="ms-TextField-fieldGroup fieldGroup-38"
+        className="ms-TextField-wrapper"
       >
-        <input
-          aria-invalid={false}
-          aria-label="Please enter feedback title"
-          autoFocus={true}
-          className="ms-TextField-field editable-text-input field-39"
-          id="TextField0"
-          onBlur={[Function]}
-          onChange={[Function]}
-          onClick={[Function]}
-          onFocus={[Function]}
-          onInput={[Function]}
-          onKeyDown={[Function]}
-          type="text"
-          value=""
-        />
+        <div
+          className="ms-TextField-fieldGroup fieldGroup-38"
+        >
+          <input
+            aria-invalid={false}
+            aria-label="Please enter feedback title"
+            autoFocus={true}
+            className="ms-TextField-field editable-text-input field-39"
+            id="TextField0"
+            onBlur={[Function]}
+            onChange={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onInput={[Function]}
+            onKeyDown={[Function]}
+            type="text"
+            value=""
+          />
+        </div>
       </div>
     </div>
   </div>
@@ -37,17 +47,27 @@ exports[`Editable Text Component renders correctly. 1`] = `
 
 exports[`Editable Text Component updates text appropriately. 1`] = `
 <div
-  className="editable-text-container"
+  className=""
+  onKeyDown={[Function]}
+  onMouseDown={[Function]}
+  onMouseMove={[Function]}
+  onScroll={[Function]}
+  onTouchMove={[Function]}
+  onTouchStart={[Function]}
 >
-  <p
-    aria-label="Feedback title isTest Text. Click to edit."
-    aria-required={true}
-    className="editable-text"
-    onClick={[Function]}
-    onKeyDown={[Function]}
-    tabIndex={0}
+  <div
+    className="editable-text-container"
   >
-    Test Text
-  </p>
+    <p
+      aria-label="Feedback title is Test Text. Click to edit."
+      aria-required={true}
+      className="editable-text"
+      onClick={[Function]}
+      onKeyDown={[Function]}
+      tabIndex={0}
+    >
+      Test Text
+    </p>
+  </div>
 </div>
 `;

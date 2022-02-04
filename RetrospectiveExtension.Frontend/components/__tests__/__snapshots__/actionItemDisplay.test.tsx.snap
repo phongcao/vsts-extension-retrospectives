@@ -2,6 +2,16 @@
 
 exports[`Action Item Display component renders correctly when there are no action items. 1`] = `
 <div
-  className="action-items"
-/>
+  className=""
+  onKeyDown={[Function]}
+  onMouseDown={[Function]}
+  onMouseMove={[Function]}
+  onScroll={[Function]}
+  onTouchMove={[Function]}
+  onTouchStart={[Function]}
+>
+  <div
+    className="action-items"
+  />
+</div>
 `;
