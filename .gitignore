@@ -270,7 +270,6 @@ dev_certs.json
 # Jest test report
 RetrospectiveExtension.FrontEnd/reports/
 RetrospectiveExtension.FrontEnd/coverage/
-RetrospectiveExtension.FrontEnd/test-report.xml
 
 # Dotnet test results
 RetrospectiveExtension.Backend.Tests/TestResults
