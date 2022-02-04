@@ -12,7 +12,7 @@
     "publish:d": "npm run build && npm run pack:d && tfx extension publish --manifests vss-extension-dev.json --vsix ./dist/*.vsix",
     "publish:p": "npm run build && npm run pack:p && tfx extension publish --manifests vss-extension-prod.json --vsix ./dist/*.vsix",
     "start:dev": "webpack-dev-server --mode development",
-    "test": "jest --env=jsdom --silent"
+    "test": "jest --env=jsdom --silent -ci --testResultsProcessor=jest-junit"
   },
   "repository": {
     "type": "git",
