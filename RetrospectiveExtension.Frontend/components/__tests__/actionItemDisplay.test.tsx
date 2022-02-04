@@ -1,10 +1,8 @@
 import * as React from "react";
 import * as TestRenderer from "react-test-renderer";
 import ActionItemDisplay, {
-  ActionItemDisplayProps,
-  ActionItemDisplayState,
+  ActionItemDisplayProps
 } from "../actionItemDisplay";
-import { CommonServiceIds } from "azure-devops-extension-api";
 import { mockEnv } from "../__mocks__/config/environment";
 import { mockCore } from "../__mocks__/azure-devops-extension-api/Core/Core";
 import { mockCommon } from "../__mocks__/azure-devops-extension-api/Common/Common";
