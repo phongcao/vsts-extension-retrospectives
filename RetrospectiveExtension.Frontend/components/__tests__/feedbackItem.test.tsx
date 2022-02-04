@@ -4,9 +4,8 @@ import Enzyme, { shallow } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import { mocked } from 'jest-mock';
 import { mockEnv } from '../__mocks__/config/environment';
-import { mockCore } from '../__mocks__/azure-devops-extension-api/Core';
-import { mockWorkItemTrackingClient } from '../__mocks__/azure-devops-extension-api/WorkItemTracking/WorkItemTrackingClient';
-import { mockCommon } from '../__mocks__/azure-devops-extension-api/Common';
+import { mockCore } from '../__mocks__/azure-devops-extension-api/Core/Core';
+import { mockCommon } from '../__mocks__/azure-devops-extension-api/Common/Common';
 import { MockSDK } from '../__mocks__/azure-devops-extension-sdk/sdk';
 import {WorkflowPhase} from '../../interfaces/workItem';
 import { v4 as uuid } from 'uuid';
@@ -36,6 +35,10 @@ jest.mock('azure-devops-extension-api/WebApi', () => {});
 jest.mock('azure-devops-extension-api/WorkItemTracking', () => {});
 jest.mock('azure-devops-extension-api/WorkItemTracking/WorkItemTracking', () => {});
 jest.mock('azure-devops-extension-api/WorkItemTracking/WorkItemTrackingClient', () => {
+  const mockWorkItemTrackingClient = {
+    WorkItemTrackingRestClient: {},
+  };
+
   return mockWorkItemTrackingClient;
 });
 
@@ -201,7 +204,7 @@ describe('Feedback Item', () => {
 
     const component = shallow(<FeedbackItem {...testProps} />);
 
-    // Expect all child Dialogs
+    // Expect all child Dialogs to be hidden.
     const childDialogs = component.find(Dialog);
     expect(childDialogs).toHaveLength(childDialogCount);
     expect(childDialogs.findWhere((child) =>
