@@ -30,14 +30,9 @@ jobs:
               - 'RetrospectiveExtension.Frontend/**'
 
       - if: steps.changes.outputs.src == 'true'
-        run: |
-          cp config/environment.tsx.template config/environment.tsx
-          npm install
-          npm run lint
-          npm run build:p
-          npm run test
-          npm run pack:p
-        name: Build and Test
+        run: scripts/ci.sh
+        name: ci script
+        shell: bash
         working-directory: 'RetrospectiveExtension.Frontend'
 
       - if: steps.changes.outputs.src == 'true'
