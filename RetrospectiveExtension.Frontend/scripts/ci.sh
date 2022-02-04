@@ -23,4 +23,6 @@
 
     find . -type f -name "*.md" -not -path "./node_modules/*" -print0 | xargs -0 -r mdspell --report --en-us --ignore-acronyms
     echo "markdown-spellcheck (mdspell) passed"
+
+    detect-secrets-hook --baseline ../.secrets.baseline $(git diff --staged --name-only)
 )
