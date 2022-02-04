@@ -202,7 +202,8 @@ describe('Feedback Item', () => {
     const testProps = FeedbackColumn.createFeedbackItemProps(
       testColumnProps, testColumnItem, true);
 
-    const component = shallow(<FeedbackItem {...testProps} />);
+    const wrapper = shallow(<FeedbackItem {...testProps} />);
+    const component = wrapper.children().dive();
 
     // Expect all child Dialogs to be hidden.
     const childDialogs = component.find(Dialog);
