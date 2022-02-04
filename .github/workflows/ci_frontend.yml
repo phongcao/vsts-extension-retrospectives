@@ -30,8 +30,10 @@ jobs:
               - 'RetrospectiveExtension.Frontend/**'
 
       - if: steps.changes.outputs.src == 'true'
-        run: scripts/ci.sh
-        name: ci script
+        run: |
+          cp config/environment.tsx.template config/environment.tsx
+          scripts/ci.sh
+        name: CI script
         shell: bash
         working-directory: 'RetrospectiveExtension.Frontend'
 
