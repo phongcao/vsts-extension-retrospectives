@@ -1,33 +1,30 @@
-import * as SignalR from "@aspnet/signalr";
-import moment from "moment";
-import { getAppToken } from "azure-devops-extension-sdk";
+import * as SignalR from '@aspnet/signalr';
+import  moment from 'moment';
+import { getAppToken } from 'azure-devops-extension-sdk';
 
-import Environment from "../config/environment";
-import { decodeJwt } from "../utilities/tokenHelper";
-import { isHostedAzureDevOps } from "../utilities/azureDevOpsContextHelper";
+import Environment from '../config/environment';
+import { decodeJwt } from '../utilities/tokenHelper';
+import { isHostedAzureDevOps } from '../utilities/azureDevOpsContextHelper';
 
 const enum ReflectBackendSignals {
-  JoinReflectBoardGroup = "joinReflectBoardGroup",
-  LeaveReflectBoardGroup = "leaveReflectBoardGroup",
-  ReceiveNewItem = "receiveNewItem",
-  ReceiveUpdatedItem = "receiveUpdatedItem",
-  ReceiveUpdatedBoard = "receiveUpdatedBoard",
-  ReceiveDeletedItem = "receiveDeletedItem",
-  ReceiveDeletedBoard = "receiveDeletedBoard",
-  ReceiveNewBoard = "receiveNewBoard",
-  BroadcastNewItem = "broadcastNewItem",
-  BroadcastUpdatedItem = "broadcastUpdatedItem",
-  BroadcastUpdatedBoard = "broadcastUpdatedBoard",
-  BroadcastDeletedItem = "broadcastDeletedItem",
-  BroadcastDeletedBoard = "broadcastDeletedBoard",
-  BroadcastNewBoard = "broadcastNewBoard",
+  JoinReflectBoardGroup = 'joinReflectBoardGroup',
+  LeaveReflectBoardGroup = 'leaveReflectBoardGroup',
+  ReceiveNewItem = 'receiveNewItem',
+  ReceiveUpdatedItem = 'receiveUpdatedItem',
+  ReceiveUpdatedBoard = 'receiveUpdatedBoard',
+  ReceiveDeletedItem = 'receiveDeletedItem',
+  ReceiveDeletedBoard = 'receiveDeletedBoard',
+  ReceiveNewBoard = 'receiveNewBoard',
+  BroadcastNewItem = 'broadcastNewItem',
+  BroadcastUpdatedItem = 'broadcastUpdatedItem',
+  BroadcastUpdatedBoard = 'broadcastUpdatedBoard',
+  BroadcastDeletedItem = 'broadcastDeletedItem',
+  BroadcastDeletedBoard = 'broadcastDeletedBoard',
+  BroadcastNewBoard = 'broadcastNewBoard',
 }
 
 class ReflectBackendService {
-  private static signalRHubUrl = new URL(
-    "/collaborationUpdates",
-    Environment.CollaborationStateServiceUrl
-  );
+  private static signalRHubUrl = new URL('/collaborationUpdates', Environment.CollaborationStateServiceUrl);
 
   private _currentBoardId: string;
   private _signalRConnection: SignalR.HubConnection;
@@ -42,11 +39,11 @@ class ReflectBackendService {
 
     if (!this._signalRConnection) {
       this._signalRConnection = new SignalR.HubConnectionBuilder()
-        .withUrl(ReflectBackendService.signalRHubUrl.href, {
-          accessTokenFactory: this.retrieveValidToken,
-        })
-        .configureLogging(SignalR.LogLevel.Error)
-        .build();
+      .withUrl(ReflectBackendService.signalRHubUrl.href, {
+        accessTokenFactory: this.retrieveValidToken,
+      })
+      .configureLogging(SignalR.LogLevel.Error)
+      .build();
       this._connectionAvailable = false;
 
       this._signalRConnection.onclose((error) => {
@@ -67,37 +64,34 @@ class ReflectBackendService {
     try {
       await this._signalRConnection.start();
       this._connectionAvailable = true;
-    } catch (error) {
-      console.error("Error when trying to start signalR connection: ", error);
-      console.debug(
-        "Unable to establish signalR connection, live syncing will be affected."
-      );
+    }
+    catch (error) {
+      console.error('Error when trying to start signalR connection: ', error);
+      console.debug('Unable to establish signalR connection, live syncing will be affected.');
       this._connectionAvailable = false;
     }
 
     return this._connectionAvailable;
-  };
+  }
 
   private retrieveValidToken = (that = this) => {
     if (that._tokenExpiry && moment().isBefore(that._tokenExpiry)) {
       return that._appToken;
     }
 
-    return Promise.resolve(
-      getAppToken().then((appToken) => {
-        that._appToken = appToken;
+    return Promise.resolve(getAppToken().then((appToken) => {
+      that._appToken = appToken;
 
-        const tokenData = decodeJwt(that._appToken);
-        if (tokenData) {
-          that._tokenExpiry = moment.unix(tokenData.exp).toDate();
-          return that._appToken;
-        }
+      const tokenData = decodeJwt(that._appToken);
+      if (tokenData) {
+        that._tokenExpiry = moment.unix(tokenData.exp).toDate();
+        return that._appToken;
+      }
 
-        // TODO (phongcao) : appInsightsClient.trackException(new Error(e.message));
-        throw new Error("VSTS returned a malformed appToken value!");
-      })
-    );
-  };
+      // TODO (phongcao) : appInsightsClient.trackException(new Error(e.message));
+      throw new Error('VSTS returned a malformed appToken value!');
+    }));
+  }
 
   private joinBoardGroup = (boardId: string) => {
     if (!this._connectionAvailable) {
@@ -108,7 +102,7 @@ class ReflectBackendService {
       ReflectBackendSignals.JoinReflectBoardGroup,
       boardId
     );
-  };
+  }
 
   private leaveBoardGroup = (boardId: string) => {
     if (!this._connectionAvailable) {
@@ -119,18 +113,18 @@ class ReflectBackendService {
       ReflectBackendSignals.LeaveReflectBoardGroup,
       boardId
     );
-  };
+  }
 
-  private removeSignalCallback = (
-    signal: string,
-    callback: (columnId: string, feedbackItemId: string) => void
-  ) => {
+  private removeSignalCallback = (signal: string, callback: (columnId: string, feedbackItemId: string) => void) => {
     if (!this._connectionAvailable) {
       return;
     }
 
-    this._signalRConnection.off(signal, callback);
-  };
+    this._signalRConnection.off(
+      signal,
+      callback
+    );
+  }
 
   /**
    * Removes the connection from the current board group
@@ -148,7 +142,7 @@ class ReflectBackendService {
       this.joinBoardGroup(newBoardId);
     }
     this._currentBoardId = newBoardId;
-  };
+  }
 
   /**
    * Sends a BroadcastNewItem signal for other instances.
@@ -166,7 +160,7 @@ class ReflectBackendService {
       columnId,
       feedbackItemId
     );
-  };
+  }
 
   /**
    * Sends a BroadcastNewBoard signal for other instances.
@@ -183,7 +177,7 @@ class ReflectBackendService {
       teamId,
       boardId
     );
-  };
+  }
 
   /**
    * Sends a BroadcastUpdatedBoard signal for other instances.
@@ -200,7 +194,7 @@ class ReflectBackendService {
       teamId,
       boardId
     );
-  };
+  }
 
   /**
    * Sends a BroadcastDeletedBoard signal for other instances.
@@ -217,7 +211,7 @@ class ReflectBackendService {
       teamId,
       boardId
     );
-  };
+  }
 
   /**
    * Sends a BroadcastUpdatedItem signal for other instances.
@@ -235,13 +229,13 @@ class ReflectBackendService {
       columnId,
       feedbackItemId
     );
-  };
+  }
 
   /**
-   * Sends a BroadcaseDeleteItem signal for other instances.
-   * @param columnId The column id that the feedback item is a part of.
-   * @param feedbackItemId The id of the feedback item to update.
-   */
+ * Sends a BroadcaseDeleteItem signal for other instances.
+ * @param columnId The column id that the feedback item is a part of.
+ * @param feedbackItemId The id of the feedback item to update.
+ */
   public broadcastDeletedItem = (columnId: string, feedbackItemId: string) => {
     if (!this._connectionAvailable) {
       return;
@@ -253,7 +247,7 @@ class ReflectBackendService {
       columnId,
       feedbackItemId
     );
-  };
+  }
 
   /**
    * Registers a callback to execute when the connection to the signalR hub is closed,
@@ -266,21 +260,22 @@ class ReflectBackendService {
     }
 
     this._signalRConnection.onclose(callback);
-  };
+  }
 
   /**
    * Registers a callback to execute when a ReceiveNewItem signal is received.
    * @param callback The callback function: (columnId: string, feedbackItemId: string) => void
    */
-  public onReceiveNewItem = (
-    callback: (columnId: string, feedbackItemId: string) => void
-  ) => {
+  public onReceiveNewItem = (callback: (columnId: string, feedbackItemId: string) => void) => {
     if (!this._connectionAvailable) {
       return;
     }
 
-    this._signalRConnection.on(ReflectBackendSignals.ReceiveNewItem, callback);
-  };
+    this._signalRConnection.on(
+      ReflectBackendSignals.ReceiveNewItem,
+      callback
+    );
+  }
 
   /**
    * Removes the specified callback for the ReceiveNewItem signal.
@@ -288,25 +283,24 @@ class ReflectBackendService {
    * Passing a different instance (even if the function body is the same) will not remove the callback.
    * @param callback The callback function: (columnId: string, feedbackItemId: string) => void
    */
-  public removeOnReceiveNewItem = (
-    callback: (columnId: string, feedbackItemId: string) => void
-  ) => {
+  public removeOnReceiveNewItem = (callback: (columnId: string, feedbackItemId: string) => void) => {
     this.removeSignalCallback(ReflectBackendSignals.ReceiveNewItem, callback);
-  };
+  }
 
   /**
    * Registers a callback to execute when a ReceiveNewBoard signal is received.
    * @param callback The callback function: (teamId: string, boardId: string) => void
    */
-  public onReceiveNewBoard = (
-    callback: (teamId: string, boardId: string) => void
-  ) => {
+  public onReceiveNewBoard = (callback: (teamId: string, boardId: string) => void) => {
     if (!this._connectionAvailable) {
       return;
     }
 
-    this._signalRConnection.on(ReflectBackendSignals.ReceiveNewBoard, callback);
-  };
+    this._signalRConnection.on(
+      ReflectBackendSignals.ReceiveNewBoard,
+      callback
+    );
+  }
 
   /**
    * Removes the specified callback for the ReceiveNewBoard signal.
@@ -314,19 +308,15 @@ class ReflectBackendService {
    * Passing a different instance (even if the function body is the same) will not remove the callback.
    * @param callback The callback function: (columnId: string, feedbackItemId: string) => void
    */
-  public removeOnReceiveNewBoard = (
-    callback: (columnId: string, feedbackItemId: string) => void
-  ) => {
+  public removeOnReceiveNewBoard = (callback: (columnId: string, feedbackItemId: string) => void) => {
     this.removeSignalCallback(ReflectBackendSignals.ReceiveNewBoard, callback);
-  };
+  }
 
   /**
    * Registers a callback to execute when a ReceiveUpdatedItem signal is received.
    * @param callback The callback function: (columnId: string, feedbackItemId: string) => void
    */
-  public onReceiveUpdatedItem = (
-    callback: (columnId: string, feedbackItemId: string) => void
-  ) => {
+  public onReceiveUpdatedItem = (callback: (columnId: string, feedbackItemId: string) => void) => {
     if (!this._connectionAvailable) {
       return;
     }
@@ -335,7 +325,7 @@ class ReflectBackendService {
       ReflectBackendSignals.ReceiveUpdatedItem,
       callback
     );
-  };
+  }
 
   /**
    * Removes the specified callback for the ReceiveUpdatedItem signal.
@@ -343,22 +333,15 @@ class ReflectBackendService {
    * Passing a different instance (even if the function body is the same) will not remove the callback.
    * @param callback The callback function: (columnId: string, feedbackItemId: string) => void
    */
-  public removeOnReceiveUpdatedItem = (
-    callback: (columnId: string, feedbackItemId: string) => void
-  ) => {
-    this.removeSignalCallback(
-      ReflectBackendSignals.ReceiveUpdatedItem,
-      callback
-    );
-  };
+  public removeOnReceiveUpdatedItem = (callback: (columnId: string, feedbackItemId: string) => void) => {
+    this.removeSignalCallback(ReflectBackendSignals.ReceiveUpdatedItem, callback);
+  }
 
   /**
    * Registers a callback to execute when a ReceiveDeletedItem signal is received.
    * @param callback The callback function: (columnId: string, feedbackItemId: string) => void
    */
-  public onReceiveDeletedItem = (
-    callback: (columnId: string, feedbackItemId: string) => void
-  ) => {
+  public onReceiveDeletedItem = (callback: (columnId: string, feedbackItemId: string) => void) => {
     if (!this._connectionAvailable) {
       return;
     }
@@ -367,7 +350,7 @@ class ReflectBackendService {
       ReflectBackendSignals.ReceiveDeletedItem,
       callback
     );
-  };
+  }
 
   /**
    * Removes the specified callback for the ReceiveDeletedItem signal.
@@ -375,22 +358,15 @@ class ReflectBackendService {
    * Passing a different instance (even if the function body is the same) will not remove the callback.
    * @param callback The callback function: (columnId: string, feedbackItemId: string) => void
    */
-  public removeOnReceiveDeletedItem = (
-    callback: (columnId: string, feedbackItemId: string) => void
-  ) => {
-    this.removeSignalCallback(
-      ReflectBackendSignals.ReceiveDeletedItem,
-      callback
-    );
-  };
+  public removeOnReceiveDeletedItem = (callback: (columnId: string, feedbackItemId: string) => void) => {
+    this.removeSignalCallback(ReflectBackendSignals.ReceiveDeletedItem, callback);
+  }
 
   /**
    * Registers a callback to execute when a ReceiveDeletedBoard signal is received.
    * @param callback The callback function: (teamId: string, boardId: string) => void
    */
-  public onReceiveDeletedBoard = (
-    callback: (teamId: string, boardId: string) => void
-  ) => {
+  public onReceiveDeletedBoard = (callback: (teamId: string, boardId: string) => void) => {
     if (!this._connectionAvailable) {
       return;
     }
@@ -399,7 +375,7 @@ class ReflectBackendService {
       ReflectBackendSignals.ReceiveDeletedBoard,
       callback
     );
-  };
+  }
 
   /**
    * Removes the specified callback for the ReceiveDeletedBoard signal.
@@ -407,22 +383,15 @@ class ReflectBackendService {
    * Passing a different instance (even if the function body is the same) will not remove the callback.
    * @param callback The callback function: (columnId: string, feedbackItemId: string) => void
    */
-  public removeOnReceiveDeletedBoard = (
-    callback: (columnId: string, feedbackItemId: string) => void
-  ) => {
-    this.removeSignalCallback(
-      ReflectBackendSignals.ReceiveDeletedBoard,
-      callback
-    );
-  };
+  public removeOnReceiveDeletedBoard = (callback: (columnId: string, feedbackItemId: string) => void) => {
+    this.removeSignalCallback(ReflectBackendSignals.ReceiveDeletedBoard, callback);
+  }
 
   /**
    * Registers a callback to execute when a ReceiveUpdatedBoard signal is received.
    * @param callback The callback function: (teamId: string, boardId: string) => void
    */
-  public onReceiveUpdatedBoard = (
-    callback: (teamId: string, boardId: string) => void
-  ) => {
+  public onReceiveUpdatedBoard = (callback: (teamId: string, boardId: string) => void) => {
     if (!this._connectionAvailable) {
       return;
     }
@@ -431,7 +400,7 @@ class ReflectBackendService {
       ReflectBackendSignals.ReceiveUpdatedBoard,
       callback
     );
-  };
+  }
 
   /**
    * Removes the specified callback for the ReceiveUpdatedBoard signal.
@@ -439,14 +408,9 @@ class ReflectBackendService {
    * Passing a different instance (even if the function body is the same) will not remove the callback.
    * @param callback The callback function: (columnId: string, feedbackItemId: string) => void
    */
-  public removeOnReceiveUpdatedBoard = (
-    callback: (columnId: string, feedbackItemId: string) => void
-  ) => {
-    this.removeSignalCallback(
-      ReflectBackendSignals.ReceiveUpdatedBoard,
-      callback
-    );
-  };
+  public removeOnReceiveUpdatedBoard = (callback: (columnId: string, feedbackItemId: string) => void) => {
+    this.removeSignalCallback(ReflectBackendSignals.ReceiveUpdatedBoard, callback);
+  }
 }
 
 export const reflectBackendService = new ReflectBackendService();
