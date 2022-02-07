@@ -78,6 +78,17 @@
         --query instrumentationKey \
         --output tsv)
 
+      # RESOURCEGROUPVAR -> ${resource_group}
+    # SUBSCRIPTIONIDVAR   -> ${subscription_id}
+    # AIRESOURCENAME      -> "ai-${resource_name_suffix}"  VAR_
+    #TODO Change to VAR_Otherstuff
+    sed -i "s/RESOURCEGROUPVAR/${resource_group}/"     ./deploy/dashboard-template.json
+    sed -i "s/SUBSCRIPTIONIDVAR/${subscription_id}/"   ./deploy/dashboard-template.json
+    sed -i "s/AIRESOURCENAME/ai-${resource_name_suffix}/"     ./deploy/dashboard-template.json
+
+    az portal dashboard create --location "eastus" --name "${resource_name_suffix}-dashboard" \
+        --resource-group ${resource_group} --input-path ./deploy/dashboard-template.json 
+    
     # https://docs.azure.cn/en-us/cli/webapp?view=azure-cli-latest#az_webapp_create
     # Create WebApp
     az webapp create \
@@ -128,4 +139,7 @@
     backend_health_check="https://${backend_service_url}/health"
 
     echo "Backend service successfully deployed at ${backend_service_url}. To check the health of the deployment visit ${backend_health_check}"
+    cp ./deploy/dashboard-template.json.original ./deploy/dashboard-template.json
+  
+
 )
