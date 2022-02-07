@@ -4,6 +4,7 @@ import { mockEnv } from '../__mocks__/config/environment';
 import { mockCore } from '../__mocks__/azure-devops-extension-api/Core/Core';
 import { mockCommon } from '../__mocks__/azure-devops-extension-api/Common/Common';
 import { MockSDK } from '../__mocks__/azure-devops-extension-sdk/sdk';
+
 Enzyme.configure({ adapter: new Adapter() });
 
 jest.mock('../../config/environment', () => { return mockEnv; });

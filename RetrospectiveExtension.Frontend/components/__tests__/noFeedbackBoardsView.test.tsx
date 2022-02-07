@@ -1,5 +1,6 @@
 import * as React from 'react';
-import * as TestRenderer from 'react-test-renderer';
+import { shallow } from 'enzyme';
+import toJson from "enzyme-to-json";
 import NoFeedbackBoardsView, { NoFeedbackBoardsViewProps } from '../noFeedbackBoardsView';
 
 let mockOnCreateBoardClick = jest.fn(() => { });
@@ -10,9 +11,8 @@ const defaultTestProps: NoFeedbackBoardsViewProps = {
 
 describe('No Feedback Boards View component', () => {
   it ('renders correctly.', () => {
-    const tree = TestRenderer
-      .create(<NoFeedbackBoardsView {...defaultTestProps} />)
-      .toJSON();
-    expect(tree).toMatchSnapshot();
+    const wrapper = shallow(<NoFeedbackBoardsView {...defaultTestProps} />);
+    const component = wrapper.children().dive();
+    expect(toJson(component)).toMatchSnapshot();
   });
 });

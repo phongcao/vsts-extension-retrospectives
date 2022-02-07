@@ -2,54 +2,23 @@
 
 exports[`No Feedback Boards View component renders correctly. 1`] = `
 <div
-  className=""
-  onKeyDown={[Function]}
-  onMouseDown={[Function]}
-  onMouseMove={[Function]}
-  onScroll={[Function]}
-  onTouchMove={[Function]}
-  onTouchStart={[Function]}
+  className="no-boards-container"
 >
   <div
-    className="no-boards-container"
+    className="no-boards-text"
   >
-    <div
-      className="no-boards-text"
-    >
-      Get started with your first Retrospective
-    </div>
-    <div
-      className="no-boards-sub-text"
-    >
-      Create a new board to start collecting feedback and create new work items.
-    </div>
-    <button
-      className="ms-Button ms-Button--primary create-new-board-button root-40"
-      data-is-focusable={true}
-      onClick={[Function]}
-      onKeyDown={[Function]}
-      onKeyPress={[Function]}
-      onKeyUp={[Function]}
-      onMouseDown={[Function]}
-      onMouseUp={[Function]}
-      type="button"
-    >
-      <span
-        className="ms-Button-flexContainer flexContainer-41"
-        data-automationid="splitbuttonprimary"
-      >
-        <span
-          className="ms-Button-textContainer textContainer-42"
-        >
-          <span
-            className="ms-Button-label label-44"
-            id="id__0"
-          >
-            Create Board
-          </span>
-        </span>
-      </span>
-    </button>
+    Get started with your first Retrospective
   </div>
+  <div
+    className="no-boards-sub-text"
+  >
+    Create a new board to start collecting feedback and create new work items.
+  </div>
+  <CustomizedDefaultButton
+    className="create-new-board-button"
+    onClick={[MockFunction]}
+    primary={true}
+    text="Create Board"
+  />
 </div>
 `;

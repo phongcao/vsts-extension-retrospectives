@@ -1,5 +1,6 @@
 import * as React from "react";
 import { shallow } from 'enzyme';
+import toJson from "enzyme-to-json";
 import ActionItemDisplay, {
   ActionItemDisplayProps,
 } from "../actionItemDisplay";
@@ -25,7 +26,7 @@ describe("Action Item Display component", () => {
   it("renders correctly when there are no action items.", () => {
     const wrapper = shallow(<ActionItemDisplay {...defaultTestProps} />);
     const component = wrapper.children().dive();
-    // expect(component).toMatchSnapshot();
+    expect(toJson(component)).toMatchSnapshot();
   });
 
   it("renders correctly when action items exist", () => {});

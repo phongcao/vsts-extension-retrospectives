@@ -77,14 +77,14 @@ Clone the repository to your local machine from the Azure DevOps endpoint.
 
 ### Testing Component Rendering and Functionality
 
-Components functionality is tested using [React-Test-Renderer](https://reactjs.org/docs/test-renderer.html), the [Jest testing framework](https://jestjs.io/), and the
-[Enzyme testing utility](https://enzymejs.github.io/enzyme/), all of which are installed via
-package.json.
+Components functionality is tested using the [Jest testing framework](https://jestjs.io/), and the
+[Enzyme testing utility](https://enzymejs.github.io/enzyme/) and
+[Enzyme to JSON](https://github.com/adriantoine/enzyme-to-json), all of which are installed via package.json.
 
 #### Running Frontend Tests
 
 To execute tests, run the command the test command, which is `npm run test`, after installing the package.json file.
-This should runmall of the tests that exist in files suffixed with `.test.tsx` inside of the [tests folder](RetrospectiveExtension.Frontend/components/__tests__). These
+This should run all of the tests that exist in files suffixed with `.test.tsx` inside of the [tests folder](RetrospectiveExtension.Frontend/components/__tests__). These
 tests currently ensure proper rendering (via snapshot tests) and expected output for basic use cases, and are grouped
 by component, inside of files that match the name of the component being tested. Please update these tests whenever
 necessary (including bug fixes) and include these tests in your pull requests.
@@ -94,7 +94,7 @@ To run tests in "watch" mode, as you make changes to components, run `npm run te
 #### Mocks
 
 In order to simulate API calls and some external module functionality, jest mocks were created and utilized. Mocks that
-are expected to used by more than one test file are located in the [mock folder](RetrospectiveExtension.Frontend/components/__mocks__), and organized by module.
+are expected to used by more than one test file are located in the [mock folder](RetrospectiveExtension.Frontend/components/__mocks__), and organized by module. If mocks are shared by the majority of tests, such as API mocks, add the creation of the mock to the [test setup file](RetrospectiveExtension.Frontend/components/__tests__/setupTests.tsx).
 
 #### Snapshots
 

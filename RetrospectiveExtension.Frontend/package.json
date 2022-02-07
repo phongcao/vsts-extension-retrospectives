@@ -39,7 +39,6 @@
     "react-dom": "17.0.2",
     "react-slick": "0.28.1",
     "react-table-6": "6.11.0",
-    "react-test-renderer": "^17.0.2",
     "react-toastify": "8.1.0",
     "slick-carousel": "1.8.1",
     "telemetryclient-team-services-extension": "1.0.10",
@@ -57,7 +56,6 @@
     "@types/react": "17.0.38",
     "@types/react-dom": "17.0.11",
     "@types/react-slick": "0.23.8",
-    "@types/react-test-renderer": "^17.0.1",
     "@types/uuid": "8.3.4",
     "@typescript-eslint/eslint-plugin": "5.9.1",
     "@typescript-eslint/parser": "5.9.1",
@@ -88,7 +86,7 @@
     "webpack-dev-server": "^4.7.2"
   },
   "jest": {
-    "testPathIgnorePatterns" : [
+    "testPathIgnorePatterns": [
       "./components/__tests__/setupTests.tsx"
     ],
     "transform": {
@@ -104,6 +102,9 @@
       "office-ui-fabric-react/lib/(.*)$": "office-ui-fabric-react/lib-commonjs/$1"
     },
     "preset": "ts-jest/presets/js-with-babel",
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+    ],
     "testResultsProcessor": "./node_modules/jest-junit-reporter",
     "collectCoverage": true,
     "coverageReporters": [
