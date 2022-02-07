@@ -1,10 +1,7 @@
 import * as React from 'react';
-import Enzyme, { shallow } from 'enzyme';
+import { shallow } from 'enzyme';
 // import toJson from "enzyme-to-json";
-import Adapter from 'enzyme-adapter-react-16';
 import EditableText, { EditableTextProps } from '../editableText';
-
-Enzyme.configure({ adapter: new Adapter() });
 
 let mockOnSave = jest.fn(() => { });
 

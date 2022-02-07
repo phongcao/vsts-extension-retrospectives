@@ -1,12 +1,7 @@
 import * as React from 'react';
 import moment from 'moment';
-import Enzyme, { shallow } from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16';
+import { shallow } from 'enzyme';
 import { mocked } from 'jest-mock';
-import { mockEnv } from '../__mocks__/config/environment';
-import { mockCore } from '../__mocks__/azure-devops-extension-api/Core/Core';
-import { mockCommon } from '../__mocks__/azure-devops-extension-api/Common/Common';
-import { MockSDK } from '../__mocks__/azure-devops-extension-sdk/sdk';
 import { WorkflowPhase } from '../../interfaces/workItem';
 import { v4 as uuid } from 'uuid';
 import FeedbackItem from '../feedbackItem';
@@ -15,7 +10,6 @@ import EditableDocumentCardTitle from '../editableDocumentCardTitle';
 import Dialog from 'office-ui-fabric-react/lib/Dialog';
 import { DefaultButton, TooltipOverflowMode } from 'office-ui-fabric-react';
 import ActionItemDisplay from '../actionItemDisplay';
-Enzyme.configure({ adapter: new Adapter() });
 
 // Base render constants, these may change if the FeedbackItem component is changed.
 const childDialogCount = 5;
