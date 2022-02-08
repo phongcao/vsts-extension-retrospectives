@@ -16,8 +16,6 @@ const childDialogCount = 5;
 const voteButtonCount = 2;
 
 let testUpvotes = 0;
-let testGroupedCount = 0;
-let testGroupParentId = '';
 
 const testTeamId = uuid();
 const testBoardId = uuid();
@@ -43,10 +41,10 @@ const testColumnUuidOne = uuid();
 const testColumnUuidTwo = uuid();
 const testColumnTwoTitle = 'Test Feedback Column Two';
 const testGroupedItemProps = mocked({
-  groupedCount: testGroupedCount,
+  groupedCount: 0,
   isGroupExpanded: false,
   isMainItem: true,
-  parentItemId: testGroupParentId,
+  parentItemId: '',
   setIsGroupBeingDragged: jest.fn((isBeingDragged) => { }),
   toggleGroupExpand: jest.fn(() => {}),
   updateGroupCardStackHeight: jest.fn(() => {}),
@@ -80,15 +78,6 @@ const testColumnItem = mocked({
   hideFeedbackItems: false,
 });
 
-const testChildGroupedItemProps = mocked({
-  groupedCount: testGroupedCount,
-  isGroupExpanded: false,
-  isMainItem: false,
-  parentItemId: testGroupParentId,
-  setIsGroupBeingDragged: jest.fn((isBeingDragged) => { }),
-  toggleGroupExpand: jest.fn(() => {}),
-  updateGroupCardStackHeight: jest.fn(() => {}),
-});
 const testChildFeedbackItem = mocked({
   id: uuid(),
   element: mocked({
@@ -103,7 +92,7 @@ const testChildFeedbackItem = mocked({
   voteCollection: {},
   createdDate: new Date(),
   createdByProfileImage: 'testProfileImageSource',
-  groupedItemProps: testChildGroupedItemProps,
+  groupedItemProps: testGroupedItemProps,
   userIdRef: uuid(),
   timerSecs: Math.floor(Math.random() * 60),
   timerstate: false,
@@ -124,6 +113,10 @@ testColumnsObj[testColumnUuidOne] = {
     [
       {
         feedbackItem: testFeedbackItem,
+        actionItems: []
+      },
+      {
+        feedbackItem: testChildFeedbackItem,
         actionItems: []
       },
     ]
@@ -206,18 +199,54 @@ describe('Feedback Item', () => {
     const wrapper = shallow(<FeedbackItem {...testProps} />);
     const component = wrapper.children().dive();
     verifyBasicLayout(component, testUpvotes);
+
+    /* Expect no Expand Feedback Group button */
+    const expandButton = component.findWhere(
+      (child) => child.prop("className") === "feedback-expand-group");
+    expect(expandButton).toHaveLength(0);
   });
 
-  it('can be rendered with child Feedback Items.', () => {
-    const testGroupParentId = testFeedbackItem.id;
+  it('can be rendered with collapsed child Feedback Items.', () => {
+    testGroupedItemProps.groupedCount = 1;
+    testGroupedItemProps.isMainItem = true;
+    testFeedbackItem.groupedItemProps = testGroupedItemProps;
+
     const testProps = FeedbackColumn.createFeedbackItemProps(
       testColumnProps, testColumnItem, true);
 
-    const wrapper = shallow(<FeedbackItem {...testProps} />);
+    const wrapper = shallow(
+      <FeedbackItem {...testProps} groupedItemProps={testGroupedItemProps} />);
     const component = wrapper.children().dive();
     verifyBasicLayout(component, testUpvotes);
 
-    console.log(component.debug());
+    /* Expect Expand Feedback Group button */
+    const expandButton = component.findWhere(
+      (child) => child.prop("className") === "feedback-expand-group");
+    expect(expandButton).toBeDefined();
+    expect(expandButton.prop("aria-label")).toBe(
+      "Expand Feedback Group button. Group has 2 items.");
+  });
+
+  it('can be rendered with expanded child Feedback Items.', () => {
+    testGroupedItemProps.groupedCount = 1;
+    testGroupedItemProps.isMainItem = true;
+    testGroupedItemProps.isGroupExpanded = true;
+    testFeedbackItem.groupedItemProps = testGroupedItemProps;
+
+    const testProps = FeedbackColumn.createFeedbackItemProps(
+      testColumnProps, testColumnItem, true);
+
+    const wrapper = shallow(
+      <FeedbackItem {...testProps} groupedItemProps={testGroupedItemProps} />);
+    const component = wrapper.children().dive();
+    verifyBasicLayout(component, testUpvotes);
+
+    /* Expect Expand Feedback Group button */
+    const expandButton = component.findWhere(
+      (child) => child.prop("className") === "feedback-expand-group");
+    expect(expandButton).toBeDefined();
+    expect(expandButton.prop("aria-label")).toBe(
+      "Collapse Feedback Group button. Group has 2 items.");
   });
 
   it('can have zero upvotes.', () => {
@@ -237,10 +266,11 @@ describe('Feedback Item', () => {
     testUpvotes = Math.floor(Math.random() * 10) + 1;
     testFeedbackItem.upvotes = testUpvotes;
     testFeedbackItem.voteCollection = { [uuid()]: testUpvotes };
+
     const testProps = FeedbackColumn.createFeedbackItemProps(
       testColumnProps, testColumnItem, true);
 
-    const wrapper = shallow(<FeedbackItem {...testProps} />);
+    const wrapper = shallow(<FeedbackItem {...testProps}/>);
     const component = wrapper.children().dive();
     verifyBasicLayout(component, testUpvotes);
   });
