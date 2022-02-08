@@ -170,7 +170,9 @@ class FeedbackItem extends React.Component<IFeedbackItemProps, IFeedbackItemStat
   // TODO consider when we actually need this to fire.
   // Possibly only after updating title and adding a work item?
   private updateFeedbackItemGroupShadowCardHeight() {
-    this.props.groupedItemProps.updateGroupCardStackHeight(this.itemElement.clientHeight);
+    if(this.itemElement){
+      this.props.groupedItemProps.updateGroupCardStackHeight(this.itemElement.clientHeight);
+    }
   }
 
   private deleteFeedbackItem = () => {

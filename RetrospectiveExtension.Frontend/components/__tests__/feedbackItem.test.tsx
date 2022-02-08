@@ -15,7 +15,7 @@ import ActionItemDisplay from '../actionItemDisplay';
 const childDialogCount = 5;
 const voteButtonCount = 2;
 
-let testUpvotes = 0;
+let testUpvotes = Math.floor(Math.random() * 10) + 1;
 
 const testTeamId = uuid();
 const testBoardId = uuid();
@@ -47,14 +47,10 @@ const testGroupedItemProps = mocked({
   parentItemId: '',
   setIsGroupBeingDragged: jest.fn((isBeingDragged) => { }),
   toggleGroupExpand: jest.fn(() => {}),
-  updateGroupCardStackHeight: jest.fn(() => {}),
+  updateGroupCardStackHeight: jest.fn((clientHeight) => {}),
 });
 const testFeedbackItem = mocked({
   id: uuid(),
-  element: mocked({
-    innerText:'Test Inner Text',
-    innerHtml:'<div>Test Inner HTML</div>'
-  }),
   boardId: testBoardId,
   title: 'Test Feedback Item',
   description: 'Test Feedback Item Description',
@@ -80,10 +76,6 @@ const testColumnItem = mocked({
 
 const testChildFeedbackItem = mocked({
   id: uuid(),
-  element: mocked({
-    innerText:'Test Inner Text',
-    innerHtml:'<div>Test Inner HTML</div>'
-  }),
   boardId: testBoardId,
   title: 'Test Child Feedback Item',
   description: 'Test Child Feedback Item Description',
@@ -193,7 +185,8 @@ const testColumnProps = mocked({
 
 describe('Feedback Item', () => {
   it('can be rendered with no child Feedback Items.', () => {
-    const component = createAndVerifyBasicLayout();
+    const component = createBasicFeedbackItem(testUpvotes);
+    verifyBasicLayout(component, testUpvotes);
 
     /* Expect no Expand Feedback Group button */
     const expandButton = component.findWhere(
@@ -206,7 +199,8 @@ describe('Feedback Item', () => {
     testGroupedItemProps.isMainItem = true;
     testFeedbackItem.groupedItemProps = testGroupedItemProps;
 
-    const component = createAndVerifyBasicLayout();
+    const component = createBasicFeedbackItem(testUpvotes);
+    verifyBasicLayout(component, testUpvotes);
 
     /* Expect Expand Feedback Group button */
     const expandButton = component.findWhere(
@@ -222,7 +216,8 @@ describe('Feedback Item', () => {
     testGroupedItemProps.isGroupExpanded = true;
     testFeedbackItem.groupedItemProps = testGroupedItemProps;
 
-    const component = createAndVerifyBasicLayout();
+    const component = createBasicFeedbackItem(testUpvotes);
+    verifyBasicLayout(component, testUpvotes);
 
     /* Expect Expand Feedback Group button */
     const expandButton = component.findWhere(
@@ -234,37 +229,26 @@ describe('Feedback Item', () => {
 
   it('can have zero upvotes.', () => {
     testUpvotes = 0;
-    verifyVoteLayout(testUpvotes);
+    const component = createBasicFeedbackItem(testUpvotes);
+    verifyBasicLayout(component, testUpvotes);
   });
 
   it('can have more than zero upvotes.', () => {
     testUpvotes = Math.floor(Math.random() * 10) + 1;
-    verifyVoteLayout(testUpvotes);
+    const component = createBasicFeedbackItem(testUpvotes);
+    verifyBasicLayout(component, testUpvotes);
   });
 });
 
-const createAndVerifyBasicLayout = () => {
+const createBasicFeedbackItem = (voteCount: number) => {
+  testFeedbackItem.upvotes = voteCount;
+  testFeedbackItem.voteCollection = { [uuid()]: voteCount };
   const testProps = FeedbackColumn.createFeedbackItemProps(
     testColumnProps, testColumnItem, true);
 
   const wrapper = shallow(
     <FeedbackItem {...testProps} groupedItemProps={testGroupedItemProps} />);
-  const component = wrapper.children().dive();
-  verifyBasicLayout(component, testUpvotes);
-
-  return component;
-};
-
-const verifyVoteLayout = (voteCount: number) => {
-  testFeedbackItem.upvotes = voteCount;
-  testFeedbackItem.voteCollection = { [uuid()]: voteCount };
-
-  const testProps = FeedbackColumn.createFeedbackItemProps(
-    testColumnProps, testColumnItem, true);
-
-  const wrapper = shallow(<FeedbackItem {...testProps}/>);
-  const component = wrapper.children().dive();
-  verifyBasicLayout(component, voteCount);
+  return wrapper.children().dive();
 };
 
 const verifyBasicLayout = (component: ShallowWrapper, currentUpvoteCount: number) => {
