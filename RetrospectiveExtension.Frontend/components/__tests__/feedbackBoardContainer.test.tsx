@@ -1,7 +1,7 @@
 import { FeedbackBoardContainerProps } from '../feedbackBoardContainer';
-import { mockWorkflowStage } from '../__mocks__/WorkflowStage';
+import { mockCollectStage } from '../__mocks__/WorkflowStage';
 
-jest.mock('../workflowStage', () => { return mockWorkflowStage; });
+jest.mock('../workflowStage', () => { return mockCollectStage; });
 
 const feedbackBoardContainerProps: FeedbackBoardContainerProps = {
   isHostedAzureDevOps: false,
