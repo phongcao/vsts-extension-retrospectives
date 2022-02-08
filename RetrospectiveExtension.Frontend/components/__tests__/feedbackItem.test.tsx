@@ -13,7 +13,6 @@ import ActionItemDisplay from '../actionItemDisplay';
 
 // Base render constants, these may change if the FeedbackItem component is changed.
 const childDialogCount = 5;
-const voteButtonCount = 2;
 
 let testUpvotes = Math.floor(Math.random() * 10) + 1;
 
@@ -238,6 +237,40 @@ describe('Feedback Item', () => {
     const component = createBasicFeedbackItem(testUpvotes);
     verifyBasicLayout(component, testUpvotes);
   });
+
+  it('has voting enabled during the Vote stage.', () => {
+    testColumnProps.workflowPhase = WorkflowPhase.Vote;
+    testUpvotes = 0;
+    const component = createBasicFeedbackItem(testUpvotes);
+    verifyBasicLayout(component, testUpvotes);
+  });
+
+  it('has voting disabled during the Collect stage.', () => {
+    testColumnProps.workflowPhase = WorkflowPhase.Collect;
+    testUpvotes = 0;
+    const component = createBasicFeedbackItem(testUpvotes);
+    verifyBasicLayout(component, testUpvotes, true);
+
+    console.log(component.debug());
+  });
+
+  it('has voting disabled during the Group stage.', () => {
+    testColumnProps.workflowPhase = WorkflowPhase.Group;
+    testUpvotes = 0;
+    const component = createBasicFeedbackItem(testUpvotes);
+    verifyBasicLayout(component, testUpvotes, true);
+
+    console.log(component.debug());
+  });
+
+  it('has voting disabled during the Act stage.', () => {
+    testColumnProps.workflowPhase = WorkflowPhase.Act;
+    testUpvotes = 0;
+    const component = createBasicFeedbackItem(testUpvotes);
+    verifyBasicLayout(component, testUpvotes);
+
+    console.log(component.debug());
+  });
 });
 
 const createBasicFeedbackItem = (voteCount: number) => {
@@ -251,7 +284,10 @@ const createBasicFeedbackItem = (voteCount: number) => {
   return wrapper.children().dive();
 };
 
-const verifyBasicLayout = (component: ShallowWrapper, currentUpvoteCount: number) => {
+const verifyBasicLayout = (
+  component: ShallowWrapper,
+  currentUpvoteCount: number,
+  isVotingDisabled = false) => {
   // Expect all child Dialogs to be hidden.
   const childDialogs = component.find(Dialog);
   expect(childDialogs).toHaveLength(childDialogCount);
@@ -269,7 +305,11 @@ const verifyBasicLayout = (component: ShallowWrapper, currentUpvoteCount: number
   // Expect the vote count to be propagated in multiple areas of the rendered component.
   const voteButtons = component.findWhere((child) =>
     child.prop("className") === "feedback-action-button feedback-add-vote");
-  expect(voteButtons).toHaveLength(voteButtonCount);
+  if(isVotingDisabled){
+    expect(voteButtons).toHaveLength(0);
+  }
+  else{
+    expect(voteButtons).toHaveLength(2);
   voteButtons.forEach((voteNode) => {
     expect(voteNode.html()).toContain(`Current vote count is ${currentUpvoteCount}`);
   });
@@ -278,6 +318,7 @@ const verifyBasicLayout = (component: ShallowWrapper, currentUpvoteCount: number
       findWhere((nestedChild) =>
         nestedChild.prop("className") === "feedback-upvote-count").text()).
     toEqual(` ${currentUpvoteCount}`);
+  }
 
   // Expect basic values of the Feedback Item to be propagated in multiple areas of the rendered component.
   expect(component.findWhere((child) =>
@@ -296,12 +337,17 @@ const verifyBasicLayout = (component: ShallowWrapper, currentUpvoteCount: number
 
   const actionItemDisplay = component.findWhere((child) =>
     child.type() === ActionItemDisplay);
-  expect(actionItemDisplay.prop("feedbackItemId")).toEqual(testFeedbackItem.id);
-  expect(actionItemDisplay.prop("feedbackItemTitle")).toEqual(testFeedbackItem.title);
-  expect(actionItemDisplay.prop("boardId")).toEqual(testBoardId);
-  expect(actionItemDisplay.prop("boardTitle")).toEqual(testColumnProps.boardTitle);
+  if(testColumnProps.workflowPhase != WorkflowPhase.Act) {
+    expect(actionItemDisplay).toHaveLength(0);
+    expect(component.findWhere((child) => child.prop("title") === "Timer")).toHaveLength(0);
+  } else {
+    expect(actionItemDisplay.prop("feedbackItemId")).toEqual(testFeedbackItem.id);
+    expect(actionItemDisplay.prop("feedbackItemTitle")).toEqual(testFeedbackItem.title);
+    expect(actionItemDisplay.prop("boardId")).toEqual(testBoardId);
+    expect(actionItemDisplay.prop("boardTitle")).toEqual(testColumnProps.boardTitle);
 
-  expect(component.findWhere((child) =>
-    child.prop("title") === "Timer").html()).
-    toContain(`${testFeedbackItem.timerSecs} (seconds)`);
+    expect(component.findWhere((child) =>
+      child.prop("title") === "Timer").html()).
+      toContain(`${testFeedbackItem.timerSecs} (seconds)`);
+  }
 };
