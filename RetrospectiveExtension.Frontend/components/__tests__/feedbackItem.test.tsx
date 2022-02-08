@@ -193,17 +193,12 @@ const testColumnProps = mocked({
 
 describe('Feedback Item', () => {
   it('can be rendered with no child Feedback Items.', () => {
-    const testProps = FeedbackColumn.createFeedbackItemProps(
-      testColumnProps, testColumnItem, true);
-
-    const wrapper = shallow(<FeedbackItem {...testProps} />);
-    const component = wrapper.children().dive();
-    verifyBasicLayout(component, testUpvotes);
+    const component = createAndVerifyBasicLayout();
 
     /* Expect no Expand Feedback Group button */
     const expandButton = component.findWhere(
       (child) => child.prop("className") === "feedback-expand-group");
-    expect(expandButton).toHaveLength(0);
+    expect(expandButton).toMatchObject({});
   });
 
   it('can be rendered with collapsed child Feedback Items.', () => {
@@ -211,13 +206,7 @@ describe('Feedback Item', () => {
     testGroupedItemProps.isMainItem = true;
     testFeedbackItem.groupedItemProps = testGroupedItemProps;
 
-    const testProps = FeedbackColumn.createFeedbackItemProps(
-      testColumnProps, testColumnItem, true);
-
-    const wrapper = shallow(
-      <FeedbackItem {...testProps} groupedItemProps={testGroupedItemProps} />);
-    const component = wrapper.children().dive();
-    verifyBasicLayout(component, testUpvotes);
+    const component = createAndVerifyBasicLayout();
 
     /* Expect Expand Feedback Group button */
     const expandButton = component.findWhere(
@@ -233,13 +222,7 @@ describe('Feedback Item', () => {
     testGroupedItemProps.isGroupExpanded = true;
     testFeedbackItem.groupedItemProps = testGroupedItemProps;
 
-    const testProps = FeedbackColumn.createFeedbackItemProps(
-      testColumnProps, testColumnItem, true);
-
-    const wrapper = shallow(
-      <FeedbackItem {...testProps} groupedItemProps={testGroupedItemProps} />);
-    const component = wrapper.children().dive();
-    verifyBasicLayout(component, testUpvotes);
+    const component = createAndVerifyBasicLayout();
 
     /* Expect Expand Feedback Group button */
     const expandButton = component.findWhere(
@@ -251,86 +234,38 @@ describe('Feedback Item', () => {
 
   it('can have zero upvotes.', () => {
     testUpvotes = 0;
-    testFeedbackItem.upvotes = testUpvotes;
-    testFeedbackItem.voteCollection = { [uuid()]: testUpvotes };
-
-    const testProps = FeedbackColumn.createFeedbackItemProps(
-      testColumnProps, testColumnItem, true);
-
-    const wrapper = shallow(<FeedbackItem {...testProps} />);
-    const component = wrapper.children().dive();
-    verifyBasicLayout(component, testUpvotes);
+    verifyVoteLayout(testUpvotes);
   });
 
   it('can have more than zero upvotes.', () => {
     testUpvotes = Math.floor(Math.random() * 10) + 1;
-    testFeedbackItem.upvotes = testUpvotes;
-    testFeedbackItem.voteCollection = { [uuid()]: testUpvotes };
-
-    const testProps = FeedbackColumn.createFeedbackItemProps(
-      testColumnProps, testColumnItem, true);
-
-    const wrapper = shallow(<FeedbackItem {...testProps}/>);
-    const component = wrapper.children().dive();
-    verifyBasicLayout(component, testUpvotes);
+    verifyVoteLayout(testUpvotes);
   });
 });
 
-  describe('Workflow Phase Tests', () => {
-    test('Verify isDeleteItemConfirmationDialogHidden, isMarkedForDeletion, and isLocalDelete are set to true when deletion is selected.', () => {});
+const createAndVerifyBasicLayout = () => {
+  const testProps = FeedbackColumn.createFeedbackItemProps(
+    testColumnProps, testColumnItem, true);
 
-    test('Verify the Add and Remove Votes buttons are enabled during WorkflowPhase.Vote.', () => {});
+  const wrapper = shallow(
+    <FeedbackItem {...testProps} groupedItemProps={testGroupedItemProps} />);
+  const component = wrapper.children().dive();
+  verifyBasicLayout(component, testUpvotes);
 
-    test('Verify the Add and Remove Votes buttons are disabled during WorkflowPhases which are not WorkflowPhase.Vote', () => {});
+  return component;
+};
 
-    test('Verify when either the Add or Remove Buttons are clicked, showVotedAnimation is set to true, the buttons are disabled, and onVoteCasted is called.', () => {});
+const verifyVoteLayout = (voteCount: number) => {
+  testFeedbackItem.upvotes = voteCount;
+  testFeedbackItem.voteCollection = { [uuid()]: voteCount };
 
-    test('Verify during WorkflowPhase.Act, the ActionItemDisplay component is a rendered child component.', () => {});
+  const testProps = FeedbackColumn.createFeedbackItemProps(
+    testColumnProps, testColumnItem, true);
 
-    test('Verify during WorkflowPhase.Act, the Timer button is rendered.', () => {});
-  });
-
-  describe('Grouped Feedback Tests', () => {
-    test('Verify a child Feedback Item cannot be upvoted or downvoted.', () => {});
-
-    test('Verify a parent Feedback Item can be upvoted or downvoted.', () => {});
-
-    test('Verify a child Feedback Item can be deleted without deleting the parent Feedback Item', () => {});
-
-    test('Verify groupItemCount is incremented when child Feedback Items are added.', () => {});
-
-    test('Verify groupItemCount is decremented when child Feedback Items are removed.', () => {});
-
-    test('Verify the feedback-expand-group button renders when isMainItem is true and isNotGrouped item is false.', () => {});
-
-    test('Verify the feedback-expand-group button does not render when isMainItem is false and isNotGroupedItem is true.', () => {});
-
-    test('Verify the feedback-expand-group button\'s text changes as the number of child Feedback Items changes.', () => {});
-  });
-
-  describe('Mobile Actions Dialog Tests', () => {
-    test('Verify when isMobileFeedbackItemActionsDialogHidden is true, the Mobile Actions Dialog has hidden set to true.', () => {});
-
-    test('Verify when isMobileFeedbackItemActionsDialogHidden is false, the Mobile Actions Dialog has hidden set to false.', () => {});
-
-    test('Verify when the Close button is clicked, isMobileFeedbackItemActionsDialogHidden is set to true and the Mobile Actions Dialog has hidden is set to true.', () => {});
-  });
-
-  describe('Group Feedback Dialog Tests', () => {
-    test('Verify when isGroupFeedbackItemDialogHidden is true, the Group Feedback Dialog has hidden set to true.', () => {});
-
-    test('Verify when isGroupFeedbackItemDialogHidden is false, the Group Feedback Dialog has hidden set to false.', () => {});
-
-    test('Verify when the Close button is clicked, isGroupFeedbackItemDialogHidden is set to true and the Group Feedback Dialog has hidden is set to true.', () => {});
-  });
-
-  describe('Remove Feedback from Group Dialog Tests', () => {
-    test('Verify when isRemoveFeedbackItemFromGroupConfirmationDialogHidden is true, the Remove Feedback from Group Dialog has hidden set to true.', () => {});
-
-    test('Verify when isRemoveFeedbackItemFromGroupConfirmationDialogHidden is false, the Remove Feedback from Group Dialog has hidden set to false.', () => {});
-
-    test('Verify when the Cancel button is clicked, isRemoveFeedbackItemFromGroupConfirmationDialogHidden is set to true and the Remove Feedback from Group Dialog has hidden is set to true.', () => {});
-  });
+  const wrapper = shallow(<FeedbackItem {...testProps}/>);
+  const component = wrapper.children().dive();
+  verifyBasicLayout(component, voteCount);
+};
 
 const verifyBasicLayout = (component: ShallowWrapper, currentUpvoteCount: number) => {
   // Expect all child Dialogs to be hidden.
