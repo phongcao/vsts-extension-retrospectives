@@ -77,17 +77,14 @@
         --resource-group "$resource_group" \
         --query instrumentationKey \
         --output tsv)
-
-      # RESOURCEGROUPVAR -> ${resource_group}
-    # SUBSCRIPTIONIDVAR   -> ${subscription_id}
-    # AIRESOURCENAME      -> "ai-${resource_name_suffix}"  VAR_
-    #TODO Change to VAR_Otherstuff
-    sed -i "s/RESOURCEGROUPVAR/${resource_group}/"     ./deploy/dashboard-template.json
-    sed -i "s/SUBSCRIPTIONIDVAR/${subscription_id}/"   ./deploy/dashboard-template.json
-    sed -i "s/AIRESOURCENAME/ai-${resource_name_suffix}/"     ./deploy/dashboard-template.json
+    dashboard_file="./deploy/ai-dashboard.json"
+    
+    sed -i "s/VARRGNAME/${resource_group}/"     ${dashboard_file}
+    sed -i "s/VARSUBSCRIPTIONID/${subscription_id}/"   ${dashboard_file}
+    sed -i "s/VARAIRESOURCENAME/ai-${resource_name_suffix}/"     ${dashboard_file}
 
     az portal dashboard create --location "eastus" --name "${resource_name_suffix}-dashboard" \
-        --resource-group ${resource_group} --input-path ./deploy/dashboard-template.json 
+        --resource-group ${resource_group} --input-path ${dashboard_file}
     
     # https://docs.azure.cn/en-us/cli/webapp?view=azure-cli-latest#az_webapp_create
     # Create WebApp

@@ -14,7 +14,7 @@
             "inputs": [
               {
                 "name": "id",
-                "value": "/subscriptions/ec18dca1-0751-4307-bbac-6150896ac498/resourceGroups/rg-retro-tool-25/providers/Microsoft.Insights/components/ai-retro-tool-25"
+                "value": "/subscriptions/VARSUBSCRIPTIONID/resourceGroups/VARRGNAME/providers/Microsoft.Insights/components/VARAIRESOURCENAME"
               },
               {
                 "name": "Version",
@@ -42,9 +42,9 @@
               {
                 "name": "ComponentId",
                 "value": {
-                  "Name": "ai-retro-tool-25",
-                  "ResourceGroup": "rg-retro-tool-25",
-                  "SubscriptionId": "ec18dca1-0751-4307-bbac-6150896ac498"
+                  "Name": "VARAIRESOURCENAME",
+                  "ResourceGroup": "VARRGNAME",
+                  "SubscriptionId": "VARSUBSCRIPTIONID"
                 }
               },
               {
@@ -72,7 +72,7 @@
             "inputs": [
               {
                 "name": "ResourceId",
-                "value": "/subscriptions/ec18dca1-0751-4307-bbac-6150896ac498/resourceGroups/rg-retro-tool-25/providers/Microsoft.Insights/components/ai-retro-tool-25"
+                "value": "/subscriptions/VARSUBSCRIPTIONID/resourceGroups/VARRGNAME/providers/Microsoft.Insights/components/VARAIRESOURCENAME"
               },
               {
                 "isOptional": true,
@@ -139,9 +139,9 @@
               {
                 "name": "ComponentId",
                 "value": {
-                  "Name": "ai-retro-tool-25",
-                  "ResourceGroup": "rg-retro-tool-25",
-                  "SubscriptionId": "ec18dca1-0751-4307-bbac-6150896ac498"
+                  "Name": "VARAIRESOURCENAME",
+                  "ResourceGroup": "VARRGNAME",
+                  "SubscriptionId": "VARSUBSCRIPTIONID"
                 }
               },
               {
@@ -177,9 +177,9 @@
               {
                 "name": "id",
                 "value": {
-                  "Name": "ai-retro-tool-25",
-                  "ResourceGroup": "rg-retro-tool-25",
-                  "SubscriptionId": "ec18dca1-0751-4307-bbac-6150896ac498"
+                  "Name": "VARAIRESOURCENAME",
+                  "ResourceGroup": "VARRGNAME",
+                  "SubscriptionId": "VARSUBSCRIPTIONID"
                 }
               },
               {
@@ -237,8 +237,8 @@
                         "name": "sessions/count",
                         "namespace": "microsoft.insights/components/kusto",
                         "resourceMetadata": {
-                          "id": "/subscriptions/ec18dca1-0751-4307-bbac-6150896ac498/resourceGroups/rg-retro-tool-25/providers/Microsoft.Insights/components/ai-retro-tool-25",
-                          "resourceGroup": "rg-retro-tool-25"
+                          "id": "/subscriptions/VARSUBSCRIPTIONID/resourceGroups/VARRGNAME/providers/Microsoft.Insights/components/VARAIRESOURCENAME",
+                          "resourceGroup": "VARRGNAME"
                         }
                       },
                       {
@@ -250,8 +250,8 @@
                         "name": "users/count",
                         "namespace": "microsoft.insights/components/kusto",
                         "resourceMetadata": {
-                          "id": "/subscriptions/ec18dca1-0751-4307-bbac-6150896ac498/resourceGroups/rg-retro-tool-25/providers/Microsoft.Insights/components/ai-retro-tool-25",
-                          "resourceGroup": "rg-retro-tool-25"
+                          "id": "/subscriptions/VARSUBSCRIPTIONID/resourceGroups/VARRGNAME/providers/Microsoft.Insights/components/VARAIRESOURCENAME",
+                          "resourceGroup": "VARRGNAME"
                         }
                       }
                     ],
@@ -260,9 +260,9 @@
                         "bladeName": "ResourceMenuBlade",
                         "extensionName": "HubsExtension",
                         "parameters": {
-                          "id": "/subscriptions/ec18dca1-0751-4307-bbac-6150896ac498/resourceGroups/rg-retro-tool-25/providers/Microsoft.Insights/components/ai-retro-tool-25",
+                          "id": "/subscriptions/VARSUBSCRIPTIONID/resourceGroups/VARRGNAME/providers/Microsoft.Insights/components/VARAIRESOURCENAME",
                           "menuid": "segmentationUsers",
-                          "resourceGroup": "rg-retro-tool-25"
+                          "resourceGroup": "VARRGNAME"
                         }
                       },
                       "openBlade": true
@@ -308,8 +308,8 @@
                         "name": "sessions/count",
                         "namespace": "microsoft.insights/components/kusto",
                         "resourceMetadata": {
-                          "id": "/subscriptions/ec18dca1-0751-4307-bbac-6150896ac498/resourceGroups/rg-retro-tool-25/providers/Microsoft.Insights/components/ai-retro-tool-25",
-                          "resourceGroup": "rg-retro-tool-25"
+                          "id": "/subscriptions/VARSUBSCRIPTIONID/resourceGroups/VARRGNAME/providers/Microsoft.Insights/components/VARAIRESOURCENAME",
+                          "resourceGroup": "VARRGNAME"
                         }
                       },
                       {
@@ -321,8 +321,8 @@
                         "name": "users/count",
                         "namespace": "microsoft.insights/components/kusto",
                         "resourceMetadata": {
-                          "id": "/subscriptions/ec18dca1-0751-4307-bbac-6150896ac498/resourceGroups/rg-retro-tool-25/providers/Microsoft.Insights/components/ai-retro-tool-25",
-                          "resourceGroup": "rg-retro-tool-25"
+                          "id": "/subscriptions/VARSUBSCRIPTIONID/resourceGroups/VARRGNAME/providers/Microsoft.Insights/components/VARAIRESOURCENAME",
+                          "resourceGroup": "VARRGNAME"
                         }
                       }
                     ],
@@ -331,9 +331,9 @@
                         "bladeName": "ResourceMenuBlade",
                         "extensionName": "HubsExtension",
                         "parameters": {
-                          "id": "/subscriptions/ec18dca1-0751-4307-bbac-6150896ac498/resourceGroups/rg-retro-tool-25/providers/Microsoft.Insights/components/ai-retro-tool-25",
+                          "id": "/subscriptions/VARSUBSCRIPTIONID/resourceGroups/VARRGNAME/providers/Microsoft.Insights/components/VARAIRESOURCENAME",
                           "menuid": "segmentationUsers",
-                          "resourceGroup": "rg-retro-tool-25"
+                          "resourceGroup": "VARRGNAME"
                         }
                       },
                       "openBlade": true
@@ -389,8 +389,8 @@
                         "name": "requests/failed",
                         "namespace": "microsoft.insights/components",
                         "resourceMetadata": {
-                          "id": "/subscriptions/ec18dca1-0751-4307-bbac-6150896ac498/resourceGroups/rg-retro-tool-25/providers/Microsoft.Insights/components/ai-retro-tool-25",
-                          "resourceGroup": "rg-retro-tool-25"
+                          "id": "/subscriptions/VARSUBSCRIPTIONID/resourceGroups/VARRGNAME/providers/Microsoft.Insights/components/VARAIRESOURCENAME",
+                          "resourceGroup": "VARRGNAME"
                         }
                       }
                     ],
@@ -399,9 +399,9 @@
                         "bladeName": "ResourceMenuBlade",
                         "extensionName": "HubsExtension",
                         "parameters": {
-                          "id": "/subscriptions/ec18dca1-0751-4307-bbac-6150896ac498/resourceGroups/rg-retro-tool-25/providers/Microsoft.Insights/components/ai-retro-tool-25",
+                          "id": "/subscriptions/VARSUBSCRIPTIONID/resourceGroups/VARRGNAME/providers/Microsoft.Insights/components/VARAIRESOURCENAME",
                           "menuid": "failures",
-                          "resourceGroup": "rg-retro-tool-25"
+                          "resourceGroup": "VARRGNAME"
                         }
                       },
                       "openBlade": true
@@ -447,8 +447,8 @@
                         "name": "requests/failed",
                         "namespace": "microsoft.insights/components",
                         "resourceMetadata": {
-                          "id": "/subscriptions/ec18dca1-0751-4307-bbac-6150896ac498/resourceGroups/rg-retro-tool-25/providers/Microsoft.Insights/components/ai-retro-tool-25",
-                          "resourceGroup": "rg-retro-tool-25"
+                          "id": "/subscriptions/VARSUBSCRIPTIONID/resourceGroups/VARRGNAME/providers/Microsoft.Insights/components/VARAIRESOURCENAME",
+                          "resourceGroup": "VARRGNAME"
                         }
                       }
                     ],
@@ -457,9 +457,9 @@
                         "bladeName": "ResourceMenuBlade",
                         "extensionName": "HubsExtension",
                         "parameters": {
-                          "id": "/subscriptions/ec18dca1-0751-4307-bbac-6150896ac498/resourceGroups/rg-retro-tool-25/providers/Microsoft.Insights/components/ai-retro-tool-25",
+                          "id": "/subscriptions/VARSUBSCRIPTIONID/resourceGroups/VARRGNAME/providers/Microsoft.Insights/components/VARAIRESOURCENAME",
                           "menuid": "failures",
-                          "resourceGroup": "rg-retro-tool-25"
+                          "resourceGroup": "VARRGNAME"
                         }
                       },
                       "openBlade": true
@@ -515,8 +515,8 @@
                         "name": "requests/duration",
                         "namespace": "microsoft.insights/components",
                         "resourceMetadata": {
-                          "id": "/subscriptions/ec18dca1-0751-4307-bbac-6150896ac498/resourceGroups/rg-retro-tool-25/providers/Microsoft.Insights/components/ai-retro-tool-25",
-                          "resourceGroup": "rg-retro-tool-25"
+                          "id": "/subscriptions/VARSUBSCRIPTIONID/resourceGroups/VARRGNAME/providers/Microsoft.Insights/components/VARAIRESOURCENAME",
+                          "resourceGroup": "VARRGNAME"
                         }
                       }
                     ],
@@ -525,9 +525,9 @@
                         "bladeName": "ResourceMenuBlade",
                         "extensionName": "HubsExtension",
                         "parameters": {
-                          "id": "/subscriptions/ec18dca1-0751-4307-bbac-6150896ac498/resourceGroups/rg-retro-tool-25/providers/Microsoft.Insights/components/ai-retro-tool-25",
+                          "id": "/subscriptions/VARSUBSCRIPTIONID/resourceGroups/VARRGNAME/providers/Microsoft.Insights/components/VARAIRESOURCENAME",
                           "menuid": "performance",
-                          "resourceGroup": "rg-retro-tool-25"
+                          "resourceGroup": "VARRGNAME"
                         }
                       },
                       "openBlade": true
@@ -573,8 +573,8 @@
                         "name": "requests/duration",
                         "namespace": "microsoft.insights/components",
                         "resourceMetadata": {
-                          "id": "/subscriptions/ec18dca1-0751-4307-bbac-6150896ac498/resourceGroups/rg-retro-tool-25/providers/Microsoft.Insights/components/ai-retro-tool-25",
-                          "resourceGroup": "rg-retro-tool-25"
+                          "id": "/subscriptions/VARSUBSCRIPTIONID/resourceGroups/VARRGNAME/providers/Microsoft.Insights/components/VARAIRESOURCENAME",
+                          "resourceGroup": "VARRGNAME"
                         }
                       }
                     ],
@@ -583,9 +583,9 @@
                         "bladeName": "ResourceMenuBlade",
                         "extensionName": "HubsExtension",
                         "parameters": {
-                          "id": "/subscriptions/ec18dca1-0751-4307-bbac-6150896ac498/resourceGroups/rg-retro-tool-25/providers/Microsoft.Insights/components/ai-retro-tool-25",
+                          "id": "/subscriptions/VARSUBSCRIPTIONID/resourceGroups/VARRGNAME/providers/Microsoft.Insights/components/VARAIRESOURCENAME",
                           "menuid": "performance",
-                          "resourceGroup": "rg-retro-tool-25"
+                          "resourceGroup": "VARRGNAME"
                         }
                       },
                       "openBlade": true
@@ -641,8 +641,8 @@
                         "name": "browserTimings/networkDuration",
                         "namespace": "microsoft.insights/components",
                         "resourceMetadata": {
-                          "id": "/subscriptions/ec18dca1-0751-4307-bbac-6150896ac498/resourceGroups/rg-retro-tool-25/providers/Microsoft.Insights/components/ai-retro-tool-25",
-                          "resourceGroup": "rg-retro-tool-25"
+                          "id": "/subscriptions/VARSUBSCRIPTIONID/resourceGroups/VARRGNAME/providers/Microsoft.Insights/components/VARAIRESOURCENAME",
+                          "resourceGroup": "VARRGNAME"
                         }
                       },
                       {
@@ -654,8 +654,8 @@
                         "name": "browserTimings/processingDuration",
                         "namespace": "microsoft.insights/components",
                         "resourceMetadata": {
-                          "id": "/subscriptions/ec18dca1-0751-4307-bbac-6150896ac498/resourceGroups/rg-retro-tool-25/providers/Microsoft.Insights/components/ai-retro-tool-25",
-                          "resourceGroup": "rg-retro-tool-25"
+                          "id": "/subscriptions/VARSUBSCRIPTIONID/resourceGroups/VARRGNAME/providers/Microsoft.Insights/components/VARAIRESOURCENAME",
+                          "resourceGroup": "VARRGNAME"
                         }
                       },
                       {
@@ -667,8 +667,8 @@
                         "name": "browserTimings/sendDuration",
                         "namespace": "microsoft.insights/components",
                         "resourceMetadata": {
-                          "id": "/subscriptions/ec18dca1-0751-4307-bbac-6150896ac498/resourceGroups/rg-retro-tool-25/providers/Microsoft.Insights/components/ai-retro-tool-25",
-                          "resourceGroup": "rg-retro-tool-25"
+                          "id": "/subscriptions/VARSUBSCRIPTIONID/resourceGroups/VARRGNAME/providers/Microsoft.Insights/components/VARAIRESOURCENAME",
+                          "resourceGroup": "VARRGNAME"
                         }
                       },
                       {
@@ -680,8 +680,8 @@
                         "name": "browserTimings/receiveDuration",
                         "namespace": "microsoft.insights/components",
                         "resourceMetadata": {
-                          "id": "/subscriptions/ec18dca1-0751-4307-bbac-6150896ac498/resourceGroups/rg-retro-tool-25/providers/Microsoft.Insights/components/ai-retro-tool-25",
-                          "resourceGroup": "rg-retro-tool-25"
+                          "id": "/subscriptions/VARSUBSCRIPTIONID/resourceGroups/VARRGNAME/providers/Microsoft.Insights/components/VARAIRESOURCENAME",
+                          "resourceGroup": "VARRGNAME"
                         }
                       }
                     ],
@@ -726,8 +726,8 @@
                         "name": "browserTimings/networkDuration",
                         "namespace": "microsoft.insights/components",
                         "resourceMetadata": {
-                          "id": "/subscriptions/ec18dca1-0751-4307-bbac-6150896ac498/resourceGroups/rg-retro-tool-25/providers/Microsoft.Insights/components/ai-retro-tool-25",
-                          "resourceGroup": "rg-retro-tool-25"
+                          "id": "/subscriptions/VARSUBSCRIPTIONID/resourceGroups/VARRGNAME/providers/Microsoft.Insights/components/VARAIRESOURCENAME",
+                          "resourceGroup": "VARRGNAME"
                         }
                       },
                       {
@@ -739,8 +739,8 @@
                         "name": "browserTimings/processingDuration",
                         "namespace": "microsoft.insights/components",
                         "resourceMetadata": {
-                          "id": "/subscriptions/ec18dca1-0751-4307-bbac-6150896ac498/resourceGroups/rg-retro-tool-25/providers/Microsoft.Insights/components/ai-retro-tool-25",
-                          "resourceGroup": "rg-retro-tool-25"
+                          "id": "/subscriptions/VARSUBSCRIPTIONID/resourceGroups/VARRGNAME/providers/Microsoft.Insights/components/VARAIRESOURCENAME",
+                          "resourceGroup": "VARRGNAME"
                         }
                       },
                       {
@@ -752,8 +752,8 @@
                         "name": "browserTimings/sendDuration",
                         "namespace": "microsoft.insights/components",
                         "resourceMetadata": {
-                          "id": "/subscriptions/ec18dca1-0751-4307-bbac-6150896ac498/resourceGroups/rg-retro-tool-25/providers/Microsoft.Insights/components/ai-retro-tool-25",
-                          "resourceGroup": "rg-retro-tool-25"
+                          "id": "/subscriptions/VARSUBSCRIPTIONID/resourceGroups/VARRGNAME/providers/Microsoft.Insights/components/VARAIRESOURCENAME",
+                          "resourceGroup": "VARRGNAME"
                         }
                       },
                       {
@@ -765,8 +765,8 @@
                         "name": "browserTimings/receiveDuration",
                         "namespace": "microsoft.insights/components",
                         "resourceMetadata": {
-                          "id": "/subscriptions/ec18dca1-0751-4307-bbac-6150896ac498/resourceGroups/rg-retro-tool-25/providers/Microsoft.Insights/components/ai-retro-tool-25",
-                          "resourceGroup": "rg-retro-tool-25"
+                          "id": "/subscriptions/VARSUBSCRIPTIONID/resourceGroups/VARRGNAME/providers/Microsoft.Insights/components/VARAIRESOURCENAME",
+                          "resourceGroup": "VARRGNAME"
                         }
                       }
                     ],
@@ -820,7 +820,7 @@
                 "name": "Scope",
                 "value": {
                   "resourceIds": [
-                    "/subscriptions/ec18dca1-0751-4307-bbac-6150896ac498/resourceGroups/rg-retro-tool-25/providers/microsoft.insights/components/ai-retro-tool-25"
+                    "/subscriptions/VARSUBSCRIPTIONID/resourceGroups/VARRGNAME/providers/microsoft.insights/components/VARAIRESOURCENAME"
                   ]
                 }
               },
@@ -869,7 +869,7 @@
               {
                 "isOptional": true,
                 "name": "PartSubTitle",
-                "value": "ai-retro-tool-25"
+                "value": "VARAIRESOURCENAME"
               },
               {
                 "isOptional": true,
@@ -931,8 +931,8 @@
                         "name": "availabilityResults/availabilityPercentage",
                         "namespace": "microsoft.insights/components",
                         "resourceMetadata": {
-                          "id": "/subscriptions/ec18dca1-0751-4307-bbac-6150896ac498/resourceGroups/rg-retro-tool-25/providers/Microsoft.Insights/components/ai-retro-tool-25",
-                          "resourceGroup": "rg-retro-tool-25"
+                          "id": "/subscriptions/VARSUBSCRIPTIONID/resourceGroups/VARRGNAME/providers/Microsoft.Insights/components/VARAIRESOURCENAME",
+                          "resourceGroup": "VARRGNAME"
                         }
                       }
                     ],
@@ -941,9 +941,9 @@
                         "bladeName": "ResourceMenuBlade",
                         "extensionName": "HubsExtension",
                         "parameters": {
-                          "id": "/subscriptions/ec18dca1-0751-4307-bbac-6150896ac498/resourceGroups/rg-retro-tool-25/providers/Microsoft.Insights/components/ai-retro-tool-25",
+                          "id": "/subscriptions/VARSUBSCRIPTIONID/resourceGroups/VARRGNAME/providers/Microsoft.Insights/components/VARAIRESOURCENAME",
                           "menuid": "availability",
-                          "resourceGroup": "rg-retro-tool-25"
+                          "resourceGroup": "VARRGNAME"
                         }
                       },
                       "openBlade": true
@@ -989,8 +989,8 @@
                         "name": "availabilityResults/availabilityPercentage",
                         "namespace": "microsoft.insights/components",
                         "resourceMetadata": {
-                          "id": "/subscriptions/ec18dca1-0751-4307-bbac-6150896ac498/resourceGroups/rg-retro-tool-25/providers/Microsoft.Insights/components/ai-retro-tool-25",
-                          "resourceGroup": "rg-retro-tool-25"
+                          "id": "/subscriptions/VARSUBSCRIPTIONID/resourceGroups/VARRGNAME/providers/Microsoft.Insights/components/VARAIRESOURCENAME",
+                          "resourceGroup": "VARRGNAME"
                         }
                       }
                     ],
@@ -999,9 +999,9 @@
                         "bladeName": "ResourceMenuBlade",
                         "extensionName": "HubsExtension",
                         "parameters": {
-                          "id": "/subscriptions/ec18dca1-0751-4307-bbac-6150896ac498/resourceGroups/rg-retro-tool-25/providers/Microsoft.Insights/components/ai-retro-tool-25",
+                          "id": "/subscriptions/VARSUBSCRIPTIONID/resourceGroups/VARRGNAME/providers/Microsoft.Insights/components/VARAIRESOURCENAME",
                           "menuid": "availability",
-                          "resourceGroup": "rg-retro-tool-25"
+                          "resourceGroup": "VARRGNAME"
                         }
                       },
                       "openBlade": true
@@ -1050,14 +1050,14 @@
               {
                 "name": "ComponentId",
                 "value": {
-                  "Name": "ai-retro-tool-25",
-                  "ResourceGroup": "rg-retro-tool-25",
-                  "SubscriptionId": "ec18dca1-0751-4307-bbac-6150896ac498"
+                  "Name": "VARAIRESOURCENAME",
+                  "ResourceGroup": "VARRGNAME",
+                  "SubscriptionId": "VARSUBSCRIPTIONID"
                 }
               },
               {
                 "name": "ResourceId",
-                "value": "/subscriptions/ec18dca1-0751-4307-bbac-6150896ac498/resourceGroups/rg-retro-tool-25/providers/Microsoft.Insights/components/ai-retro-tool-25"
+                "value": "/subscriptions/VARSUBSCRIPTIONID/resourceGroups/VARRGNAME/providers/Microsoft.Insights/components/VARAIRESOURCENAME"
               }
             ],
             "type": "Extension/AppInsightsExtension/PartType/QuickPulseButtonSmallPart"
@@ -1087,8 +1087,8 @@
                         "name": "exceptions/server",
                         "namespace": "microsoft.insights/components",
                         "resourceMetadata": {
-                          "id": "/subscriptions/ec18dca1-0751-4307-bbac-6150896ac498/resourceGroups/rg-retro-tool-25/providers/Microsoft.Insights/components/ai-retro-tool-25",
-                          "resourceGroup": "rg-retro-tool-25"
+                          "id": "/subscriptions/VARSUBSCRIPTIONID/resourceGroups/VARRGNAME/providers/Microsoft.Insights/components/VARAIRESOURCENAME",
+                          "resourceGroup": "VARRGNAME"
                         }
                       },
                       {
@@ -1100,8 +1100,8 @@
                         "name": "dependencies/failed",
                         "namespace": "microsoft.insights/components",
                         "resourceMetadata": {
-                          "id": "/subscriptions/ec18dca1-0751-4307-bbac-6150896ac498/resourceGroups/rg-retro-tool-25/providers/Microsoft.Insights/components/ai-retro-tool-25",
-                          "resourceGroup": "rg-retro-tool-25"
+                          "id": "/subscriptions/VARSUBSCRIPTIONID/resourceGroups/VARRGNAME/providers/Microsoft.Insights/components/VARAIRESOURCENAME",
+                          "resourceGroup": "VARRGNAME"
                         }
                       }
                     ],
@@ -1146,8 +1146,8 @@
                         "name": "exceptions/server",
                         "namespace": "microsoft.insights/components",
                         "resourceMetadata": {
-                          "id": "/subscriptions/ec18dca1-0751-4307-bbac-6150896ac498/resourceGroups/rg-retro-tool-25/providers/Microsoft.Insights/components/ai-retro-tool-25",
-                          "resourceGroup": "rg-retro-tool-25"
+                          "id": "/subscriptions/VARSUBSCRIPTIONID/resourceGroups/VARRGNAME/providers/Microsoft.Insights/components/VARAIRESOURCENAME",
+                          "resourceGroup": "VARRGNAME"
                         }
                       },
                       {
@@ -1159,8 +1159,8 @@
                         "name": "dependencies/failed",
                         "namespace": "microsoft.insights/components",
                         "resourceMetadata": {
-                          "id": "/subscriptions/ec18dca1-0751-4307-bbac-6150896ac498/resourceGroups/rg-retro-tool-25/providers/Microsoft.Insights/components/ai-retro-tool-25",
-                          "resourceGroup": "rg-retro-tool-25"
+                          "id": "/subscriptions/VARSUBSCRIPTIONID/resourceGroups/VARRGNAME/providers/Microsoft.Insights/components/VARAIRESOURCENAME",
+                          "resourceGroup": "VARRGNAME"
                         }
                       }
                     ],
@@ -1215,8 +1215,8 @@
                         "name": "performanceCounters/processorCpuPercentage",
                         "namespace": "microsoft.insights/components",
                         "resourceMetadata": {
-                          "id": "/subscriptions/ec18dca1-0751-4307-bbac-6150896ac498/resourceGroups/rg-retro-tool-25/providers/Microsoft.Insights/components/ai-retro-tool-25",
-                          "resourceGroup": "rg-retro-tool-25"
+                          "id": "/subscriptions/VARSUBSCRIPTIONID/resourceGroups/VARRGNAME/providers/Microsoft.Insights/components/VARAIRESOURCENAME",
+                          "resourceGroup": "VARRGNAME"
                         }
                       },
                       {
@@ -1228,8 +1228,8 @@
                         "name": "performanceCounters/processCpuPercentage",
                         "namespace": "microsoft.insights/components",
                         "resourceMetadata": {
-                          "id": "/subscriptions/ec18dca1-0751-4307-bbac-6150896ac498/resourceGroups/rg-retro-tool-25/providers/Microsoft.Insights/components/ai-retro-tool-25",
-                          "resourceGroup": "rg-retro-tool-25"
+                          "id": "/subscriptions/VARSUBSCRIPTIONID/resourceGroups/VARRGNAME/providers/Microsoft.Insights/components/VARAIRESOURCENAME",
+                          "resourceGroup": "VARRGNAME"
                         }
                       }
                     ],
@@ -1274,8 +1274,8 @@
                         "name": "performanceCounters/processorCpuPercentage",
                         "namespace": "microsoft.insights/components",
                         "resourceMetadata": {
-                          "id": "/subscriptions/ec18dca1-0751-4307-bbac-6150896ac498/resourceGroups/rg-retro-tool-25/providers/Microsoft.Insights/components/ai-retro-tool-25",
-                          "resourceGroup": "rg-retro-tool-25"
+                          "id": "/subscriptions/VARSUBSCRIPTIONID/resourceGroups/VARRGNAME/providers/Microsoft.Insights/components/VARAIRESOURCENAME",
+                          "resourceGroup": "VARRGNAME"
                         }
                       },
                       {
@@ -1287,8 +1287,8 @@
                         "name": "performanceCounters/processCpuPercentage",
                         "namespace": "microsoft.insights/components",
                         "resourceMetadata": {
-                          "id": "/subscriptions/ec18dca1-0751-4307-bbac-6150896ac498/resourceGroups/rg-retro-tool-25/providers/Microsoft.Insights/components/ai-retro-tool-25",
-                          "resourceGroup": "rg-retro-tool-25"
+                          "id": "/subscriptions/VARSUBSCRIPTIONID/resourceGroups/VARRGNAME/providers/Microsoft.Insights/components/VARAIRESOURCENAME",
+                          "resourceGroup": "VARRGNAME"
                         }
                       }
                     ],
@@ -1343,8 +1343,8 @@
                         "name": "exceptions/browser",
                         "namespace": "microsoft.insights/components",
                         "resourceMetadata": {
-                          "id": "/subscriptions/ec18dca1-0751-4307-bbac-6150896ac498/resourceGroups/rg-retro-tool-25/providers/Microsoft.Insights/components/ai-retro-tool-25",
-                          "resourceGroup": "rg-retro-tool-25"
+                          "id": "/subscriptions/VARSUBSCRIPTIONID/resourceGroups/VARRGNAME/providers/Microsoft.Insights/components/VARAIRESOURCENAME",
+                          "resourceGroup": "VARRGNAME"
                         }
                       }
                     ],
@@ -1389,8 +1389,8 @@
                         "name": "exceptions/browser",
                         "namespace": "microsoft.insights/components",
                         "resourceMetadata": {
-                          "id": "/subscriptions/ec18dca1-0751-4307-bbac-6150896ac498/resourceGroups/rg-retro-tool-25/providers/Microsoft.Insights/components/ai-retro-tool-25",
-                          "resourceGroup": "rg-retro-tool-25"
+                          "id": "/subscriptions/VARSUBSCRIPTIONID/resourceGroups/VARRGNAME/providers/Microsoft.Insights/components/VARAIRESOURCENAME",
+                          "resourceGroup": "VARRGNAME"
                         }
                       }
                     ],
@@ -1445,8 +1445,8 @@
                         "name": "availabilityResults/count",
                         "namespace": "microsoft.insights/components",
                         "resourceMetadata": {
-                          "id": "/subscriptions/ec18dca1-0751-4307-bbac-6150896ac498/resourceGroups/rg-retro-tool-25/providers/Microsoft.Insights/components/ai-retro-tool-25",
-                          "resourceGroup": "rg-retro-tool-25"
+                          "id": "/subscriptions/VARSUBSCRIPTIONID/resourceGroups/VARRGNAME/providers/Microsoft.Insights/components/VARAIRESOURCENAME",
+                          "resourceGroup": "VARRGNAME"
                         }
                       }
                     ],
@@ -1491,8 +1491,8 @@
                         "name": "availabilityResults/count",
                         "namespace": "microsoft.insights/components",
                         "resourceMetadata": {
-                          "id": "/subscriptions/ec18dca1-0751-4307-bbac-6150896ac498/resourceGroups/rg-retro-tool-25/providers/Microsoft.Insights/components/ai-retro-tool-25",
-                          "resourceGroup": "rg-retro-tool-25"
+                          "id": "/subscriptions/VARSUBSCRIPTIONID/resourceGroups/VARRGNAME/providers/Microsoft.Insights/components/VARAIRESOURCENAME",
+                          "resourceGroup": "VARRGNAME"
                         }
                       }
                     ],
@@ -1547,8 +1547,8 @@
                         "name": "performanceCounters/processIOBytesPerSecond",
                         "namespace": "microsoft.insights/components",
                         "resourceMetadata": {
-                          "id": "/subscriptions/ec18dca1-0751-4307-bbac-6150896ac498/resourceGroups/rg-retro-tool-25/providers/Microsoft.Insights/components/ai-retro-tool-25",
-                          "resourceGroup": "rg-retro-tool-25"
+                          "id": "/subscriptions/VARSUBSCRIPTIONID/resourceGroups/VARRGNAME/providers/Microsoft.Insights/components/VARAIRESOURCENAME",
+                          "resourceGroup": "VARRGNAME"
                         }
                       }
                     ],
@@ -1593,8 +1593,8 @@
                         "name": "performanceCounters/processIOBytesPerSecond",
                         "namespace": "microsoft.insights/components",
                         "resourceMetadata": {
-                          "id": "/subscriptions/ec18dca1-0751-4307-bbac-6150896ac498/resourceGroups/rg-retro-tool-25/providers/Microsoft.Insights/components/ai-retro-tool-25",
-                          "resourceGroup": "rg-retro-tool-25"
+                          "id": "/subscriptions/VARSUBSCRIPTIONID/resourceGroups/VARRGNAME/providers/Microsoft.Insights/components/VARAIRESOURCENAME",
+                          "resourceGroup": "VARRGNAME"
                         }
                       }
                     ],
@@ -1649,8 +1649,8 @@
                         "name": "performanceCounters/memoryAvailableBytes",
                         "namespace": "microsoft.insights/components",
                         "resourceMetadata": {
-                          "id": "/subscriptions/ec18dca1-0751-4307-bbac-6150896ac498/resourceGroups/rg-retro-tool-25/providers/Microsoft.Insights/components/ai-retro-tool-25",
-                          "resourceGroup": "rg-retro-tool-25"
+                          "id": "/subscriptions/VARSUBSCRIPTIONID/resourceGroups/VARRGNAME/providers/Microsoft.Insights/components/VARAIRESOURCENAME",
+                          "resourceGroup": "VARRGNAME"
                         }
                       }
                     ],
@@ -1695,8 +1695,8 @@
                         "name": "performanceCounters/memoryAvailableBytes",
                         "namespace": "microsoft.insights/components",
                         "resourceMetadata": {
-                          "id": "/subscriptions/ec18dca1-0751-4307-bbac-6150896ac498/resourceGroups/rg-retro-tool-25/providers/Microsoft.Insights/components/ai-retro-tool-25",
-                          "resourceGroup": "rg-retro-tool-25"
+                          "id": "/subscriptions/VARSUBSCRIPTIONID/resourceGroups/VARRGNAME/providers/Microsoft.Insights/components/VARAIRESOURCENAME",
+                          "resourceGroup": "VARRGNAME"
                         }
                       }
                     ],
@@ -1744,9 +1744,9 @@
               {
                 "name": "ComponentId",
                 "value": {
-                  "Name": "ai-retro-tool-25",
-                  "ResourceGroup": "rg-retro-tool-25",
-                  "SubscriptionId": "ec18dca1-0751-4307-bbac-6150896ac498"
+                  "Name": "VARAIRESOURCENAME",
+                  "ResourceGroup": "VARRGNAME",
+                  "SubscriptionId": "VARSUBSCRIPTIONID"
                 }
               },
               {
@@ -1793,9 +1793,9 @@
               {
                 "name": "ComponentId",
                 "value": {
-                  "Name": "ai-retro-tool-25",
-                  "ResourceGroup": "rg-retro-tool-25",
-                  "SubscriptionId": "ec18dca1-0751-4307-bbac-6150896ac498"
+                  "Name": "VARAIRESOURCENAME",
+                  "ResourceGroup": "VARRGNAME",
+                  "SubscriptionId": "VARSUBSCRIPTIONID"
                 }
               },
               {
@@ -1882,9 +1882,9 @@
               {
                 "name": "ComponentId",
                 "value": {
-                  "Name": "ai-retro-tool-25",
-                  "ResourceGroup": "rg-retro-tool-25",
-                  "SubscriptionId": "ec18dca1-0751-4307-bbac-6150896ac498"
+                  "Name": "VARAIRESOURCENAME",
+                  "ResourceGroup": "VARRGNAME",
+                  "SubscriptionId": "VARSUBSCRIPTIONID"
                 }
               },
               {
@@ -1942,7 +1942,7 @@
             "inputs": [
               {
                 "name": "ResourceId",
-                "value": "/subscriptions/ec18dca1-0751-4307-bbac-6150896ac498/resourceGroups/rg-retro-tool-25/providers/Microsoft.Insights/components/ai-retro-tool-25"
+                "value": "/subscriptions/VARSUBSCRIPTIONID/resourceGroups/VARRGNAME/providers/Microsoft.Insights/components/VARAIRESOURCENAME"
               },
               {
                 "isOptional": true,
@@ -2049,7 +2049,7 @@
     }
   },
   "name": "95274542-a29f-44c0-9697-c76dfa53132f",
-  "resourceGroup": "rg-retro-tool-25",
+  "resourceGroup": "VARRGNAME",
   "tags": {
     "hidden-title": "Retrospective Tool Dashboard"
   },
