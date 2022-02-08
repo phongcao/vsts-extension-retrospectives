@@ -77,14 +77,21 @@
         --resource-group "$resource_group" \
         --query instrumentationKey \
         --output tsv)
-    dashboard_file="./deploy/ai-dashboard.json"
-    
-    sed -i "s/VARRGNAME/${resource_group}/"     ${dashboard_file}
-    sed -i "s/VARSUBSCRIPTIONID/${subscription_id}/"   ${dashboard_file}
-    sed -i "s/VARAIRESOURCENAME/ai-${resource_name_suffix}/"     ${dashboard_file}
 
-    az portal dashboard create --location "eastus" --name "${resource_name_suffix}-dashboard" \
+    #Add an Application Insights dashboard
+    dashboard_file="./deploy/ai-dashboard.json"
+
+    cp ./deploy/ai-dashboard.json.template ${dashboard_file}
+  
+    sed -i "s/VARRGNAME/${resource_group}/"                     ${dashboard_file}
+    sed -i "s/VARSUBSCRIPTIONID/${subscription_id}/"            ${dashboard_file}
+    sed -i "s/VARAIRESOURCENAME/ai-${resource_name_suffix}/"    ${dashboard_file}
+
+    #https://docs.microsoft.com/en-us/cli/azure/portal/dashboard?view=azure-cli-latest
+    az portal dashboard create --location "eastus" \
+        --name "${resource_name_suffix}-dashboard" \
         --resource-group ${resource_group} --input-path ${dashboard_file}
+
     
     # https://docs.azure.cn/en-us/cli/webapp?view=azure-cli-latest#az_webapp_create
     # Create WebApp
@@ -136,7 +143,4 @@
     backend_health_check="https://${backend_service_url}/health"
 
     echo "Backend service successfully deployed at ${backend_service_url}. To check the health of the deployment visit ${backend_health_check}"
-    cp ./deploy/dashboard-template.json.original ./deploy/dashboard-template.json
-  
-
 )
