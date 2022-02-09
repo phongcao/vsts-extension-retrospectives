@@ -18,6 +18,9 @@
     npm run test
     echo "tests passed"
 
+    npm run pack:test
+    echo "pack passed"
+
     find . -type f -name "*.md" -not -path "./node_modules/*" -print0 | xargs -0 -r markdownlint
     echo "markdownlint passed"
 
