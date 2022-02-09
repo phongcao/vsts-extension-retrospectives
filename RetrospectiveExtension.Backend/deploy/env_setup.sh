@@ -88,9 +88,9 @@
     sed -i "s/VARSUBSCRIPTIONID/${subscription_id}/"            ${dashboard_file}
     sed -i "s/VARAIRESOURCENAME/ai-${resource_name_suffix}/"    ${dashboard_file}
 
-    #https://docs.microsoft.com/en-us/cli/azure/portal/dashboard?view=azure-cli-latest
+    # https://docs.microsoft.com/en-us/cli/azure/portal/dashboard?view=azure-cli-latest
     az portal dashboard create --location "eastus" \
-        --name "${resource_name_suffix}-dashboard" \
+        --name "dashboard-${resource_name_suffix}" \
         --resource-group ${resource_group} --input-path ${dashboard_file}
 
     
