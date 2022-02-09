@@ -245,13 +245,18 @@ describe('Feedback Item', () => {
     verifyBasicLayout(component, testUpvotes);
   });
 
+  it('has voting enabled during the Act stage.', () => {
+    testColumnProps.workflowPhase = WorkflowPhase.Act;
+    testUpvotes = 0;
+    const component = createBasicFeedbackItem(testUpvotes);
+    verifyBasicLayout(component, testUpvotes);
+  });
+
   it('has voting disabled during the Collect stage.', () => {
     testColumnProps.workflowPhase = WorkflowPhase.Collect;
     testUpvotes = 0;
     const component = createBasicFeedbackItem(testUpvotes);
     verifyBasicLayout(component, testUpvotes, true);
-
-    console.log(component.debug());
   });
 
   it('has voting disabled during the Group stage.', () => {
@@ -259,17 +264,39 @@ describe('Feedback Item', () => {
     testUpvotes = 0;
     const component = createBasicFeedbackItem(testUpvotes);
     verifyBasicLayout(component, testUpvotes, true);
-
-    console.log(component.debug());
   });
 
-  it('has voting disabled during the Act stage.', () => {
+  it('displays the Group Feedback Dialog when the Group Feedback button is clicked.', () => {
+    verifyDialogState("isGroupFeedbackItemDialogHidden", "Group Feedback");
+  });
+
+  it('displays the Remove Feedback from Group Dialog when the Remove Feedback from Group button is clicked.', () => {
+    verifyDialogState("isRemoveFeedbackItemFromGroupConfirmationDialogHidden", "Remove Feedback from Group");
+  });
+
+  it('displays the Move Feedback to Different Column Dialog when the Move Feedback button is clicked.', () => {
+    verifyDialogState("isMoveFeedbackItemDialogHidden", "Move Feedback to Different Column");
+  });
+
+  it('displays the Delete Feedback Dialog when the Delete Feedback button is clicked.', () => {
+    verifyDialogState("isDeleteItemConfirmationDialogHidden", "Delete Feedback");
+  });
+
+  it('updates the Timer when clicked', () => {
     testColumnProps.workflowPhase = WorkflowPhase.Act;
     testUpvotes = 0;
     const component = createBasicFeedbackItem(testUpvotes);
     verifyBasicLayout(component, testUpvotes);
 
-    console.log(component.debug());
+    const timer = component.findWhere((child) => child.prop("title") === "Timer");
+    expect(timer.html()).toContain(`${testFeedbackItem.timerSecs} (seconds)`);
+    const mockedEvent = mocked({
+      preventDefault: jest.fn(() => {}),
+      stopPropagation: jest.fn(() => {})
+    });
+    timer.simulate("click", mockedEvent);
+    expect(mockedEvent.preventDefault).toHaveBeenCalledTimes(1);
+    expect(mockedEvent.stopPropagation).toHaveBeenCalledTimes(1);
   });
 });
 
@@ -284,6 +311,24 @@ const createBasicFeedbackItem = (voteCount: number) => {
   return wrapper.children().dive();
 };
 
+const verifyDialogState = (hiddenStateVariable: string, expectedTitle: string) => {
+  testGroupedItemProps.groupedCount = 1;
+  testGroupedItemProps.isMainItem = true;
+  testFeedbackItem.groupedItemProps = testGroupedItemProps;0;
+  const component = createBasicFeedbackItem(testUpvotes);
+  component.setState({[hiddenStateVariable] : false});
+
+  // Expect all child Dialogs except for one to be hidden.
+  const childDialogs = component.find(Dialog);
+  expect(childDialogs).toHaveLength(childDialogCount);
+  expect(childDialogs.findWhere((child) =>
+    child.prop("hidden") === true)).toHaveLength(childDialogCount - 1);
+
+  const displayedDialog = childDialogs.findWhere((child) => child.prop("hidden") === false);
+  expect(displayedDialog).toHaveLength(1);
+  expect(displayedDialog.prop("dialogContentProps").title).toBe(expectedTitle);
+};
+
 const verifyBasicLayout = (
   component: ShallowWrapper,
   currentUpvoteCount: number,
@@ -292,7 +337,7 @@ const verifyBasicLayout = (
   const childDialogs = component.find(Dialog);
   expect(childDialogs).toHaveLength(childDialogCount);
   expect(childDialogs.findWhere((child) =>
-    child.prop("hidden") === true)).toHaveLength(childDialogCount);
+    child.prop("hidden"))).toHaveLength(childDialogCount);
 
   /* Expect Default buttons for actions for each child dialog.
     Expect the Move Feedback Button to only exist for the second column. */
