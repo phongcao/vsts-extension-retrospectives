@@ -79,7 +79,7 @@
         --query instrumentationKey \
         --output tsv)
 
-    #Add an Application Insights dashboard
+    # Add an Application Insights dashboard
     dashboard_file="./deploy/ai-dashboard.json"
 
     cp ./deploy/ai-dashboard.json.template ${dashboard_file}
