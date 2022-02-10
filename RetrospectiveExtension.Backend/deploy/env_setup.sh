@@ -86,7 +86,7 @@
   
     perl -pi -e s,VARRGNAME,${resource_group},g ${dashboard_file}
     perl -pi -e s,VARSUBSCRIPTIONID,${subscription_id},g ${dashboard_file}
-    sed -i "s/VARAIRESOURCENAME/ai-${resource_name_suffix}/"    ${dashboard_file}
+    perl -pi -e s,VARAIRESOURCENAME,ai-${resource_name_suffix},g ${dashboard_file}
 
     # https://docs.microsoft.com/en-us/cli/azure/portal/dashboard?view=azure-cli-latest
     az portal dashboard create --location "eastus" \
