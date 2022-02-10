@@ -84,7 +84,7 @@
 
     cp ./deploy/ai-dashboard.json.template ${dashboard_file}
   
-    sed -i "s/VARRGNAME/${resource_group}/"                     ${dashboard_file}
+    perl -pi -e s,VARRGNAME,${resource_group},g ${dashboard_file}
     sed -i "s/VARSUBSCRIPTIONID/${subscription_id}/"            ${dashboard_file}
     sed -i "s/VARAIRESOURCENAME/ai-${resource_name_suffix}/"    ${dashboard_file}
 
