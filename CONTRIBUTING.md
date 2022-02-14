@@ -1,45 +1,110 @@
-# Contribute
-
-The Retrospectives Azure DevOps extension frontend is implemented in React using Typescript, and the backend is implemented in C#. The project follows a single branch source control strategy.
+# Contributing
 
 ## Table of Contents
 
 - [Background](#background)
-- [Contributing](#contributing)
+- [Contributing Guidelines](#contributing-guidelines)
   - [Branching and Pull Requests](#branching-and-pull-requests)
-  - [Build](#build)
-  - [Continuous Integration and Pre-commit Hook](#continuous-Integration-script-and-pre-commit-hook)
-  - [Unit Testing - Frontend](#frontend-unit-testing)
-  - [Unit Testing - Backend](#backend-unit-testing)
+  - [Continuous Integration and Pre-commit Hook](#continuous-integration-ci-script-and-pre-commit-hook)
 - [Development Environments](#development-environments)
   - [Visual Studio Code - Dev Containers](#dev-containers)
   - [Windows Subsystem for Linux (WSL)](#windows-subsystem-for-linux)
   - [Github Codespaces](#codespaces)
-- [Testing New Features and Fixes](#testing-new-features-and-fixes)
-- [Storage](#storage)
-- [Backend](#backend)
+- [Build](#build)
+- [Frontend Development](#frontend-development)
+  - [Unit Testing](#frontend-unit-testing)
+- [Backend Development](#backend-development)
+  - [Style Guide](#style-guide)
+  - [Storage](#storage)
+  - [Code](#code)
+  - [Unit Testing](#backend-unit-testing)
+- [Application Monitoring and Telemetry](application-monitoring-and-telemetry)
 
 ## Background
 
-Retrospectives is an Azure DevOps extension. Visit [this link](https://docs.microsoft.com/en-us/azure/devops/extend/?view=vsts) to learn more about developing extensions.
+Retrospectives is an Azure DevOps extension. Visit
+[this link](https://docs.microsoft.com/en-us/azure/devops/extend/?view=vsts) to learn more about developing extensions.
+ The Retrospectives Azure DevOps extension frontend is implemented in React using Typescript, and the backend is
+  implemented in C#. The project follows a single branch source control strategy.
 
-## Contributing
+## Contributing Guidelines
 
 ### Branching and Pull Requests
 
 1. When creating a new branch, follow the `users/{alias}/{nameofyourbranch}` naming convention.
-2. Once your feature addition or bug fix is ready for review, create a pull request against the `master` branch of the repository. Include a link to the bug or task you are addressing to the description of your pull request. Reviewers will be added to the pull request automatically.
+2. Once your feature addition or bug fix is ready for review, create a pull request against the `master` branch of the repository.
+3. Include a link to the bug or task you are addressing to the description of your pull request. Reviewers will be added to the pull request automatically.
+4. Ensure builds are successful and tests, including any added or updated tests, pass prior to submitting the pull request.
+5. Update any documentation, user and contributor, that is impacted by your changes.
+6. You may merge the pull request in once you have the sign-off from one developer from the [Retrospectives team](retrospectives@microsoft.com), or if you do not have permission to do that, you may request the reviewer to merge it for you.
 
-### Build and Test
+### Continuous Integration (CI) Script and Pre-commit Hook
+
+The `RetrospectiveExtension.Frontend/scripts` folder includes a ci script,
+[`ci.sh`](RetrospectiveExtension.Frontend/scripts/ci.sh).
+The script runs all CI steps locally. If you are using the
+projects dev container all script dependencies are already installed.
+If you are not using the dev container you can run the
+[`setup_ci.sh`](RetrospectiveExtension.Frontend/scripts/setup_ci.sh) script
+to install all dependencies.
+
+In addition to running the CI script manually the dev container is
+configured to install a
+[pre-commit hook](https://git-scm.com/docs/githooks#_pre_commit) using the
+[Python pre-commit framework](https://pre-commit.com/). The pre-commit
+hook will run the [`ci.sh`](RetrospectiveExtension.Frontend/scripts/ci.sh)
+script before each commit and abort the commit on error. To
+disable the pre-commit hook run `pre-commit uninstall` from the
+root folder.
+
+## Development Environments
+
+The Retrospectives Extension can be built, developed and tested in several development environments. This section highlights three of the primary environments in order of relevance.
+
+### Dev Containers
 
 #### Prerequisities
+
+1. Install the latest version of [Visual Studio Code](https://code.visualstudio.com/).
+2. Install the [Docker](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-docker) extension for
+Visual Studio Code.
+3. Install the
+[Remote - Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) extension for Visual Studio Code.
+4. Check out this repository and open the parent folder in Visual Studio Code.
+5. Follow the steps outlined in the [Build](#build) section to build, test, and deploy development versions of the extension.
+
+---
+
+- The first time this repository is opened in Visual Studio Code, the .devcontainer folder will be detected. In the bottom right-hand corner of the screen, a prompt will be displayed: “Folder contains a Dev Container configuration file. Reopen folder to develop in a container.”.
+- Selecting the “Reopen in Container” option will automatically start the process of creating the Dev Container; this may take a few minutes the first time the container is created, or any time the settings for the container have changed and the container needs to be recreated.
+- If there are issues running the `ci.sh` script in a clean checkout, check the `Files: Eol` setting in Visual Studio Code. Change it to \n, open the `ci.sh` file, save it, and retry the script.
+
+### Windows Subsystem For Linux
+
+#### Prerequisites
+
+1. To configure the WSL if it is not already available on the development machine, follow this
+[tutorial](https://docs.microsoft.com/en-us/learn/modules/get-started-with-windows-subsystem-for-linux/).
+2. Install the latest version of [Visual Studio Code](https://code.visualstudio.com/).
+3. Install the [Remote – WSL](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-wsl)
+ extension for Visual Studio Code.
+
+### Github Codespaces
+
+### Other
+
+Local development is also supported on Windows and Mac, however the other environments listed above have been tested and known to work.
+
+## Build
+
+### Prerequisities
 
 1. [NodeJS](https://nodejs.org/en/download/) - Required to build the project and download dependencies.
 2. [Webpack](https://webpack.js.org/) - Required for module bundling.
 3. [Visual Studio Code](https://code.visualstudio.com/) - Recommended IDE, however any IDE supporting C#, React and
  Typescript will be sufficient.
 
-#### Build
+### Build the extension
 
 1. Clone this repository, and open in your preferred [development environment](#development-environments).
 2. Using Powershell, navigate to the '/RetrospectiveExtension.Frontend' folder, run `npm install`. This will download all the dependent packages listed in 'package.json'.
@@ -80,81 +145,6 @@ Retrospectives is an Azure DevOps extension. Visit [this link](https://docs.micr
 - For updates, simple rebuild and package your extension and publish an update from the Azure DevOps marketplace. That will automatically update the extension in your project.
 
 - For the real time live syncing to work, our service needs to know your publisher id and your extension's unique key. To enable real time updates for your test extension, please [reach out to us](https://github.com/microsoft/vsts-extension-retrospectives/issues) with your publisher id and the unique key of your extension. [Instructions on how to download the unique key](https://docs.microsoft.com/en-us/azure/devops/extend/develop/auth?view=vsts#get-your-extensions-key).
-
-### Continuous Integration (CI) Script and Pre-commit Hook
-
-The `RetrospectiveExtension.Frontend/scripts` folder includes a ci script,
-[`ci.sh`](RetrospectiveExtension.Frontend/scripts/ci.sh).
-The script runs all CI steps locally. If you are using the
-projects dev container all script dependencies are already installed.
-If you are not using the dev container you can run the
-[`setup_ci.sh`](RetrospectiveExtension.Frontend/scripts/setup_ci.sh) script
-to install all dependencies.
-
-In addition to running the CI script manually the dev container is
-configured to install a
-[pre-commit hook](https://git-scm.com/docs/githooks#_pre_commit) using the
-[Python pre-commit framework](https://pre-commit.com/). The pre-commit
-hook will run the [`ci.sh`](RetrospectiveExtension.Frontend/scripts/ci.sh)
-script before each commit and abort the commit on error. To
-disable the pre-commit hook run `pre-commit uninstall` from the
-root folder.
-
-### Frontend Unit Testing
-
-**Framework**
-
-React Component tests are written using the following packages:
-
-- [Jest Testing Framework](https://jestjs.io/)
-- [Enzyme Testing utility](https://enzymejs.github.io/enzyme/)
-- [Enzyme to JSON](https://github.com/adriantoine/enzyme-to-json)
-
----
-**Test Coverage**
-
-To automatically generate the test coverage report, add the `--coverage` flag to the `test` script defined in [package.json](RetrospectiveExtension.Frontend/package.json). After the test run is completed, coverage statistics will then be reported in the newly created `coverage` directory.
-
----
-
-**Test Execution**
-
-- `npm install` must be executed before running any tests.
-- `npm run test` is the default test execution method defined in the [package.json](RetrospectiveExtension.Frontend/package.json) file. This will automatically run all of the tests in files suffixed with `.test.tsx` inside of the [tests folder](RetrospectiveExtension.Frontend/components/__tests__).
-- `npm run test:watch` will run tests in watch mode, re-running tests every time a component change is saved.
-- `jest --env=jsdom {FULL_FILE_PATH}` can be used to run tests only in the specified file.
-Wildcards also work instead of a fully qualified path.
-
----
-
-**Mocks**
-
-- In this project, mocks have been implemented for simulating API calls and external module functionality.
-Reuseable mocks should be added to the [mock folder](RetrospectiveExtension.Frontend/components/__mocks__).
-- Mocks which are shared by the majority of tests should be initialized in the [test setup file](RetrospectiveExtension.Frontend/components/__tests__/setupTests.tsx).
-
----
-
-**Snapshots**
-
-To ensure proper rendering of components, snapshots tests are being used compare expected component rendering state
-against its actual state. Snapshot tests will fail when changes are made to components that are not accounted for
-through updates to these stored snapshots.
-
-To update snapshots, delete the snapshot for the component that you are testing, (located in the [snapshots folder](RetrospectiveExtension.Frontend/components/__tests__/__snapshots__))
-and run the test command. On test run completion, new snapshots should be created. Please check the newly created
-snapshot file, to ensure that the expected changes are present, and include the snapshot in your pull request.
-
-### Backend Unit Testing
-
-Unit Tests for the Backend are located in the [Backend Tests folder](RetrospectiveExtension.Backend.Tests/). To execute these tests, perform the following steps:
-
-1. Navigate to the RetrospectiveExtension.Backend folder.
-2. Execute `dotnet restore`.
-3. Execute `dotnet build`.
-4. Navigate to the RetrospectiveExtension.Backend.Tests folder.
-5. Execute `dotnet test`.
-6. View test results in the terminal.
 
 ### Test using Hot Reload and Debug
 
@@ -228,12 +218,6 @@ Reference: [Azure DevOps Extension Hot Reload and Debug](https://github.com/micr
 
 - Once you are logged in to Azure DevOps, your extension should be running. Set a breakpoint in a method in VS Code and you should see that breakpoint hit when that method executes.
 
-### Storage
-
-The Retrospectives tool uses the [Azure DevOps data service](https://docs.microsoft.com/en-us/azure/devops/extend/develop/data-storage?view=vsts) for handling all its storage.
-
-### Backend
-
 #### Overview
 
 The Retrospectives tool uses the [Azure SignalR service](https://azure.microsoft.com/en-us/services/signalr-service/) to add real time support. The backend codebase can be found [here](https://github.com/microsoft/vsts-extension-retrospectives/tree/master/RetrospectiveExtension.Backend).
@@ -284,21 +268,65 @@ contains the App Service, App Service Plan and SignalR resources.
    - `AppInsightsInstrumentKey` value to Application Insights' Instrumentation Key for the resource `ai-<RESOURCE_NAME_SUFFIX>`.
 1. After updating the above values redeploy the extension.
 
-## Style Guidelines for Backend Project
+## Frontend Development
+
+### Frontend Unit Testing
+
+#### Framework
+
+React Component tests are written using the following packages:
+
+- [Jest Testing Framework](https://jestjs.io/)
+- [Enzyme Testing utility](https://enzymejs.github.io/enzyme/)
+- [Enzyme to JSON](https://github.com/adriantoine/enzyme-to-json)
+
+---
+
+#### Test Coverage
+
+To automatically generate the test coverage report, add the `--coverage` flag to the `test` script defined in [package.json](RetrospectiveExtension.Frontend/package.json). After the test run is completed, coverage statistics will then be reported in the newly created `coverage` directory.
+
+---
+
+#### Test Execution
+
+- `npm install` must be executed before running any tests.
+- `npm run test` is the default test execution method defined in the [package.json](RetrospectiveExtension.Frontend/package.json) file. This will automatically run all of the tests in files suffixed with `.test.tsx` inside of the [tests folder](RetrospectiveExtension.Frontend/components/__tests__).
+- `npm run test:watch` will run tests in watch mode, re-running tests every time a component change is saved.
+- `jest --env=jsdom {FULL_FILE_PATH}` can be used to run tests only in the specified file.
+Wildcards also work instead of a fully qualified path.
+
+---
+
+#### Mocks
+
+- In this project, mocks have been implemented for simulating API calls and external module functionality.
+Reuseable mocks should be added to the [mock folder](RetrospectiveExtension.Frontend/components/__mocks__).
+- Mocks which are shared by the majority of tests should be initialized in the [test setup file](RetrospectiveExtension.Frontend/components/__tests__/setupTests.tsx).
+
+---
+
+#### Snapshots
+
+To ensure proper rendering of components, snapshots tests are being used compare expected component rendering state
+against its actual state. Snapshot tests will fail when changes are made to components that are not accounted for
+through updates to these stored snapshots.
+
+To update snapshots, delete the snapshot for the component that you are testing, (located in the [snapshots folder](RetrospectiveExtension.Frontend/components/__tests__/__snapshots__))
+and run the test command. On test run completion, new snapshots should be created. Please check the newly created
+snapshot file, to ensure that the expected changes are present, and include the snapshot in your pull request.
+
+## Backend Development
+
+### Style Guide
 
 Follow the coding guidelines here - [C# Coding Conventions (C# Programming Guide)](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/inside-a-program/coding-conventions).
 
-## Pull Request Process
+### Storage
 
-1. Clone the repository to your local machine.
-2. Create a new local branch from the 'master' branch. Follow the `<alias>/<nameofyourbranch>` naming convention for your branch.
-3. Publish the newly created branch to the Reflect Backend repo. Use this branch as your working branch.
-4. Once you are ready to check-in, create a pull request against the 'master' branch. Link the Bug/Task that you are fixing/adding to the pull request. Reviewers will be added automatically.
-5. Ensure builds are successful and tests, including any added or updated tests, pass prior to submitting the pull request.
-6. Update any documentation, user and contributor, that is impacted by your changes.
-7. You may merge the pull request in once you have the sign-off from one developer from the [Retrospectives team](retrospectives@microsoft.com), or if you do not have permission to do that, you may request the reviewer to merge it for you.
+The Retrospectives tool uses the [Azure DevOps data service](https://docs.microsoft.com/en-us/azure/devops/extend/develop/data-storage?view=vsts) for handling all its storage.
 
-## Code
+### Code
 
 1. The project is developed using the [.NET Core](https://docs.microsoft.com/en-us/dotnet/core/) development platform. The 'CollaborationStateService' web project contains the code for the backend service. Since .NET Core is platform independent, project can be developed on any operating system.
 2. The 'ReflectBackend.ReflectHub' class contains the implementation of all the functions that the backend service supports. New methods should be added here to support more real time scenarios.
@@ -332,6 +360,17 @@ Follow the coding guidelines here - [C# Coding Conventions (C# Programming Guide
          return Clients.OthersInGroup( reflectBoardId ).SendAsync( "receiveNewItem", columnId, feedbackItemId );
      }
      ```
+
+### Backend Unit Testing
+
+Unit Tests for the Backend are located in the [Backend Tests folder](RetrospectiveExtension.Backend.Tests/). To execute these tests, perform the following steps:
+
+1. Navigate to the RetrospectiveExtension.Backend folder.
+2. Execute `dotnet restore`.
+3. Execute `dotnet build`.
+4. Navigate to the RetrospectiveExtension.Backend.Tests folder.
+5. Execute `dotnet test`.
+6. View test results in the terminal.
 
 ## Application Monitoring and Telemetry
 
