@@ -24,7 +24,8 @@ export async function readDocuments<T>(
 
   try {
     data = await dataService.getDocuments(collectionName, isPrivate ? { scopeType: 'User' } : undefined);
-  } catch (e) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (e: any) {
     if (e.serverError.typeKey === 'DocumentCollectionDoesNotExistException') {
       if (throwCollectionDoesNotExistException) {
         throw e;

@@ -75,6 +75,58 @@ Clone the repository to your local machine from the Azure DevOps endpoint.
 
 - For the real time live syncing to work, our service needs to know your publisher id and your extension's unique key. To enable real time updates for your test extension, please [reach out to us](https://github.com/microsoft/vsts-extension-retrospectives/issues) with your publisher id and the unique key of your extension. [Instructions on how to download the unique key](https://docs.microsoft.com/en-us/azure/devops/extend/develop/auth?view=vsts#get-your-extensions-key).
 
+### Continuous Integration (CI) Script and Pre-commit Hook
+
+The `RetrospectiveExtension.Frontend/scripts` folder includes a ci script,
+[`ci.sh`](RetrospectiveExtension.Frontend/scripts/ci.sh).
+The script runs all CI steps locally. If you are using the
+projects dev container all script dependencies are already installed.
+If you are not using the dev container you can run the
+[`setup_ci.sh`](RetrospectiveExtension.Frontend/scripts/setup_ci.sh) script
+to install all dependencies.
+
+In addition to running the CI script manually the dev container is
+configured to install a
+[pre-commit hook](https://git-scm.com/docs/githooks#_pre_commit) using the
+[Python pre-commit framework](https://pre-commit.com/). The pre-commit
+hook will run the [`ci.sh`](RetrospectiveExtension.Frontend/scripts/ci.sh)
+script before each commit and abort the commit on error. To
+disable the pre-commit hook run `pre-commit uninstall` from the
+root folder.
+
+### Testing Component Rendering and Functionality
+
+Components functionality is tested using the [Jest Testing Framework](https://jestjs.io/), and the
+[Enzyme Testing utility](https://enzymejs.github.io/enzyme/) and
+[Enzyme to JSON](https://github.com/adriantoine/enzyme-to-json), all of which are installed via package.json.
+
+#### Running Frontend Tests
+
+To execute tests, run the command the test command, which is `npm run test`, after installing the package.json file.
+This should run all of the tests that exist in files suffixed with `.test.tsx` inside of the [tests folder](RetrospectiveExtension.Frontend/components/__tests__). These
+tests currently ensure proper rendering (via snapshot tests) and expected output for basic use cases, and are grouped
+by component, inside of files that match the name of the component being tested. Please update these tests whenever
+necessary (including bug fixes) and include these tests in your pull requests.
+
+To run tests in "watch" mode, as you make changes to components, run `npm run test:watch`.
+
+To automatically generate the test coverage report, add the `--coverage` flag to the `test` script defined in [package.json](RetrospectiveExtension.Frontend/package.json). After the test run is completed, coverage statistics will then be reported in the newly created `coverage` directory.
+
+#### Mocks
+
+In order to simulate API calls and some external module functionality, jest mocks were created and utilized. Mocks that
+are expected to used by more than one test file are located in the [mock folder](RetrospectiveExtension.Frontend/components/__mocks__), and organized by module. If mocks are shared by the majority of tests, such as API mocks, add the creation of the mock to the [test setup file](RetrospectiveExtension.Frontend/components/__tests__/setupTests.tsx).
+
+#### Snapshots
+
+To ensure proper rendering of components, snapshots tests are being used compare expected component rendering state
+against its actual state. Snapshot tests will fail when changes are made to components that are not accounted for
+through updates to these stored snapshots.
+
+To update snapshots, delete the snapshot for the component that you are testing, (located in the [snapshots folder](RetrospectiveExtension.Frontend/components/__tests__/__snapshots__))
+and run the test command. On test run completion, new snapshots should be created. Please check the newly created
+snapshot file, to ensure that the expected changes are present, and include the snapshot in your pull request.
+
 ### Test using Hot Reload and Debug
 
 Test changes by directly loading changes locally, without having to re-package and re-publish the extension in the marketplace.
@@ -251,6 +303,11 @@ Follow the coding guidelines here - [C# Coding Conventions (C# Programming Guide
          return Clients.OthersInGroup( reflectBoardId ).SendAsync( "receiveNewItem", columnId, feedbackItemId );
      }
      ```
+
+## Application Monitoring and Telemetry
+
+1. The Retro tool uses [Azure Application Insights](https://docs.microsoft.com/en-us/azure/azure-monitor/app/app-insights-overview) to capture application logs, telemetry and performance data.
+2. A custom Azure portal is deployed as part of the backend deployment script that enables real time monitoring of the application. The dashboard includes useful telemetry data such as number of active user sessions, histogram of React Components visited, HTTP requests made, page load times, backend and front end exceptions and other metrics.
 
 ## License Information
 

@@ -274,5 +274,8 @@ RetrospectiveExtension.FrontEnd/coverage/
 # Dotnet test results
 RetrospectiveExtension.Backend.Tests/TestResults
 
-# ALerts template
+#Application Insights Dashboard description
+ai-dashboard.json 
+
+# Alerts template
 alerts.json
