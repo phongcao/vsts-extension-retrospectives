@@ -1,13 +1,21 @@
 # Contribute
 
-The Retrospectives Azure DevOps extension is developed in React, using Typescript. The project follows a single branch source control strategy.
+The Retrospectives Azure DevOps extension frontend is implemented in React using Typescript, and the backend is implemented in C#. The project follows a single branch source control strategy.
 
 ## Table of Contents
 
 - [Background](#background)
-- [To contribute](#to-contribute)
-- [Development on Windows](#development-on-windows)
-- [Contribute](#contribute)
+- [Contributing](#contributing)
+  - [Branching and Pull Requests](#branching-and-pull-requests)
+  - [Build](#build)
+  - [Continuous Integration and Pre-commit Hook](#continuous-Integration-script-and-pre-commit-hook)
+  - [Unit Testing - Frontend](#frontend-unit-testing)
+  - [Unit Testing - Backend](#backend-unit-testing)
+- [Development Environments](#development-environments)
+  - [Visual Studio Code - Dev Containers](#dev-containers)
+  - [Windows Subsystem for Linux (WSL)](#windows-subsystem-for-linux)
+  - [Github Codespaces](#codespaces)
+- [Testing New Features and Fixes](#testing-new-features-and-fixes)
 - [Storage](#storage)
 - [Backend](#backend)
 
@@ -15,43 +23,41 @@ The Retrospectives Azure DevOps extension is developed in React, using Typescrip
 
 Retrospectives is an Azure DevOps extension. Visit [this link](https://docs.microsoft.com/en-us/azure/devops/extend/?view=vsts) to learn more about developing extensions.
 
-## To contribute
+## Contributing
 
-1. Clone the repository to your local machine.
-2. Create a new local branch from the 'master' branch. Follow the 'users/{alias}/{nameofyourbranch}' naming convention for your branch.
-3. Publish the newly created branch to the Retrospectives repo. Use this branch as your working branch.
-4. Once you are ready to check-in, create a pull request against the 'master' branch. Link the Bug/Task that you are fixing/adding to the pull request. Reviewers will be added automatically.
+### Branching and Pull Requests
 
-## Development on Windows
-
-### Clone repo
-
-Clone the repository to your local machine from the Azure DevOps endpoint.
+1. When creating a new branch, follow the `users/{alias}/{nameofyourbranch}` naming convention.
+2. Once your feature addition or bug fix is ready for review, create a pull request against the `master` branch of the repository. Include a link to the bug or task you are addressing to the description of your pull request. Reviewers will be added to the pull request automatically.
 
 ### Build and Test
 
-**Note:** You will need NodeJS to be able to build the project and download dependencies. Go [here](https://nodejs.org/en/download/) to download NodeJS.
+#### Prerequisities
 
-**Note:** The project uses webpack for module bundling. Refer to the webpack documentation [here](https://webpack.js.org/).
+1. [NodeJS](https://nodejs.org/en/download/) - Required to build the project and download dependencies.
+2. [Webpack](https://webpack.js.org/) - Required for module bundling.
+3. [Visual Studio Code](https://code.visualstudio.com/) - Recommended IDE, however any IDE supporting C#, React and
+ Typescript will be sufficient.
 
-- Clone this repo and open it with Visual Studio or with Visual Studio Code. You can also use any IDE or editor that you normally use to work with C# and React/Typescript.
+#### Build
 
-- Using Powershell, navigate to the '/RetrospectiveExtension.Frontend' folder, run `npm install`. This will download all the dependent packages listed in 'package.json'.
+1. Clone this repository, and open in your preferred [development environment](#development-environments).
+2. Using Powershell, navigate to the '/RetrospectiveExtension.Frontend' folder, run `npm install`. This will download all the dependent packages listed in 'package.json'.
 
-- Copy the file `RetrospectiveExtension.Frontend\config\environment.tsx.template` into `RetrospectiveExtension.Frontend\config\environment.tsx` and update the fields
+3. Copy the file `RetrospectiveExtension.Frontend\config\environment.tsx.template` into `RetrospectiveExtension.Frontend\config\environment.tsx` and update the fields
 
 ```json
 {
    CollaborationStateServiceUrl : "https://my-backend-service.com", // change this to the deployed backend service
-   AppInsightsInstrumentK       : "my_instrumentation_key" // put Instrumentation key here
+   AppInsightsInstrumentationKey       : "my_instrumentation_key" // put Instrumentation key here
 }
 ```
 
-- Run `npm run build` to build the project. Refer to the 'scripts' section in 'package.json' for other commands.
+4. Run `npm run build` to build the project. Refer to the 'scripts' section in 'package.json' for other commands.
 
-- To test your changes, you will need to publish a new extension under a new Azure DevOps publisher account. Refer to the [documentation](https://docs.microsoft.com/en-us/azure/devops/extend/publish/overview?view=vsts) on publishing extensions. You can publish it to any test Azure DevOps organization that you are an admin of (As a Microsoft employee, you can create a new test organization from your Azure DevOps profile page). Currently this is the only way to test the extension.
+5. To test your changes, you will need to publish a new extension under a new Azure DevOps publisher account. Refer to the [documentation](https://docs.microsoft.com/en-us/azure/devops/extend/publish/overview?view=vsts) on publishing extensions. You can publish it to any test Azure DevOps organization that you are an admin of (As a Microsoft employee, you can create a new test organization from your Azure DevOps profile page). Currently this is the only way to test the extension.
 
-- Copy the file `vss-extension-dev.json.template` into `vss-extension-dev.json` file with the new publisher that you setup. Also update the name and id fields.
+6. Copy the file `vss-extension-dev.json.template` into `vss-extension-dev.json` file with the new publisher that you setup. Also update the name and id fields.
 
 ```json
 {
@@ -63,9 +69,9 @@ Clone the repository to your local machine from the Azure DevOps endpoint.
 }
 ```
 
-- Run `npm run pack:p` to package the modules into a Azure DevOps extension package. This generated package has a '.vsix' extension. This package is generated using information from the manifest file and your built code. Refer to the [documentation](https://docs.microsoft.com/en-us/azure/devops/extend/develop/manifest?view=vsts) to know more about extension manifests.
+7. Run `npm run pack:p` to package the modules into a Azure DevOps extension package. This generated package has a '.vsix' extension. This package is generated using information from the manifest file and your built code. Refer to the [documentation](https://docs.microsoft.com/en-us/azure/devops/extend/develop/manifest?view=vsts) to know more about extension manifests.
 
-- [Publish your to the marketplace](https://docs.microsoft.com/en-us/azure/devops/extend/publish/overview?view=vsts#publish). Once published, share the extension with the newly created test org. See [this link](https://docs.microsoft.com/en-us/azure/devops/extend/publish/overview?view=vsts#share) for documentation on sharing.
+8. [Publish your to the marketplace](https://docs.microsoft.com/en-us/azure/devops/extend/publish/overview?view=vsts#publish). Once published, share the extension with the newly created test org. See [this link](https://docs.microsoft.com/en-us/azure/devops/extend/publish/overview?view=vsts#share) for documentation on sharing.
 
 - Once the extension has been shared with your test org, you can install it to your org and start using it. This installation process is similar to installing any other DevOps extensions. Refer to [this link](https://docs.microsoft.com/en-us/azure/devops/marketplace/install-extension?view=vsts) for instructions. Since the extension is still in preview mode, it needs to be enabled for the Azure DevOps project. Enable the extension from the 'Preview Features' tab.
 
@@ -94,30 +100,42 @@ script before each commit and abort the commit on error. To
 disable the pre-commit hook run `pre-commit uninstall` from the
 root folder.
 
-### Testing Component Rendering and Functionality
+### Frontend Unit Testing
 
-Components functionality is tested using the [Jest Testing Framework](https://jestjs.io/), and the
-[Enzyme Testing utility](https://enzymejs.github.io/enzyme/) and
-[Enzyme to JSON](https://github.com/adriantoine/enzyme-to-json), all of which are installed via package.json.
+**Framework**
 
-#### Running Frontend Tests
+React Component tests are written using the following packages:
 
-To execute tests, run the command the test command, which is `npm run test`, after installing the package.json file.
-This should run all of the tests that exist in files suffixed with `.test.tsx` inside of the [tests folder](RetrospectiveExtension.Frontend/components/__tests__). These
-tests currently ensure proper rendering (via snapshot tests) and expected output for basic use cases, and are grouped
-by component, inside of files that match the name of the component being tested. Please update these tests whenever
-necessary (including bug fixes) and include these tests in your pull requests.
+- [Jest Testing Framework](https://jestjs.io/)
+- [Enzyme Testing utility](https://enzymejs.github.io/enzyme/)
+- [Enzyme to JSON](https://github.com/adriantoine/enzyme-to-json)
 
-To run tests in "watch" mode, as you make changes to components, run `npm run test:watch`.
+---
+**Test Coverage**
 
 To automatically generate the test coverage report, add the `--coverage` flag to the `test` script defined in [package.json](RetrospectiveExtension.Frontend/package.json). After the test run is completed, coverage statistics will then be reported in the newly created `coverage` directory.
 
-#### Mocks
+---
 
-In order to simulate API calls and some external module functionality, jest mocks were created and utilized. Mocks that
-are expected to used by more than one test file are located in the [mock folder](RetrospectiveExtension.Frontend/components/__mocks__), and organized by module. If mocks are shared by the majority of tests, such as API mocks, add the creation of the mock to the [test setup file](RetrospectiveExtension.Frontend/components/__tests__/setupTests.tsx).
+**Test Execution**
 
-#### Snapshots
+- `npm install` must be executed before running any tests.
+- `npm run test` is the default test execution method defined in the [package.json](RetrospectiveExtension.Frontend/package.json) file. This will automatically run all of the tests in files suffixed with `.test.tsx` inside of the [tests folder](RetrospectiveExtension.Frontend/components/__tests__).
+- `npm run test:watch` will run tests in watch mode, re-running tests every time a component change is saved.
+- `jest --env=jsdom {FULL_FILE_PATH}` can be used to run tests only in the specified file.
+Wildcards also work instead of a fully qualified path.
+
+---
+
+**Mocks**
+
+- In this project, mocks have been implemented for simulating API calls and external module functionality.
+Reuseable mocks should be added to the [mock folder](RetrospectiveExtension.Frontend/components/__mocks__).
+- Mocks which are shared by the majority of tests should be initialized in the [test setup file](RetrospectiveExtension.Frontend/components/__tests__/setupTests.tsx).
+
+---
+
+**Snapshots**
 
 To ensure proper rendering of components, snapshots tests are being used compare expected component rendering state
 against its actual state. Snapshot tests will fail when changes are made to components that are not accounted for
@@ -126,6 +144,17 @@ through updates to these stored snapshots.
 To update snapshots, delete the snapshot for the component that you are testing, (located in the [snapshots folder](RetrospectiveExtension.Frontend/components/__tests__/__snapshots__))
 and run the test command. On test run completion, new snapshots should be created. Please check the newly created
 snapshot file, to ensure that the expected changes are present, and include the snapshot in your pull request.
+
+### Backend Unit Testing
+
+Unit Tests for the Backend are located in the [Backend Tests folder](RetrospectiveExtension.Backend.Tests/). To execute these tests, perform the following steps:
+
+1. Navigate to the RetrospectiveExtension.Backend folder.
+2. Execute `dotnet restore`.
+3. Execute `dotnet build`.
+4. Navigate to the RetrospectiveExtension.Backend.Tests folder.
+5. Execute `dotnet test`.
+6. View test results in the terminal.
 
 ### Test using Hot Reload and Debug
 
