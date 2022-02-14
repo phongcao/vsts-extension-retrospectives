@@ -159,7 +159,7 @@ const testColumnProps = mocked({
   isBoardAnonymous: false,
   shouldFocusOnCreateFeedback: false,
   hideFeedbackItems: false,
-  groupTitles: ['example one', 'example two',], //TODO: hakenned - group titles in test
+  groupTitles: ['example one', 'example two',],
   isGroupedCarouselItem: false,
   onVoteCasted: jest.fn(() => { }),
   addFeedbackItems: jest.fn(() => { }),
