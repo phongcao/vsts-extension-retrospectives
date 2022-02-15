@@ -11,6 +11,9 @@
   - [Windows Subsystem for Linux (WSL)](#windows-subsystem-for-linux)
   - [Github Codespaces](#codespaces)
 - [Build](#build)
+  - [Test in Azure DevOps](#test-in-azure-devops)
+  - [Test with Hot Reload and Debug](#test-with-hot-reload-and-debug)
+  - [Test with Deployed Backend Service](#test-with-deployed-backend-service)
 - [Frontend Development](#frontend-development)
   - [Unit Testing](#frontend-unit-testing)
 - [Backend Development](#backend-development)
@@ -32,10 +35,15 @@ Retrospectives is an Azure DevOps extension. Visit
 ### Branching and Pull Requests
 
 1. When creating a new branch, follow the `users/{alias}/{nameofyourbranch}` naming convention.
+
 2. Once your feature addition or bug fix is ready for review, create a pull request against the `master` branch of the repository.
+
 3. Include a link to the bug or task you are addressing to the description of your pull request. Reviewers will be added to the pull request automatically.
+
 4. Ensure builds are successful and tests, including any added or updated tests, pass prior to submitting the pull request.
+
 5. Update any documentation, user and contributor, that is impacted by your changes.
+
 6. You may merge the pull request in once you have the sign-off from one developer from the [Retrospectives team](retrospectives@microsoft.com), or if you do not have permission to do that, you may request the reviewer to merge it for you.
 
 ### Continuous Integration (CI) Script and Pre-commit Hook
@@ -44,7 +52,7 @@ The `RetrospectiveExtension.Frontend/scripts` folder includes a ci script,
 [`ci.sh`](RetrospectiveExtension.Frontend/scripts/ci.sh).
 The script runs all CI steps locally. If you are using the
 projects dev container all script dependencies are already installed.
-If you are not using the dev container you can run the
+If you are not using the [dev container](#dev-containers) you can run the
 [`setup_ci.sh`](RetrospectiveExtension.Frontend/scripts/setup_ci.sh) script
 to install all dependencies.
 
@@ -61,16 +69,22 @@ root folder.
 
 The Retrospectives Extension can be built, developed and tested in several development environments. This section highlights three of the primary environments in order of relevance.
 
+All of the development prequisites, such as [NodeJS](https://nodejs.org/en/download/) and [Webpack](https://webpack.js.org/) are listed in the [Dockerfile](.devcontainer/Dockerfile). This file can be opened in a text editor and the install commands can be used to configure the prequisites outside of a [dev container](#dev-containers).
+
 ### Dev Containers
 
 #### Prerequisities
 
 1. Install the latest version of [Visual Studio Code](https://code.visualstudio.com/).
+
 2. Install the [Docker](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-docker) extension for
 Visual Studio Code.
+
 3. Install the
 [Remote - Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) extension for Visual Studio Code.
+
 4. Check out this repository and open the parent folder in Visual Studio Code.
+
 5. Follow the steps outlined in the [Build](#build) section to build, test, and deploy development versions of the extension.
 
 ---
@@ -85,7 +99,9 @@ Visual Studio Code.
 
 1. To configure the WSL if it is not already available on the development machine, follow this
 [tutorial](https://docs.microsoft.com/en-us/learn/modules/get-started-with-windows-subsystem-for-linux/).
+
 2. Install the latest version of [Visual Studio Code](https://code.visualstudio.com/).
+
 3. Install the [Remote – WSL](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-wsl)
  extension for Visual Studio Code.
 
@@ -97,16 +113,13 @@ Local development is also supported on Windows and Mac, however the other enviro
 
 ## Build
 
-### Prerequisities
+### Test in Azure DevOps
+Test changes in the Azure DevOps environment by publishing a development version of the extension under an Azure DevOps publisher account.
 
-1. [NodeJS](https://nodejs.org/en/download/) - Required to build the project and download dependencies.
-2. [Webpack](https://webpack.js.org/) - Required for module bundling.
-3. [Visual Studio Code](https://code.visualstudio.com/) - Recommended IDE, however any IDE supporting C#, React and
- Typescript will be sufficient.
-
-### Build the extension
+---
 
 1. Clone this repository, and open in your preferred [development environment](#development-environments).
+
 2. Using Powershell, navigate to the '/RetrospectiveExtension.Frontend' folder, run `npm install`. This will download all the dependent packages listed in 'package.json'.
 
 3. Copy the file `RetrospectiveExtension.Frontend\config\environment.tsx.template` into `RetrospectiveExtension.Frontend\config\environment.tsx` and update the fields
@@ -114,11 +127,11 @@ Local development is also supported on Windows and Mac, however the other enviro
 ```json
 {
    CollaborationStateServiceUrl : "https://my-backend-service.com", // change this to the deployed backend service
-   AppInsightsInstrumentationKey       : "my_instrumentation_key" // put Instrumentation key here
+   AppInsightsInstrumentK       : "my_instrumentation_key" // put Instrumentation key here
 }
 ```
 
-4. Run `npm run build` to build the project. Refer to the 'scripts' section in 'package.json' for other commands.
+4. Run `npm run build:d` to build the project. Refer to the 'scripts' section in 'package.json' for other commands.
 
 5. To test your changes, you will need to publish a new extension under a new Azure DevOps publisher account. Refer to the [documentation](https://docs.microsoft.com/en-us/azure/devops/extend/publish/overview?view=vsts) on publishing extensions. You can publish it to any test Azure DevOps organization that you are an admin of (As a Microsoft employee, you can create a new test organization from your Azure DevOps profile page). Currently this is the only way to test the extension.
 
@@ -134,7 +147,7 @@ Local development is also supported on Windows and Mac, however the other enviro
 }
 ```
 
-7. Run `npm run pack:p` to package the modules into a Azure DevOps extension package. This generated package has a '.vsix' extension. This package is generated using information from the manifest file and your built code. Refer to the [documentation](https://docs.microsoft.com/en-us/azure/devops/extend/develop/manifest?view=vsts) to know more about extension manifests.
+7. Run `npm run pack:d` to package the modules into a Azure DevOps extension package. This generated package has a '.vsix' extension. This package is generated using information from the manifest file and your built code. Refer to the [documentation](https://docs.microsoft.com/en-us/azure/devops/extend/develop/manifest?view=vsts) to know more about extension manifests.
 
 8. [Publish your to the marketplace](https://docs.microsoft.com/en-us/azure/devops/extend/publish/overview?view=vsts#publish). Once published, share the extension with the newly created test org. See [this link](https://docs.microsoft.com/en-us/azure/devops/extend/publish/overview?view=vsts#share) for documentation on sharing.
 
@@ -142,21 +155,30 @@ Local development is also supported on Windows and Mac, however the other enviro
 
 - Now start using the extension to test your changes.
 
-- For updates, simple rebuild and package your extension and publish an update from the Azure DevOps marketplace. That will automatically update the extension in your project.
+- For updates, rebuild and package your extension and publish an update from the Azure DevOps marketplace. That will automatically update the extension in your project.
 
-- For the real time live syncing to work, our service needs to know your publisher id and your extension's unique key. To enable real time updates for your test extension, please [reach out to us](https://github.com/microsoft/vsts-extension-retrospectives/issues) with your publisher id and the unique key of your extension. [Instructions on how to download the unique key](https://docs.microsoft.com/en-us/azure/devops/extend/develop/auth?view=vsts#get-your-extensions-key).
+- For the real time live syncing to work, our service needs to know your publisher id and your extension's unique key. To enable real time updates for your test extension, please [reach out to us](https://github.com/microsoft/vsts-extension-retrospectives/issues) with your publisher id and the [unique key](https://docs.microsoft.com/en-us/azure/devops/extend/develop/auth?view=vsts#get-your-extensions-key) of your extension.
 
-### Test using Hot Reload and Debug
+### Test with Hot Reload and Debug
 
-Test changes by directly loading changes locally, without having to re-package and re-publish the extension in the marketplace.
+Test changes by loading changes locally without having to re-package and re-publish the extension in the marketplace.
 
-Reference: [Azure DevOps Extension Hot Reload and Debug](https://github.com/microsoft/azure-devops-extension-hot-reload-and-debug)
+---
 
-**Note:** You will need [Visual Studio Code](https://code.visualstudio.com/download), [Firefox](https://www.mozilla.org/en-US/firefox/) and the [Debugger for Firefox](https://marketplace.visualstudio.com/items?itemName=firefox-devtools.vscode-firefox-debug) VS Code extension.
+**Prerequisites**
+1. [Azure DevOps Extension Hot Reload and Debug](https://github.com/microsoft/azure-devops-extension-hot-reload-and-debug)
 
-- In the 'RetrospectiveExtension.Frontend' folder, create the 'vss-extension-dev.json' file using the template file `vss-extension-dev.json.template` for reference.
+2. [Visual Studio Code](https://code.visualstudio.com/download)
 
-- Update the 'webpack.config.js' to enable source maps. Set the devtool property to `inline-source-map`. Also set devServer.https to true and devServer.port to 3000.
+3. [Firefox](https://www.mozilla.org/en-US/firefox/)
+
+4. [Debugger for Firefox](https://marketplace.visualstudio.com/items?itemName=firefox-devtools.vscode-firefox-debug) VS Code extension
+
+---
+
+1. In the 'RetrospectiveExtension.Frontend' folder, create the 'vss-extension-dev.json' file using the template file `vss-extension-dev.json.template` for reference.
+
+2. Update the 'webpack.config.js' to enable source maps. Set the devtool property to `inline-source-map`. Also set devServer.https to true and devServer.port to 3000.
 
   ```js
   module.exports = {
@@ -171,7 +193,7 @@ Reference: [Azure DevOps Extension Hot Reload and Debug](https://github.com/micr
   ...
   ```
 
-- Set `output.publicPath` to `/dist/` in the webpack.config.json file. This will allow webpack to serve files from `https://localhost:3000/dist`.
+3. Set `output.publicPath` to `/dist/` in the webpack.config.json file. This will allow webpack to serve files from `https://localhost:3000/dist`.
 
   ```js
   module.exports = {
@@ -183,7 +205,7 @@ Reference: [Azure DevOps Extension Hot Reload and Debug](https://github.com/micr
   };
   ```
 
-- In the root of the project, create a folder named `.vscode`. In there, create a file named `launch.json`, which will help to set up a debug configuration for VS Code that launches Firefox with the correct path mappings. Inside of this file, you will add a path mapping with `url` set to `webpack:///` and have the path set to `${workspaceFolder}/RetrospectiveExtension.Frontend/`. Also set the reAttach property on the configuration to true to avoid restarting Firefox every time you debug.
+4. In the root of the project, create a folder named `.vscode`. In there, create a file named `launch.json`, which will help to set up a debug configuration for VS Code that launches Firefox with the correct path mappings. Inside of this file, you will add a path mapping with `url` set to `webpack:///` and have the path set to `${workspaceFolder}/RetrospectiveExtension.Frontend/`. Also set the reAttach property on the configuration to true to avoid restarting Firefox every time you debug.
 
   ```json
   {
@@ -206,38 +228,39 @@ Reference: [Azure DevOps Extension Hot Reload and Debug](https://github.com/micr
   }
   ```
 
-- Navigate to the '/RetrospectiveExtension.Frontend' folder, run `npm install` to download all the dependent packages listed in 'package.json'.
+5. Navigate to the '/RetrospectiveExtension.Frontend' folder, run `npm install` to download all the dependent packages listed in 'package.json'.
 
-- Run `npm run build:d` to build the project.
+6. Run `npm run build:d` to build the project.
 
-- Run `npm run start:dev` to start the webpack-dev-server
+7. Run `npm run start:dev` to start the webpack-dev-server
 
-- Start debugger (making sure the webpack-dev-server is still running). The default launch configuration should be set to Launch Firefox.
+8. Start debugger (making sure the webpack-dev-server is still running). The default launch configuration should be set to Launch Firefox.
 
-- Once Firefox starts up, you should get an untrusted certificate error page. Select Advanced and then select **Accept the Risk and Continue** and log into your Azure DevOps account. From now on, if you leave this Firefox window open, the debugger will reattach instead of starting a clean Firefox instance each time.
+9. Once Firefox starts up, you should get an untrusted certificate error page. Select Advanced and then select **Accept the Risk and Continue** and log into your Azure DevOps account. From now on, if you leave this Firefox window open, the debugger will reattach instead of starting a clean Firefox instance each time.
 
-- Once you are logged in to Azure DevOps, your extension should be running. Set a breakpoint in a method in VS Code and you should see that breakpoint hit when that method executes.
+10. Once you are logged in to Azure DevOps, your extension should be running. Set a breakpoint in a method in VS Code and you should see that breakpoint hit when that method executes.
 
-#### Overview
+### Test with Deployed Backend Service
 
-The Retrospectives tool uses the [Azure SignalR service](https://azure.microsoft.com/en-us/services/signalr-service/) to add real time support. The backend codebase can be found [here](https://github.com/microsoft/vsts-extension-retrospectives/tree/master/RetrospectiveExtension.Backend).
+The Retrospectives extension uses the [Azure SignalR service](https://azure.microsoft.com/en-us/services/signalr-service/) to add real time support. The backend codebase can be found [here](https://github.com/microsoft/vsts-extension-retrospectives/tree/master/RetrospectiveExtension.Backend).
 
 To enable real time updates from your test extension you will need to deploy the backend to Azure
-specifying your publisher id and the unique key of your extension. **Note:**
+specifying your publisher id and the unique key of your extension.
 
+---
+
+#### Notes
 - This setup is ***not*** required for contributing to this extension, but can be helpful if you want
 certain debugging options available to you.
-- If you are part of a team working on the retro tool you can deploy a single backend to support multiple developer test extensions.
+- If you are part of a team working on the Retrospectives extension you can deploy a single backend to support multiple developer test extensions.
+
+#### Prerequisites
+
+1. Azure CLI - [installation instructions here](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli)
+2. dotnet CLI - the CLI comes as a part of the [.NET SDK](https://dotnet.microsoft.com/en-us/download/dotnet/5.0)
+3. the `zip` CLI tool - via `brew install zip` or `apt-get install zip` in a unix-flavored environment.
 
 #### Setup
-
-Before starting, ensure these dependencies are installed:
-
-- Azure CLI - [installation instructions here](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli)
-- dotnet CLI - the CLI comes as a part of the [.NET SDK](https://dotnet.microsoft.com/en-us/download/dotnet/5.0)
-- the `zip` CLI tool - via `brew install zip` or `apt-get install zip` in a unix-flavored environment
-
-To setup:
 
 1. Copy `/deploy/.env.template` to `/deploy/.env` and make the following
 changes:
@@ -247,26 +270,31 @@ changes:
    all Azure resources including the App Service name - `https://<RESOURCE_NAME_SUFFIX>.azurewebsites.net`.
    **Note:** The app name must be globally unique so select something accordingly.
    - Add the `LOCATION`value i.e. "eastus", "westus", etc.
-1. Copy `/allowed_origins.json.template` to `/allowed_origins.json` and replace
+
+2. Copy `/allowed_origins.json.template` to `/allowed_origins.json` and replace
 the `<publisher id>` with your publisher id. This id uniquely identifies your
 publisher in the Visual Studio Marketplace. If you are part of a team working
 on the retro tool you can add additional allowed origins. There should be two
 allowed origins per publisher id. Remember to increment the name index as you
 add additional origins.
-1. Copy `/dev_certs.json.template` to `/dev_certs.json` and replace the
+
+3. Copy `/dev_certs.json.template` to `/dev_certs.json` and replace the
 `<extension secret>` with your secret. [Instructions on how to download the
 unique key](https://docs.microsoft.com/en-us/azure/devops/extend/develop/auth?view=vsts#get-your-extensions-key).
 If you are part of a team working on the retro tool you can add additional
 secrets. Remember to increment the name index to add additional secrets.
-1. Run the `deploy/env_setup.sh` script.
-1. Once the script completes, it will output the url of the backend service. You can navigate to the [Azure Portal](https://portal.azure.com)
+
+4. Run the `deploy/env_setup.sh` script.
+
+5. Once the script completes, it will output the url of the backend service. You can navigate to the [Azure Portal](https://portal.azure.com)
 and validate that the `rg-<RESOURCE_NAME_SUFFIX>` resource group exists and
 contains the App Service, App Service Plan and SignalR resources.
-1. Update the `RetrospectiveExtension.FrontEnd/config/environment.tsx` to reflect changes to:
+
+6. Update the `RetrospectiveExtension.FrontEnd/config/environment.tsx` to reflect changes to:
    - `CollaborationStateServiceUrl` value to the App Service URL -
 `https://<RESOURCE_NAME_SUFFIX>.azurewebsites.net`.
    - `AppInsightsInstrumentKey` value to Application Insights' Instrumentation Key for the resource `ai-<RESOURCE_NAME_SUFFIX>`.
-1. After updating the above values redeploy the extension.
+7. After updating the above values redeploy the extension.
 
 ## Frontend Development
 
@@ -293,7 +321,7 @@ To automatically generate the test coverage report, add the `--coverage` flag to
 - `npm install` must be executed before running any tests.
 - `npm run test` is the default test execution method defined in the [package.json](RetrospectiveExtension.Frontend/package.json) file. This will automatically run all of the tests in files suffixed with `.test.tsx` inside of the [tests folder](RetrospectiveExtension.Frontend/components/__tests__).
 - `npm run test:watch` will run tests in watch mode, re-running tests every time a component change is saved.
-- `jest --env=jsdom {FULL_FILE_PATH}` can be used to run tests only in the specified file.
+- `jest --env=jsdom --silent -ci --testResultsProcessor=jest-junit {FULL_FILE_PATH}` can be used to run tests only in the specified file.
 Wildcards also work instead of a fully qualified path.
 
 ---
@@ -320,7 +348,7 @@ snapshot file, to ensure that the expected changes are present, and include the 
 
 ### Style Guide
 
-Follow the coding guidelines here - [C# Coding Conventions (C# Programming Guide)](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/inside-a-program/coding-conventions).
+Follow the coding guidelines here - [C# Coding Conventions (C# Programming Guide)](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/inside-a-program/coding-conventions)..
 
 ### Storage
 
@@ -365,16 +393,22 @@ The Retrospectives tool uses the [Azure DevOps data service](https://docs.micros
 
 Unit Tests for the Backend are located in the [Backend Tests folder](RetrospectiveExtension.Backend.Tests/). To execute these tests, perform the following steps:
 
-1. Navigate to the RetrospectiveExtension.Backend folder.
+1. Navigate to the `RetrospectiveExtension.Backend` folder.
+
 2. Execute `dotnet restore`.
+
 3. Execute `dotnet build`.
+
 4. Navigate to the RetrospectiveExtension.Backend.Tests folder.
+
 5. Execute `dotnet test`.
+
 6. View test results in the terminal.
 
 ## Application Monitoring and Telemetry
 
 1. The Retro tool uses [Azure Application Insights](https://docs.microsoft.com/en-us/azure/azure-monitor/app/app-insights-overview) to capture application logs, telemetry and performance data.
+
 2. A custom Azure portal is deployed as part of the backend deployment script that enables real time monitoring of the application. The dashboard includes useful telemetry data such as number of active user sessions, histogram of React Components visited, HTTP requests made, page load times, backend and front end exceptions and other metrics.
 
 ## License Information
